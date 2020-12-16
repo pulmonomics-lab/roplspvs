@@ -1,0 +1,25 @@
+group1	group2	secID	pcorr_Model1	ortho_pre_vs	ortho_post_vs	setseedno
+1	E-only	E+P	joint	according to p-value	0	0	201
+2	E-only	Nonuser	joint	according to p-value	0	0	202
+3	E+P	Nonuser	joint	according to p-value	0	0	203
+4	E-only	E+P	56-60	according to p-value	0	0	204
+5	E-only	Nonuser	56-60	according to p-value	0	0	205
+6	E+P	Nonuser	56-60	according to p-value	0	0	206
+7	E-only	E+P	61-65	according to p-value	0	0	207
+8	E-only	Nonuser	61-65	according to p-value	0	0	208
+9	E+P	Nonuser	61-65	according to p-value	0	0	209
+10	E-only	E+P	66-70	according to p-value	0	0	210
+11	E-only	Nonuser	66-70	according to p-value	0	0	211
+12	E+P	Nonuser	66-70	according to p-value	0	0	212
+13	E-only	E+P	71-75	according to p-value	0	0	213
+14	E-only	Nonuser	71-75	according to p-value	0	0	214
+15	E+P	Nonuser	71-75	according to p-value	0	0	215
+16	E-only	E+P	76-80	according to p-value	0	0	216
+17	E-only	Nonuser	76-80	according to p-value	0	0	217
+18	E+P	Nonuser	76-80	according to p-value	0	0	218
+19	E-only	E+P	81-85	according to p-value	0	0	219
+20	E-only	Nonuser	81-85	according to p-value	0	0	220
+21	E+P	Nonuser	81-85	according to p-value	0	0	221
+22	E-only	E+P	less or equal to 55	according to p-value	0	0	222
+23	E-only	Nonuser	less or equal to 55	according to p-value	0	0	223
+24	E+P	Nonuser	less or equal to 55	according to p-value	0	0	224
