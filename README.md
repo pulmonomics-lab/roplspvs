@@ -1,0 +1,2 @@
+# Ropls-with-permutated-variable-selection
+This script uses the package ropls by Etienne Thevenot to produce OPLS models with variable selection using p(corr) and VIP. In addition to the standard permutation after variable selection also permutations before variable selection with proceeding variable selection of every permutation resulting in a p-value over the variable selection procedure. It produces tables of all group comparisons including optional stratification by secondary ID.
