@@ -42,6 +42,13 @@ cluster <- "no" # "no" if analysis is run locally and "yes" if script is run usi
 name_intermediate_dir <- "default" # "name_of_directory" enter name of intermediate directory. On UPPMAX it is "SNIC_TMP" else enter "default"
 each_model_or_summary <- "both" # enter "summary" if only summary should be run and "each" if only models of each comparison should be run. Otherwise enter "both". "Both" is not possible if cluster is "yes".
 
+## Paths of directories
+foldername_model_table_to_analyse <- foldername_output_reports #model_table_to_analyse will be saved in this folder.
+directory_Rmarkdownfiles <- paste(directory_of_analysis,"/",foldername_Rmarkdownfiles,"/",sep="") # "path of directory/filename"
+directory_input_matrix_sampleID <-  paste(directory_of_analysis,"/",foldername_of_input_matrix_and_sampleID,"/",sep="")
+directory_output_reports <- paste(directory_of_analysis,"/",foldername_output_reports,"/",sep="")
+directory_model_table_to_analyse <- paste(directory_of_analysis,"/",foldername_model_table_to_analyse,"/",sep="")
+directory_function_file <- paste(directory_of_analysis,"/",foldername_function_file,"/", sep="")
 
 
 
