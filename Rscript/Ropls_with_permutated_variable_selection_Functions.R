@@ -1669,7 +1669,7 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
      setwd(directory_model_table_to_analyse)
      write.table(model_table_to_analyse, filename_model_table_to_analyse, row.names=T,quote=F,sep="\t")
    } 
-   if (order_of_groups!="correct") {
+   if (order_of_groups_numeric!="correct") {
      model_table_to_analyse_reordered <- create_table_to_analyze_reordered(reordered_levels_of_groups, file_sampleID, colname_groupID, colname_secID, pcorr_cutoff_Model1_joint_models, no_of_ortho_pre_vs_Model1_joint_models, no_of_ortho_post_vs_Model1_joint_models, pcorr_cutoff_Model1_stratified_models, no_of_ortho_pre_vs_Model1_stratified_models, no_of_ortho_post_vs_Model1_stratified_models)
      write.table(model_table_to_analyse_reordered, paste("reordered",filename_model_table_to_analyse,sep="_"), row.names=T,quote=F,sep="\t")
      model_table_to_analyse<-model_table_to_analyse_reordered
@@ -1711,9 +1711,11 @@ plotloadingpredO1 <- function(resultmodel) {
 
 
 reorder_levels_of_groups <- function() {
-  if (order_of_groups!="correct") {
-    reordered_levels_of_groups <- levels_of_groups[order_of_groups]
-  } else {reordered_levels_of_groups<-levels_of_groups[c(1:length(levels_of_groups))]}
+  if (order_of_groups_numeric!="correct") {
+    reordered_levels_of_groups <- levels_of_groups[order_of_groups_numeric]} else {
+    if (order_of_groups_names!="correct") {
+      reordered_levels_of_groups <- order_of_groups_names} else {
+      reordered_levels_of_groups<-levels_of_groups}}
   reordered_levels_of_groups
 }
 
