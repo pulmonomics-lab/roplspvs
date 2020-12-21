@@ -1,6 +1,9 @@
 #Load configurations
 source("Ropls_with_permutated_variable_selection_Configure_Advanced.R")
-source("Ropls_with_permutated_variable_selection_Configure_Get_Started.R")
+if (file.exists("Ropls_with_permutated_variable_selection_Configure_Get_Started_example_data.R")) {
+  source("Ropls_with_permutated_variable_selection_Configure_Get_Started_example_data.R")} else {
+    source("Ropls_with_permutated_variable_selection_Configure_Get_Started.R")}
+
 
 #Load functions
 
