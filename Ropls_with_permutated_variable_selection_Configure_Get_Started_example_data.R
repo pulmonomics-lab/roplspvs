@@ -6,7 +6,6 @@
 #3. Download data_to_R_analysis containing exampledata
 
 ## Project settings
-directory_of_analysis <- getwd() # "path" including name of project directory where subdirectories will be created.
 projectname <- "testproj MTBLS136" # "projectname" will appear in filenames and header of reports with underscores removed.
 date_of_analysis <- 201218 # "yymmdd" numeric date of analysis will appear in filenames.
 

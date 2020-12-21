@@ -1661,12 +1661,12 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
  create_or_load_Model_table_to_analyze <- function(){
    setwd(directory_input_matrix_sampleID)
    file_sampleID <- read.table(filename_sampleID,header=T, dec = ".", row.names=1, check.names = FALSE, na.strings=c("", "NA", "Inf"), sep="\t")
+   setwd(directory_model_table_to_analyse)
    if (filename_model_table_to_analyse %in% dir(directory_model_table_to_analyse )) {
      model_table_to_analyse <- as.data.frame(read.table(filename_model_table_to_analyse, header=T, dec = ".", row.names=1, check.names = FALSE, na.strings=c("", "NA", "Inf"), sep="\t"))
    } else {
      
      model_table_to_analyse <- create_table_to_analyze(file_sampleID, colname_groupID, colname_secID, pcorr_cutoff_Model1_joint_models, no_of_ortho_pre_vs_Model1_joint_models, no_of_ortho_post_vs_Model1_joint_models, pcorr_cutoff_Model1_stratified_models, no_of_ortho_pre_vs_Model1_stratified_models, no_of_ortho_post_vs_Model1_stratified_models)
-     setwd(directory_model_table_to_analyse)
      write.table(model_table_to_analyse, filename_model_table_to_analyse, row.names=T,quote=F,sep="\t")
    } 
    if (order_of_groups_numeric!="correct") {

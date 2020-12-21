@@ -1,6 +1,7 @@
 
 # Set Advanced parameter settings
 ## Foldernames
+directory_of_analysis <- getwd() # "path" including name of project directory where subdirectories will be created.
 foldername_Rmarkdownfiles <- "Rscript" #"foldername" Folder is automatically or manually created. This is the folder for the scripts .R and .rmd files.
 foldername_of_input_matrix_and_sampleID <- "data_to_R_analysis" #"foldername" Folder is automatically created. This is the folder for datamatrix and sampleID files
 foldername_output_reports <- "outputR" # "foldername"  Folder is automatically created below. In this folder one html file for each group comparison and a summary html file of all comparisons will be created.

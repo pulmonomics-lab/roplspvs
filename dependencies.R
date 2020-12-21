@@ -9,6 +9,8 @@ install.packages("ggpubr")
 install.packages("matrixStats")
 install.packages("stringr")
 install.packages("tryCatchLog")
+install.packages("devtools")
+install.packages("DescTools")
 
 #if install.packages("ropls") does not work run:
 if (!requireNamespace("BiocManager", quietly = TRUE))

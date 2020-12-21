@@ -8,7 +8,6 @@
 #3. Save datamatrix and sampleID files as tabdelimited .txt files in a manually created folder in the project folder with default name "data_to_R_analysis" or enter path in advanced settings.
 
 ## Project settings
-directory_of_analysis <- getwd() # "path" including name of project directory where subdirectories will be created.
 projectname <- "projectname" # "projectname" will appear in filenames and header of reports with underscores removed.
 date_of_analysis <- 201218 # yymmdd numeric date of analysis will appear in filenames.
 
