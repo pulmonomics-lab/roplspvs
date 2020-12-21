@@ -3,7 +3,7 @@ This script uses the package ropls by Etienne Thevenot to produce OPLS models. I
 Input is one matrix, one file with sampleID including the groups to be compared and one Configure file with desired settings.
 The output is one html file per comparison of groups and one summary html file of all comparisons. Also tables with loadings are created.
 
-# Get started
+# Run example data
 To run exampledata download folders and files in Ropls-with-permutated-variable-selection and run the file Ropls_with_permutated_variable_selection_Run.R
 
 # Run your own data
