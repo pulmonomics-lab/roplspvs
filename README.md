@@ -1,7 +1,7 @@
 # Ropls-with-permutated-variable-selection
 This script uses the Bioconductor package ropls by Etienne Thevenot to produce OPLS models. It performs variable selection using p(corr) and VIP. In addition to permutation after variable selection included in the ropls package also permutations before variable selection with proceeding variable selection of every permutation resulting in p-values for R2 and Q2 including the variable selection procedure. It produces tables of all group comparisons including optional stratification by secondary ID.
 Input is one matrix, one file with sampleID including the groups to be compared and one Configure file with desired settings.
-The output is one html file per comparison of groups and one summary html file of all comparisons. Also tables with loadings are created.
+The output is one html file per comparison of groups containing four selected models and one summary html file of all comparisons. Also tables with loadings are created.
 
 # Run example data
 To run exampledata download folders and files in Ropls-with-permutated-variable-selection and run the file "Ropls_with_permutated_variable_selection_Run.R" using code
@@ -25,13 +25,13 @@ source("Ropls_with_permutated_variable_selection_Run.R")
 Enter desired settings of parameters in file "Ropls_with_permutated_variable_selection_Configure_Get_Started.R" which contains parameters that has to be entered. Default settings and advanced parameters may be altered in file Ropls_with_permutated_variable_selection_Configure_Advanced.R. When running Ropls_with_permutated_variable_selection_Run.R the data in Configure files are sent to file “Ropls_with_permutated_variable_selection_Models_of_each_comparison.Rmd” which renders one HTML file for each comparison containing score plots, loading plots, permutation pre and post varible selection plots and model statistics. When all comparisons have been performed “Ropls_with_permutated_variable_selection_Summary_of_models.Rmd renders a summary HTML-file of all models containing tables of all selected models and all significant models.
 
 ## Features
-The script generates three different models: 
+The script generates four selected models: 
 Model 1 uses p(corr) cutoff which is userset either to numeric value or corresponding to userset p[Pearson_pcorr_cutoff] and userset number of orthogonals with default 0. 
 Model 2 uses p(corr) cutoff corresponding to userset p[Pearson_pcorr_cutoff] and number of orthogonals resulting in best performing model after variable selection. 
-Model 3 uses both p(corr) cutoff and number of orthogonals resulting in best performing model after variable selection. Only pcorr cutoff higher that p[Pearson_pcorr_cutoff] is used.
+Model 3 uses both p(corr) cutoff and number of orthogonals resulting in best performing model after variable selection. Only pcorr cutoff higher than p[Pearson_pcorr_cutoff] is used.
 Model 4 uses both p(corr) cutoff and number of orthogonals resulting in best performing model after variable selection while keeping the amount of variables down by only adding variables if a decrease in p(corr) cutoff less than userset Δpcorr cutoff results in an increase in Q2 of more than 1%.
 
-### Choosing best performing model during selection fo amount of orthogonal variables and p(corr) cutoff
+### Best performing model during selection of amount of orthogonal variables and p(corr) cutoff
 Best performing models are defined as models that after variable selection give high Q2, low difference between R2 and Q2 and also low p[Q2_perm_ post_vs] and low p[R2_perm_ post_vs]. The weight between low difference and low p[Q2_perm_ post_vs] is given by userset prefered_pR2_and_pQ2_permutated_post_vs with lower prefered_pR2_and_pQ2_permutated_post_vs giving more weight to p[Q2_perm_ post_vs] compared to high Q2 and low difference between R2 and Q2.
 
 ### Detailed descripting of method for selecting amount of orthogonal variables 
@@ -49,6 +49,13 @@ Best performing models are defined as models that after variable selection give 
 5)	Model4: Selects pcorr resulting in models with max Q2 as long as adding variables by decreasing pcorr cutoff more than userset pcorr_diff increases Q2 more than 1%.
 6)	If no model is found p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] limit is increased by prefered_pR2_and_pQ2_permutated_post_vs and diff between R2 and Q2 is increased by 0.1 and selection is rerun. 
 
-### Permutations
+## Model statistics
+### R2 and Q2
+R2 is derived from the ropls package and is a measure of the fitness of the model and shows how much of the variation is explained by the model with a maximum value of 1. Q2 is a measure of the predictability of the model determined by 7 fold crossvalidation which is the default in the ropls package. The package gives R2 and Q2 pre and post variable selection.
 
+### Permutations
+In addition to the p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] which is calculated by default by the ropls package this package also calculates p[R2_perm_ pre_vs] and p[Q2_perm_ pre_vs]. This includes randomisation of subject respons lables followed by variable selection and fitting of model post variable selection to obtain R2 and Q2 for permutated models. The same amount of orthogonals is used in the permutated models as in the unpermutated model under investigation. R2 and Q2 for the permutated models are compared to R2 and Q2 for the unpermutated models to generate p[R2_perm_ pre_vs] and p[Q2_perm_ pre_vs]. The number of permutations performed is userset by setting parameter no_permutations_post_vs, no_permutations_post_vs_selected_models and no_permutations_pre_vs with default 20.
+
+## RMSE
+RMSE is derived using ropls package and is a measure from the ropls package square root of the mean error between actual and predicted responses.
 
