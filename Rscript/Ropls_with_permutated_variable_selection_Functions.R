@@ -394,24 +394,68 @@ sinkout <- function() {
     if (variable_names_position=="end") {
       rownames(pcorrplot) <- substr(rownames(pcorrplot), nchar(rownames(pcorrplot))-(variable_names_length-1), nchar(rownames(pcorrplot)))}
     
-    if (max(nchar(rownames(pcorrplot[1])))>100) {
-      fontsize <- 7/2 + 7*(15/nrow(pcorrplot)*1/2)} else {
-        fontsize <- 15/2 + 15*(15/nrow(pcorrplot)*1/2)
-      }
-    if (fontsize>15) {fontsize <- 15}
-    if (max(nchar(rownames(pcorrplot[1])))>100) {
-      widthsize <- 60} else {
-        widthsize <- 50
-      }
+    if (length(rownames(pcorrplot))>40) {
+      if(max(nchar(rownames(pcorrplot[1])))>=80) {
+        fontsize <- 4
+        widthsize <- 80
+        lineheight <- 0.7  
+        message("more than 40 variales, overlap")
+      } else {
+        fontsize <- 6
+        widthsize <- 60
+        lineheight <- 0.7
+        message("more than 40 variables, no overlap")}} else {
+          if(length(rownames(pcorrplot))>30) {
+            if (max(nchar(rownames(pcorrplot[1])))>60) {
+              fontsize <- 6
+              widthsize <- 60
+              lineheight <- 0.7
+              message("30-40 variables, overlap")} else {
+                fontsize <- 8
+                widthsize <- 45
+                lineheight <- 0.7
+                message("30-40 variables, no overlap")}} else { 
+                  if(length(rownames(pcorrplot))>20) {
+                    if (max(nchar(rownames(pcorrplot[1])))>45) {
+                      fontsize <- 8
+                      widthsize <- 45
+                      lineheight <- 0.7
+                      message("20-30 variables, overlap")} else {
+                        fontsize <- 10
+                        widthsize <- 30
+                        lineheight <- 1
+                        message("20-30 variables, no overlap")}} else { 
+                          if(length(rownames(pcorrplot))>10) {
+                            if (max(nchar(rownames(pcorrplot[1])))>30) {
+                              fontsize <- 10
+                              widthsize <- 30
+                              lineheight <- 1
+                              message("10-20 variables, overlap")} else {
+                                fontsize <- 12
+                                widthsize <- 25
+                                lineheight <- 1
+                                message("10-20 variables, no overlap")    
+                              }} else {
+                                if (max(nchar(rownames(pcorrplot[1])))>25) {
+                                  fontsize <- 12
+                                  widthsize <- 25
+                                  lineheight <- 1
+                                  message("<10 variables, overlap") } else {
+                                    fontsize <- 15
+                                    widthsize <- 20
+                                    lineheight <- 1
+                                    message("<10 variables, no overlap")
+                                  }
+                              }}}}
     pB1 <- ggplot(pcorrplot, aes(x=reorder(row.names(pcorrplot),-pcorrplot$pcorrlistaftervs),y=pcorrplot$pcorrlistaftervs))
     pB2 <- pB1 +geom_col()
-    pB3 <- pB2 + theme(axis.text.x = element_text(angle = 90, size=fontsize), text=element_text(size=15), axis.text=element_text(size=15))
+    pB3 <- pB2 + theme(axis.text.x = element_text(angle = 90, size=fontsize, lineheight=lineheight,hjust=1,vjust=0.5), text=element_text(size=15), axis.text=element_text(size=15))
     pB4 <- pB3 + labs(y="p(corr)", x=element_blank(),title="Loadingplot")
     pB5 <- pB4 + scale_x_discrete(labels = function(x) str_wrap(x, width = widthsize))
     pB6 <- pB5 + ylim(-1,1)
     if (nrow(pcorrplot)>50) {pB7 <- pB6 + theme(axis.text.x = element_blank())
     pB7} else {
-      print(pB6)}
+      pB6}
   }
   
   plotpcorronly50variables <- function(model, variable_names_length, variable_names_position){
@@ -429,22 +473,69 @@ sinkout <- function() {
     if (variable_names_position=="end") {
       rownames(pcorrplot) <- substr(rownames(pcorrplot), nchar(rownames(pcorrplot))-(variable_names_length-1), nchar(rownames(pcorrplot)))}
     
-    if (max(nchar(rownames(pcorrplot[1])))>100) {
-      fontsize <- 7/2 + 7*(15/nrow(pcorrplot)*1/2)} else {
-        fontsize <- 15/2 + 15*(15/nrow(pcorrplot)*1/2)
-      }
-    if (fontsize>15) {fontsize <- 15}
-    if (max(nchar(rownames(pcorrplot[1])))>100) {
-      widthsize <- 60} else {
-        widthsize <- 40
-      }
+    if (length(rownames(pcorrplot))>40) {
+      if(max(nchar(rownames(pcorrplot[1])))>=80) {
+        fontsize <- 4
+        widthsize <- 80
+        lineheight <- 0.7  
+        message("more than 40 variales, overlap")
+    } else {
+   fontsize <- 6
+    widthsize <- 60
+   lineheight <- 0.7
+      message("more than 40 variables, no overlap")}} else {
+        if(length(rownames(pcorrplot))>30) {
+          if (max(nchar(rownames(pcorrplot[1])))>60) {
+            fontsize <- 6
+            widthsize <- 60
+            lineheight <- 0.7
+            message("30-40 variables, overlap")} else {
+              fontsize <- 8
+              widthsize <- 45
+              lineheight <- 0.7
+              message("30-40 variables, no overlap")}} else { 
+        if(length(rownames(pcorrplot))>20) {
+          if (max(nchar(rownames(pcorrplot[1])))>45) {
+          fontsize <- 8
+          widthsize <- 45
+          lineheight <- 0.7
+          message("20-30 variables, overlap")} else {
+              fontsize <- 10
+              widthsize <- 30
+              lineheight <- 1
+              message("20-30 variables, no overlap")}} else { 
+          if(length(rownames(pcorrplot))>10) {
+            if (max(nchar(rownames(pcorrplot[1])))>30) {
+              fontsize <- 10
+              widthsize <- 30
+              lineheight <- 1
+              message("10-20 variables, overlap")} else {
+  fontsize <- 12
+  widthsize <- 25
+  lineheight <- 1
+  message("10-20 variables, no overlap")    
+              }} else {
+                if (max(nchar(rownames(pcorrplot[1])))>25) {
+                fontsize <- 12
+                widthsize <- 25
+                lineheight <- 1
+                message("<10 variables, overlap") } else {
+                  fontsize <- 15
+                  widthsize <- 20
+                  lineheight <- 1
+                  message("<10 variables, no overlap")
+                }
+              }}}}
+          
+   
+
     pB1 <- ggplot(pcorrplot, aes(x=reorder(row.names(pcorrplot),-pcorrplot$pcorrlistaftervs),y=pcorrplot$pcorrlistaftervs))
     pB2 <- pB1 +geom_col()
-    pB3 <- pB2 + theme(axis.text.x = element_text(angle = 90, size=fontsize), text=element_text(size=15), axis.text=element_text(size=15))
+    pB3 <- pB2 + theme(axis.text.x = element_text(angle = 90, size=fontsize, lineheight=lineheight,hjust=1,vjust=0.5), text=element_text(size=15), axis.text=element_text(size=15))
     pB4 <- pB3 + labs(y="p(corr)", x=element_blank(),title="Loadingplot of 50 most contributing variables")
     pB5 <- pB4 + scale_x_discrete(labels = function(x) str_wrap(x, width = widthsize))
     pB6 <- pB5 + ylim(-1,1)
-    print(pB6)
+    pB6
   }
   
   #library(bootstrap)
@@ -463,7 +554,9 @@ sinkout <- function() {
   pC5 <- pC4 + theme(legend.title = element_blank(), legend.justification = "top", text=element_text(size=15), axis.text=element_text(size=15))
   pC6 <- pC5 + scale_colour_manual(values=c("#0072B2","#D55E00"))
   pC7 <- pC6 + guides(col = guide_legend(reverse = TRUE))
-  pC7
+  if (nrow(scoresropls)>60) {pC8 <- pC7 + theme(axis.text.x = element_blank())
+  pC8} else {
+    pC7}
   }
   
   plotrawdata <- function(variablename, Rdataname, dirRdata){
