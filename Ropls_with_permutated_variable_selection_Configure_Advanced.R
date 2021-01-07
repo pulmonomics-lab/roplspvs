@@ -31,7 +31,7 @@ max_no_of_ortho_post_vs_in_Model3_and_Model4 <- 5 # Max number of orthogonal var
 
 ## Best performing model
 prefered_pR2_and_pQ2_permutated_post_vs <- 0.05 # Prefered pR2 and pQ2 determined by permutation post variable selection during model optimization. The lower prefered pQ2 the larger weight will be given to pQ2 instead of Q2 as well as instead of diff between R2 and Q2. Minimum value is 1/no_permutations_post_vs.
-pcorr_diff <- 0.02 
+pcorr_diff <- 0.01
 
 ## Loading plots
 variable_names_length <- "all" #Number of characters of variablenames shown in loadingplot or "all"
