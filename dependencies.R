@@ -1,5 +1,11 @@
+
+# Installation istructions for Ropls-with-permutated-variable-selection
 #This package was created for r 3.6.2 using rstudio 1.1.463
-#Run this code line by line
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("ropls")
 install.packages("ropls")
 install.packages("ggplot2")
 install.packages("ggrepel")
@@ -12,9 +18,5 @@ install.packages("tryCatchLog")
 install.packages("devtools")
 install.packages("DescTools")
 
-#if install.packages("ropls") does not work run:
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
 
-BiocManager::install("ropls")
 
