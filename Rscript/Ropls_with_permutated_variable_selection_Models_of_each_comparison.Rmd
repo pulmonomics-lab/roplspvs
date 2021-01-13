@@ -991,7 +991,7 @@ plot_pcorrtable_amount_of_variables_with_pcorr_labels(
 
 
 ```{R table of orthogonals models post variable selection Model 4}
-
+if (pcorr==result_Model3$resultaftervs$`pcorr cutoff`) {model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4 <- model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model3} else {
 testvariablename <- "model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4"
 testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
 if (!is.null(testvariable)){model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4 <- testvariable} else {
@@ -1005,6 +1005,7 @@ model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4 <-
     pcorr=pcorr,
     no_permutations_post_vs=no_permutations_post_vs
   )
+}
 }
 
 kable(model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4, row.names = T) %>%
