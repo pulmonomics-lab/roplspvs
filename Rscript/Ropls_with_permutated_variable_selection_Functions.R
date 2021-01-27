@@ -392,7 +392,12 @@ sinkout <- function() {
     if (variable_names_position=="beginning") {
       rownames(pcorrplot) <- substr(rownames(pcorrplot), 1, variable_names_length)}
     if (variable_names_position=="end") {
-      rownames(pcorrplot) <- substr(rownames(pcorrplot), nchar(rownames(pcorrplot))-(variable_names_length-1), nchar(rownames(pcorrplot)))}
+      for (novariables in 1:nrow(pcorrplot)) {
+      rownames(pcorrplot)[novariables] <- substr(rownames(pcorrplot)[novariables], nchar(rownames(pcorrplot)[novariables])-(variable_names_length-1), nchar(rownames(pcorrplot)[novariables]))
+      blankpos = StrPos(rownames(pcorrplot)[novariables], ' ', 1);
+      if (!is.na(blankpos)&nchar(rownames(pcorrplot)[novariables])>=variable_names_length) {
+        rownames(pcorrplot)[novariables] <- substr(rownames(pcorrplot)[novariables], blankpos+1, nchar(rownames(pcorrplot)[novariables]));
+      }}}
     
     if (length(rownames(pcorrplot))>40) {
       if(max(nchar(rownames(pcorrplot[1])))>=80) {
@@ -471,8 +476,12 @@ sinkout <- function() {
     if (variable_names_position=="beginning") {
       rownames(pcorrplot) <- substr(rownames(pcorrplot), 1, variable_names_length)}
     if (variable_names_position=="end") {
-      rownames(pcorrplot) <- substr(rownames(pcorrplot), nchar(rownames(pcorrplot))-(variable_names_length-1), nchar(rownames(pcorrplot)))}
-    
+      for (novariables in 1:nrow(pcorrplot)) {
+        rownames(pcorrplot)[novariables] <- substr(rownames(pcorrplot)[novariables], nchar(rownames(pcorrplot)[novariables])-(variable_names_length-1), nchar(rownames(pcorrplot)[novariables]))
+        blankpos = StrPos(rownames(pcorrplot)[novariables], ' ', 1);
+        if (!is.na(blankpos)&nchar(rownames(pcorrplot)[novariables])>=variable_names_length) {
+          rownames(pcorrplot)[novariables] <- substr(rownames(pcorrplot)[novariables], blankpos+1, nchar(rownames(pcorrplot)[novariables]));
+        }}}
     if (length(rownames(pcorrplot))>40) {
       if(max(nchar(rownames(pcorrplot[1])))>=80) {
         fontsize <- 4
