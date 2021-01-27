@@ -1618,10 +1618,17 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
    colorinplotvector <- vector()
    for (j in 1:nrow(colorinplot)) {colorinplotvector[j] <- if (colorinplot[j,1]) {paste(clustermodel1,":",group1model1," vs ",clustermodel1,":",group2model1)} else if(colorinplot[j,2]) {paste(clustermodel2,":",group1model2," vs ",clustermodel2,":",group2model2)} else {"shared by models"}}
    susplotnames <- SUSplot
+   rownames(susplotnames) <- gsub("_",".",rownames(susplotnames))
+   rownames(susplotnames) <- gsub(" ",".",rownames(susplotnames))
    if (variable_names_position=="beginning") {
      rownames(susplotnames) <- substr(rownames(susplotnames), 1, variable_names_length)}
    if (variable_names_position=="end") {
-     rownames(susplotnames) <- substr(rownames(susplotnames), nchar(rownames(susplotnames))-(variable_names_length-1), nchar(rownames(susplotnames)))}
+     for (novariables in 1:nrow(susplotnames)) {
+       rownames(susplotnames)[novariables] <- substr(rownames(susplotnames)[novariables], nchar(rownames(susplotnames)[novariables])-(variable_names_length-1), nchar(rownames(susplotnames)[novariables]))
+       blankpos = StrPos(rownames(susplotnames)[novariables], '\\.', 1);
+       if (!is.na(blankpos)&nchar(rownames(susplotnames)[novariables])>=variable_names_length) {
+         rownames(susplotnames)[novariables] <- substr(rownames(susplotnames)[novariables], blankpos+1, nchar(rownames(susplotnames)[novariables]));
+       }}}
    
    pC1 <- ggplot(SUSplot, aes(x=pcorrlist1C,y=pcorrlist2C, color=colorinplotvector))
    pC2 <- pC1 + geom_point() 
