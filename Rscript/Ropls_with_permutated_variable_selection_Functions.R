@@ -818,7 +818,7 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
   
   load_model_result_with_perm <- function(directory_output_reports=directory_output_reports, projectname=projectname, date_of_analysis=date_of_analysis, firstgroup=firstgroup, secondgroup=secondgroup, secID=secID, resultmodelname=resultmodelname){
 
-    load(paste(paste(directory_output_reports, projectname, sep=""), date_of_analysis, firstgroup, "vs", secondgroup, secID,".Rdata", sep="_"))
+    load(paste(paste(directory_output_reports, "/",projectname, sep=""), date_of_analysis, firstgroup, "vs", secondgroup, secID,".Rdata", sep="_"))
    
     rm(list=lsf.str())
   resultmodel <- get(resultmodelname)
@@ -828,6 +828,9 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
   if (resultmodelname=="result_Model2") {
     percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name<-"percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2";
     permutated_modelsname<-"permutated_models_Model2"}
+  if (resultmodelname=="result_Model4") {
+    percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name<-"percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4";
+    permutated_modelsname<-"permutated_models_Model4"}
   
   permutated_models <- get(permutated_modelsname)
   percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated <- get(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name)
