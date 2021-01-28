@@ -80,7 +80,8 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                           max_no_of_ortho_post_vs_in_Model3_and_Model4=max_no_of_ortho_post_vs_in_Model3_and_Model4,
                           reordered_levels_of_groups=reordered_levels_of_groups,
                           prefered_pR2_and_pQ2_permutated_post_vs=prefered_pR2_and_pQ2_permutated_post_vs,
-                          pcorr_diff=pcorr_diff
+                          pcorr_diff=pcorr_diff,
+                          variable_selection_using_VIP=variable_selection_using_VIP
                         ))
     }
     
@@ -118,7 +119,8 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                           max_no_of_ortho_post_vs_in_Model3_and_Model4=max_no_of_ortho_post_vs_in_Model3_and_Model4,
                           reordered_levels_of_groups=reordered_levels_of_groups,
                           prefered_pR2_and_pQ2_permutated_post_vs=prefered_pR2_and_pQ2_permutated_post_vs,
-                          pcorr_diff=pcorr_diff
+                          pcorr_diff=pcorr_diff,
+                          variable_selection_using_VIP=variable_selection_using_VIP
                           
                         ))
       

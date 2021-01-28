@@ -18,7 +18,7 @@ filter_percent_in_each_group <- 25 # Numeric. Missing value tolerance in each gr
 ##Variable selection
 pcorr_cutoff_Model1_joint_models <- "according to p-value" #P(corr) cutoff in model1 for joint models. Either enter a value with p(corr)cutoff for all joint comparisons or vector containing p(corr) cutoff for each comparison in model_table_to_analyse or enter "according to p-value" to generate p(corr) corresponding to selected pvalue entered in p_pearson_of_pcorr_cutoff
 pcorr_cutoff_Model1_stratified_models <- "according to p-value" #P(corr) cutoff in model1 for stratified models. Either enter a value with p(corr)cutoff for all stratified comparisons or vector containing p(corr) cutoff for each comparison in model_table_to_analyse or enter "according to p-value" to generate p(corr) corresponding to selected pvalue entered in p_pearson_of_pcorr_cutoff
-
+variable_selection_using_VIP <- "no" # Enter "yes" if VIP is used during variable selection and "no" if only p(corr) is used.
 #Amount of orthogonals
 no_of_ortho_pre_vs_Model1_joint_models <- 0 #Number of orthogonal variables in model pre variable selection of Model1 for joint models. Either enter a value for nonstratified comparisons or a vector containing the number of orthogonal variables investigated in model pre variable selection for each model in model_table_to_analyse.
 no_of_ortho_pre_vs_Model1_stratified_models <- 0 #Number of orthogonal variables in model pre variable selection of Model1 for stratified models. Either enter a value for stratified comparisons or vector containing the amount of orthogonal variables investigated in model pre variable selection for each model in model_table_to_analyse.
@@ -29,7 +29,7 @@ max_no_of_ortho_pre_vs_in_Model3_and_Model4 <- 5 # Max number of orthogonal vari
 max_no_of_ortho_post_vs_in_Model2 <- 5 # Max number of orthogonal variables in model post variable selection of Model2 with pcorrcutoff according to pvalue
 max_no_of_ortho_post_vs_in_Model3_and_Model4 <- 5 # Max number of orthogonal variables in model post variable selection of Model3 and Model4 with pcorr cutoff giving highest Q2
 
-## Best performing model
+## Choosing best performing model
 prefered_pR2_and_pQ2_permutated_post_vs <- 0.05 # Prefered pR2 and pQ2 determined by permutation post variable selection during model optimization. The lower prefered pQ2 the larger weight will be given to pQ2 instead of Q2 as well as instead of diff between R2 and Q2. Minimum value is 1/no_permutations_post_vs.
 pcorr_diff <- 0.01
 

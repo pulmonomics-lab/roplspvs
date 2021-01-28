@@ -107,7 +107,7 @@ subsetdatamatrix
 
   }
 
-opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, printoptmodel="none",plotoptmodel="none", no_permutations_post_vs=no_permutations_post_vs){
+opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, printoptmodel="none",plotoptmodel="none", no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP){
 
   result <- tryCatch({
       beforevsdata.oplsda <- opls(subsetdatamatrix, class, predI = 1, orthoI = ortho_pre_vs, scaleC="standard",info.txtC="none",fig.pdfC="none", permI=0)
@@ -115,41 +115,46 @@ opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_p
       vipropls <- getVipVn(beforevsdata.oplsda)
       summaryropls <- getSummaryDF(beforevsdata.oplsda)
       loadingropls <- getLoadingMN(beforevsdata.oplsda)
-      Scoreofmir <- getScoreMN(beforevsdata.oplsda)
+      Scoreofvariables <- getScoreMN(beforevsdata.oplsda)
       
       
       ### Calculate correlation between x and score to give p(corr)
       
-      pcorrofmir <-vector()
+      pcorrofvariables <-vector()
       for (i in 1:ncol(subsetdatamatrix)){
-        pcorrofmirhtest <- cor.test(subsetdatamatrix[,i],Scoreofmir,method="pearson")
-        pcorrofmir[i] <- pcorrofmirhtest$estimate
+        pcorrofvariableshtest <- cor.test(subsetdatamatrix[,i],Scoreofvariables,method="pearson")
+        pcorrofvariables[i] <- pcorrofvariableshtest$estimate
       }
-      pcorrofmir <- as.data.frame(pcorrofmir)
-      row.names(pcorrofmir) <- colnames(subsetdatamatrix)
-      pcorrofmir <- na.omit(pcorrofmir)
+      pcorrofvariables <- as.data.frame(pcorrofvariables)
+      row.names(pcorrofvariables) <- colnames(subsetdatamatrix)
+      pcorrofvariables <- na.omit(pcorrofvariables)
       ### pcorrlist of selected variables
-      choosingsubset <- pcorrofmir$pcorrofmir>pcorr|pcorrofmir$pcorrofmir<(-(pcorr))
+      choosingsubset <- pcorrofvariables$pcorrofvariables>pcorr|pcorrofvariables$pcorrofvariables<(-(pcorr))
       choosingVIP <- vipropls>1
       choosingVIPandpcorr <- choosingsubset & choosingVIP
-      subsetpcorrandVIPofmir <- subset(pcorrofmir,choosingVIPandpcorr)
+      subsetpcorrandVIPofvariables <- subset(pcorrofvariables,choosingVIPandpcorr)
+      subsetpcorrofvariables <- subset(pcorrofvariables,choosingsubset)
+      if (variable_selection_using_VIP=="yes") {
+        pcorrlist_pre_vs_selected <- subsetpcorrandVIPofvariables} else {
+          pcorrlist_pre_vs_selected <- subsetpcorrofvariables
+      }
       
-      if (nrow(subsetpcorrandVIPofmir)>ortho_post_vs+1|(is.na(ortho_post_vs)&nrow(subsetpcorrandVIPofmir)>1)) {
+      if (nrow(pcorrlist_pre_vs_selected)>ortho_post_vs+1|(is.na(ortho_post_vs)&nrow(pcorrlist_pre_vs_selected)>1)) {
         
         ### model after variable selection
-        aftervariableselectionsubsetdatamatrix <- subsetdatamatrix[,rownames(subsetpcorrandVIPofmir)]
+        aftervariableselectionsubsetdatamatrix <- subsetdatamatrix[,rownames(pcorrlist_pre_vs_selected)]
         
         aftervsdata.oplsda = opls(aftervariableselectionsubsetdatamatrix, class, predI = 1, orthoI = ortho_post_vs, scaleC="standard",info.txtC=printoptmodel,fig.pdfC=plotoptmodel,permI=no_permutations_post_vs, .sinkC=NULL)
         viproplsaftervs <- getVipVn(aftervsdata.oplsda)
         summaryroplsaftervs <- getSummaryDF(aftervsdata.oplsda)
         loadingroplsaftervs <- getLoadingMN(aftervsdata.oplsda)
-        scoreofmiraftervs <- getScoreMN(aftervsdata.oplsda)
+        scoreofvariablesaftervs <- getScoreMN(aftervsdata.oplsda)
         variables_no <-length(loadingroplsaftervs)
         resultaftervs <- cbind(pcorr,beforevsdata.oplsda@summaryDF$ort,variables_no,summaryroplsaftervs)
         
         pcorrlistaftervs <-vector()
         for (i in 1:ncol(aftervariableselectionsubsetdatamatrix)){
-          pcorrlistaftervshtest <- cor.test(aftervariableselectionsubsetdatamatrix[,i],scoreofmiraftervs,method="pearson")
+          pcorrlistaftervshtest <- cor.test(aftervariableselectionsubsetdatamatrix[,i],scoreofvariablesaftervs,method="pearson")
           pcorrlistaftervs[i] <- pcorrlistaftervshtest$estimate
         }
         pcorrlistaftervs <- as.data.frame(pcorrlistaftervs)
@@ -159,7 +164,7 @@ opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_p
           colnames(resultaftervs) <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pre","ortho post v.s.")
           }
         rownames(resultaftervs) <- "model"
-        resultoplsmodelwithvariableselection <- list(beforevsdata.oplsda=beforevsdata.oplsda, aftervsdata.oplsda=aftervsdata.oplsda,resultaftervs=resultaftervs,variables_no=variables_no, scoreofmiraftervs=scoreofmiraftervs, loadingroplsaftervs=loadingroplsaftervs,pcorrlistaftervs=pcorrlistaftervs)
+        resultoplsmodelwithvariableselection <- list(beforevsdata.oplsda=beforevsdata.oplsda, aftervsdata.oplsda=aftervsdata.oplsda,resultaftervs=resultaftervs,variables_no=variables_no, scoreofvariablesaftervs=scoreofvariablesaftervs, loadingroplsaftervs=loadingroplsaftervs,pcorrlistaftervs=pcorrlistaftervs)
         resultoplsmodelwithvariableselection
       } else {
         resultaftervs <- data.frame(matrix(NA,nrow=1, ncol=11))
@@ -244,7 +249,7 @@ sinkout <- function() {
     amountofvariablesinmodel <- data.frame()
     for (i in 0:no_of_orthogonal_in_model_pre_vs)
     {
-        result <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix, i,ortho_post_vs,class, pcorr, no_permutations_post_vs=no_permutations_post_vs)
+        result <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix, i,ortho_post_vs,class, pcorr, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP)
         amountofvariablesinmodel <- rbind(amountofvariablesinmodel,result$resultaftervs)
       
     }
@@ -264,7 +269,7 @@ sinkout <- function() {
   {
     for (j in 0:no_of_orthogonal_in_model_post_vs)
     {
-      result <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix, i,j,class, pcorr, no_permutations_post_vs=no_permutations_post_vs)
+      result <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix, i,j,class, pcorr, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP)
       amountofvariablesinmodel <- rbind(amountofvariablesinmodel,result$resultaftervs)
     }
   }
@@ -364,7 +369,7 @@ sinkout <- function() {
   pcorrtable <- data.frame()
   pcorrselections <- pcorrvector
   for (pcorr in pcorrselections){
-    pcorrmodeli <- opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs,ortho_post_vs,class, pcorr=pcorr, no_permutations_post_vs=no_permutations_post_vs)
+    pcorrmodeli <- opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs,ortho_post_vs,class, pcorr=pcorr, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP)
     pcorrtable <- rbind(pcorrtable, pcorrmodeli$resultaftervs)
   }
   pcorrtablewithdiff <- pcorrtable
@@ -606,7 +611,7 @@ sinkout <- function() {
     for (i in pcorrselectionsvector){
      if (ncol(iterationmatrix)>ortho_pre_vs+1) 
      { 
-      iterationi <- opls_model_with_variable_selection_trycatch(iterationmatrix, ortho_pre_vs,ortho_post_vs,class, pcorr=i, no_permutations_post_vs=no_permutations_post_vs)
+      iterationi <- opls_model_with_variable_selection_trycatch(iterationmatrix, ortho_pre_vs,ortho_post_vs,class, pcorr=i, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP)
       iterationmatrix <- iterationmatrix[,rownames(iterationi$loadingroplsaftervs)]
      } else {
         resultaftervs <- data.frame(matrix(NA,nrow=1, ncol=11))
@@ -641,7 +646,7 @@ sinkout <- function() {
   
   permoplsmodelwithvariableselection <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr){
     randomgroup <- randomize_group()
-    resultpermutation <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class=randomgroup, pcorr,no_permutations_post_vs=0)
+    resultpermutation <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class=randomgroup, pcorr,no_permutations_post_vs=0, variable_selection_using_VIP)
 
     corrcoff <- cor(as.numeric(as.factor(randomgroup)),as.numeric(as.factor(subsetsampleID[,paste(colname_groupID)])), method="pearson")
     resultpermutation <- cbind(resultpermutation$resultaftervs,corrcoff)
@@ -735,7 +740,7 @@ sinkout <- function() {
   
   plotpermutationswithoriginalmodelandreg <- function(permutated_models, subsetdatamatrix, ortho_pre_vs, orhoIoptimized,class,pcorr){
     corrcoff <- 1
-    resultunpermutatedmodel <- cbind(opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class,pcorr=pcorr, no_permutations_post_vs=0)$resultaftervs,corrcoff)
+    resultunpermutatedmodel <- cbind(opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class,pcorr=pcorr, no_permutations_post_vs=0)$resultaftervs,corrcoff, variable_selection_using_VIP)
     colnames(permutated_models) <- colnames(resultunpermutatedmodel)
     permutated_modelsplusunpermutated <-  rbind(permutated_models, resultunpermutatedmodel)
 
@@ -768,7 +773,7 @@ grid.arrange(pC7, pC14, nrow = 2)
   
   plotpermutationswithoriginalmodelandregusingggscatter <- function(permutated_models, subsetdatamatrix, ortho_pre_vs, orhoIoptimized,class,pcorr){
     corrcoff <- 1
-    resultunpermutatedmodel <- cbind(opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class,pcorr=pcorr,no_permutations_post_vs=0)$resultaftervs,corrcoff)
+    resultunpermutatedmodel <- cbind(opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class,pcorr=pcorr,no_permutations_post_vs=0)$resultaftervs,corrcoff, variable_selection_using_VIP)
     permutated_modelsplusunpermutated <-  rbind(resultunpermutatedmodel , permutated_models)
     
     permutated_modelsplusunpermutated$corrcoff <- abs(permutated_modelsplusunpermutated$corrcoff)

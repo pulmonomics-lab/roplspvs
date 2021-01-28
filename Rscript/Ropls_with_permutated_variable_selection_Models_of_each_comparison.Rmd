@@ -37,6 +37,7 @@ params:
   prefered_pR2_and_pQ2_permutated_post_vs: 0
   reordered_levels_of_groups: 0
   pcorr_diff: 0
+  variable_selection_using_VIP: "tomt"
 
 ---
 
@@ -103,6 +104,7 @@ max_no_of_ortho_post_vs_in_Model3_and_Model4<-params$max_no_of_ortho_post_vs_in_
 prefered_pR2_and_pQ2_permutated_post_vs<-params$prefered_pR2_and_pQ2_permutated_post_vs
 reordered_levels_of_groups<-params$reordered_levels_of_groups
 pcorr_diff<-params$pcorr_diff
+variable_selection_using_VIP<-params$variable_selection_using_VIP
 
 directory_and_filename_rdata <- paste(paste(directory_output_reports, projectname, sep=""), date_of_analysis, group1, "vs", group2, secID,".Rdata", sep="_")
 filename_rdata <- paste(projectname, date_of_analysis, group1, "vs", group2, secID,".Rdata", sep="_")
@@ -172,6 +174,8 @@ max number of orthogonal variables in model post variable selection in model 3 a
 prefered pR2 and pQ2 during model selection permutated post variable selection: `r prefered_pR2_and_pQ2_permutated_post_vs`
 
 pcorr increase allowing Q2 to decrease 1% during model selection in Model4: `r pcorr_diff`
+
+variable selection method: `r if(variable_selection_using_VIP=="yes") {paste("Using p(corr) and VIP")} else {paste("Using p(corr)")}`
 
 ```{R subset sampleID and matrix, error=FALSE}
 
@@ -250,7 +254,8 @@ result_Model1 <-
     classordered, 
     pcorr,printoptmodel="none",
     plotoptmodel="none",
-    no_permutations_post_vs=no_permutations_post_vs_selected_models
+    no_permutations_post_vs=no_permutations_post_vs_selected_models,
+    variable_selection_using_VIP
   )
 }
 
@@ -550,7 +555,8 @@ result_Model2 <-
     classordered, 
     pcorr,printoptmodel="none",
     plotoptmodel="none",
-    no_permutations_post_vs=no_permutations_post_vs_selected_models
+    no_permutations_post_vs=no_permutations_post_vs_selected_models,
+    variable_selection_using_VIP
   )
 }
 
@@ -807,7 +813,8 @@ result_Model3 <-
     pcorr,
     printoptmodel="none",
     plotoptmodel="none",
-    no_permutations_post_vs=no_permutations_post_vs_selected_models
+    no_permutations_post_vs=no_permutations_post_vs_selected_models,
+    variable_selection_using_VIP
   )
 }
 
@@ -1054,7 +1061,8 @@ result_Model4 <-
     pcorr,
     printoptmodel="none",
     plotoptmodel="none",
-    no_permutations_post_vs=no_permutations_post_vs_selected_models
+    no_permutations_post_vs=no_permutations_post_vs_selected_models,
+    variable_selection_using_VIP
   )
 }
 
