@@ -107,17 +107,16 @@ subsetdatamatrix
 
   }
 
-opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, printoptmodel="none",plotoptmodel="none", no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP){
+opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, printoptmodel="none",plotoptmodel="none", no_permutations_post_vs, variable_selection_using_VIP){
 
   result <- tryCatch({
       beforevsdata.oplsda <- opls(subsetdatamatrix, class, predI = 1, orthoI = ortho_pre_vs, scaleC="standard",info.txtC="none",fig.pdfC="none", permI=0)
-    
+ 
       vipropls <- getVipVn(beforevsdata.oplsda)
       summaryropls <- getSummaryDF(beforevsdata.oplsda)
       loadingropls <- getLoadingMN(beforevsdata.oplsda)
       Scoreofvariables <- getScoreMN(beforevsdata.oplsda)
-      
-      
+
       ### Calculate correlation between x and score to give p(corr)
       
       pcorrofvariables <-vector()
@@ -1022,7 +1021,7 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
 
   #Calculate p(corr) from p-value
   #from formula derived from https://stats.stackexchange.com/questions/61026/can-p-values-for-pearsons-correlation-test-be-computed-just-from-correlation-co
-  calculatepcorrfrompvalue <- function(selectpvalue,n=numberofsubjects){
+  calculatepcorrfrompvalue <- function(selectpvalue,n){
     pcorrfrompvaluelist <- data.frame()
     for (i in 1:1000){
       r <- i/1000  
