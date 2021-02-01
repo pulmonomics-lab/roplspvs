@@ -126,6 +126,7 @@ opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_p
         pcorrofvariables[i] <- pcorrofvariableshtest$estimate
       }
       pcorrofvariables <- as.data.frame(pcorrofvariables)
+      
       row.names(pcorrofvariables) <- colnames(subsetdatamatrix)
       pcorrofvariables <- na.omit(pcorrofvariables)
       ### pcorrlist of selected variables
@@ -207,7 +208,7 @@ sinkout <- function() {
 
   ##  ............................................................................
   ##  run original model with different amount of orthogal variables in original model   
-  model_pre_vs_with_different_amount_of_ortho_pre_vs_table <- function(subsetdatamatrix, no_of_orthogonal_in_model_pre_vs, class=class, no_permutations_post_vs=no_permutations_post_vs){
+  model_pre_vs_with_different_amount_of_ortho_pre_vs_table <- function(subsetdatamatrix, no_of_orthogonal_in_model_pre_vs, class, no_permutations_post_vs,variable_selection_using_VIP){
  
     amountofvariablesinmodel <- data.frame()
   for (i in 0:no_of_orthogonal_in_model_pre_vs)
@@ -245,11 +246,11 @@ sinkout <- function() {
   ##  ............................................................................
   ##  run optimized model with different amount of orthogal variables in original model                                                                       ####
   
-  model_post_vs_with_different_amount_of_ortho_pre_vs_table <- function(subsetdatamatrix, no_of_orthogonal_in_model_pre_vs,ortho_post_vs,class, pcorr, no_permutations_post_vs=no_permutations_post_vs){
+  model_post_vs_with_different_amount_of_ortho_pre_vs_table <- function(subsetdatamatrix, no_of_orthogonal_in_model_pre_vs,ortho_post_vs,class, pcorr, no_permutations_post_vs, variable_selection_using_VIP){
     amountofvariablesinmodel <- data.frame()
     for (i in 0:no_of_orthogonal_in_model_pre_vs)
     {
-        result <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix, i,ortho_post_vs,class, pcorr, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP)
+        result <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix, i,ortho_post_vs,class, pcorr, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP=variable_selection_using_VIP)
         amountofvariablesinmodel <- rbind(amountofvariablesinmodel,result$resultaftervs)
       
     }
@@ -263,13 +264,13 @@ sinkout <- function() {
   ##  ............................................................................
   ##  run optimized model with different amount of orthogal variables in original and optimized model                                                                       ####
   
-  model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs <- function(subsetdatamatrix, no_of_orthogonal_in_model_pre_vs,no_of_orthogonal_in_model_post_vs,class, pcorr, no_permutations_post_vs=no_permutations_post_vs){
+  model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs <- function(subsetdatamatrix, no_of_orthogonal_in_model_pre_vs,no_of_orthogonal_in_model_post_vs,class, pcorr, no_permutations_post_vs,variable_selection_using_VIP){
   amountofvariablesinmodel <- data.frame()
   for (i in 0:no_of_orthogonal_in_model_pre_vs)
   {
     for (j in 0:no_of_orthogonal_in_model_post_vs)
     {
-      result <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix, i,j,class, pcorr, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP)
+      result <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix, i,j,class, pcorr, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP=variable_selection_using_VIP)
       amountofvariablesinmodel <- rbind(amountofvariablesinmodel,result$resultaftervs)
     }
   }
@@ -365,11 +366,11 @@ sinkout <- function() {
   
   ##create table with different amount of pcorr during variable selection
  
-  pcorrtableofmodelsaftervs_withdiff <- function(subsetdatamatrix, ortho_pre_vs,ortho_post_vs,class,pcorrvector, no_permutations_post_vs=no_permutations_post_vs){
+  pcorrtableofmodelsaftervs_withdiff <- function(subsetdatamatrix, ortho_pre_vs,ortho_post_vs,class,pcorrvector, no_permutations_post_vs, variable_selection_using_VIP){
   pcorrtable <- data.frame()
   pcorrselections <- pcorrvector
   for (pcorr in pcorrselections){
-    pcorrmodeli <- opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs,ortho_post_vs,class, pcorr=pcorr, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP)
+    pcorrmodeli <- opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs,ortho_post_vs,class, pcorr=pcorr, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP=variable_selection_using_VIP)
     pcorrtable <- rbind(pcorrtable, pcorrmodeli$resultaftervs)
   }
   pcorrtablewithdiff <- pcorrtable
@@ -644,9 +645,9 @@ sinkout <- function() {
   ##  ............................................................................
   ##  run permutated models                                                   ####
   
-  permoplsmodelwithvariableselection <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr){
+  permoplsmodelwithvariableselection <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, variable_selection_using_VIP){
     randomgroup <- randomize_group()
-    resultpermutation <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class=randomgroup, pcorr,no_permutations_post_vs=0, variable_selection_using_VIP)
+    resultpermutation <-  opls_model_with_variable_selection_trycatch(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class=randomgroup, pcorr,no_permutations_post_vs=0, variable_selection_using_VIP=variable_selection_using_VIP)
 
     corrcoff <- cor(as.numeric(as.factor(randomgroup)),as.numeric(as.factor(subsetsampleID[,paste(colname_groupID)])), method="pearson")
     resultpermutation <- cbind(resultpermutation$resultaftervs,corrcoff)
@@ -659,10 +660,10 @@ sinkout <- function() {
  
   ##  ............................................................................
   ##  create table of randomized model                                        ####
-  table_of_randomised_models_before_vs <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, no_permutations_pre_vs){
+  table_of_randomised_models_before_vs <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, no_permutations_pre_vs, variable_selection_using_VIP){
   permutated_models <- data.frame()
   for (i in 1:no_permutations_pre_vs){
-    permutated_models <- rbind(permutated_models,permoplsmodelwithvariableselection(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr))
+    permutated_models <- rbind(permutated_models,permoplsmodelwithvariableselection(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, variable_selection_using_VIP=variable_selection_using_VIP))
   sinkout()
 	}
   row.names(permutated_models) <- c(paste("model",1:nrow(permutated_models)))
@@ -738,9 +739,9 @@ sinkout <- function() {
     t(pforpermutationtable)
     }
   
-  plotpermutationswithoriginalmodelandreg <- function(permutated_models, subsetdatamatrix, ortho_pre_vs, orhoIoptimized,class,pcorr){
+  plotpermutationswithoriginalmodelandreg <- function(permutated_models, subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class,pcorr, variable_selection_using_VIP){
     corrcoff <- 1
-    resultunpermutatedmodel <- cbind(opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class,pcorr=pcorr, no_permutations_post_vs=0)$resultaftervs,corrcoff, variable_selection_using_VIP)
+    resultunpermutatedmodel <- cbind(opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class,pcorr=pcorr, no_permutations_post_vs=0, variable_selection_using_VIP=variable_selection_using_VIP)$resultaftervs,corrcoff)
     colnames(permutated_models) <- colnames(resultunpermutatedmodel)
     permutated_modelsplusunpermutated <-  rbind(permutated_models, resultunpermutatedmodel)
 
@@ -771,9 +772,9 @@ sinkout <- function() {
 grid.arrange(pC7, pC14, nrow = 2)
 }
   
-  plotpermutationswithoriginalmodelandregusingggscatter <- function(permutated_models, subsetdatamatrix, ortho_pre_vs, orhoIoptimized,class,pcorr){
+  plotpermutationswithoriginalmodelandregusingggscatter <- function(permutated_models, subsetdatamatrix, ortho_pre_vs, orhoIoptimized,class,pcorr,variable_selection_using_VIP){
     corrcoff <- 1
-    resultunpermutatedmodel <- cbind(opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class,pcorr=pcorr,no_permutations_post_vs=0)$resultaftervs,corrcoff, variable_selection_using_VIP)
+    resultunpermutatedmodel <- cbind(opls_model_with_variable_selection_trycatch(subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class,pcorr=pcorr,no_permutations_post_vs=0, variable_selection_using_VIP=variable_selection_using_VIP)$resultaftervs,corrcoff)
     permutated_modelsplusunpermutated <-  rbind(resultunpermutatedmodel , permutated_models)
     
     permutated_modelsplusunpermutated$corrcoff <- abs(permutated_modelsplusunpermutated$corrcoff)

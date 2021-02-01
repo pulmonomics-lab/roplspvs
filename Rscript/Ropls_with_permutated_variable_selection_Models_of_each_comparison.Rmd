@@ -339,9 +339,10 @@ permutated_models_Model1 <-
     subsetdatamatrix,
     ortho_pre_vs,
     ortho_post_vs,
-    classordered, 
+    class=classordered, 
     pcorr,
-    no_permutations_pre_vs
+    no_permutations_pre_vs,
+    variable_selection_using_VIP
   )
 }
 
@@ -390,7 +391,7 @@ kable(percentage_and_pvalue_perm_Model1, row.names = T) %>%
 
 ```{R  plot permutation of model using set pcorr or from p-value and set amount orthogonal, fig.height = 10}
 
-plotpermutationswithoriginalmodelandreg(permutated_models_Model1, subsetdatamatrix, ortho_pre_vs, orhoIoptimized,classordered,pcorr)
+plotpermutationswithoriginalmodelandreg(permutated_models_Model1, subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class=classordered,pcorr,variable_selection_using_VIP)
 
 pcorr <- calculatepcorrfrompvalue(selectpvalue=p_pearson_of_pcorr_cutoff,n=nrow(subsetsampleID))
 
@@ -415,8 +416,9 @@ table_different_amount_of_ortho_pre_vs_Model2 <-
   model_pre_vs_with_different_amount_of_ortho_pre_vs_table(
     subsetdatamatrix, 
     no_of_orthogonal_in_model_pre_vs=5, 
-    classordered,
-    no_permutations_post_vs
+    class=classordered,
+    no_permutations_post_vs,
+    variable_selection_using_VIP
   )
 }
 
@@ -459,9 +461,10 @@ table_model_post_vs_different_amount_of_ort_in_model_pre_vs_Model2 <-
     subsetdatamatrix, 
     no_of_orthogonal_in_model_pre_vs=15,
     ortho_post_vs=0,
-    classordered, 
+    class=classordered, 
     pcorr=pcorr,
-    no_permutations_post_vs=no_permutations_post_vs
+    no_permutations_post_vs=no_permutations_post_vs,
+    variable_selection_using_VIP
   )
 }
 
@@ -497,9 +500,10 @@ model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model2 <-
     subsetdatamatrix, 
     no_of_orthogonal_in_model_pre_vs=max_no_of_ortho_pre_vs_in_Model2, 
     no_of_orthogonal_in_model_post_vs=max_no_of_ortho_post_vs_in_Model2,
-    classordered, 
+    class=classordered, 
     pcorr=pcorr,
-    no_permutations_post_vs=no_permutations_post_vs
+    no_permutations_post_vs=no_permutations_post_vs,
+    variable_selection_using_VIP
   )
 }
 
@@ -640,9 +644,10 @@ permutated_models_Model2 <-
     subsetdatamatrix,
     ortho_pre_vs,
     ortho_post_vs,
-    classordered, 
+    class=classordered, 
     pcorr,
-    no_permutations_pre_vs
+    no_permutations_pre_vs,
+    variable_selection_using_VIP
   )
 }
 
@@ -688,7 +693,7 @@ kable(percentage_and_pvalue_perm_Model2, row.names = T) %>%
 
 ```{R  plot permutation best model pcorr from p-value, fig.height = 10}
 
-plotpermutationswithoriginalmodelandreg(permutated_models_Model2, subsetdatamatrix, ortho_pre_vs, orhoIoptimized,classordered,pcorr)
+plotpermutationswithoriginalmodelandreg(permutated_models_Model2, subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class=classordered,pcorr, variable_selection_using_VIP)
 
 ```
 
@@ -714,9 +719,10 @@ pcorr_table_of_model_post_vs <- pcorrtableofmodelsaftervs_withdiff(
   subsetdatamatrix, 
   ortho_pre_vs,
   ortho_post_vs,
-  classordered,
+  class=classordered,
   pcorrvector=c(seq(0.9,pcorr_corresponging_to_pvalue,by=-0.01),pcorr_corresponging_to_pvalue),
-  no_permutations_post_vs=no_permutations_post_vs
+  no_permutations_post_vs=no_permutations_post_vs,
+  variable_selection_using_VIP
 )
 }
 
@@ -762,9 +768,10 @@ model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model3 <-
     subsetdatamatrix, 
     no_of_orthogonal_in_model_pre_vs=max_no_of_ortho_pre_vs_in_Model3_and_Model4, 
     no_of_orthogonal_in_model_post_vs=max_no_of_ortho_post_vs_in_Model3_and_Model4,
-    classordered, 
+    class=classordered, 
     pcorr=pcorr,
-    no_permutations_post_vs=no_permutations_post_vs
+    no_permutations_post_vs=no_permutations_post_vs,
+    variable_selection_using_VIP
   )
 }
 
@@ -897,9 +904,10 @@ permutated_models_Model3 <-
     subsetdatamatrix,
     ortho_pre_vs,
     ortho_post_vs,
-    classordered, 
+    class=classordered, 
     pcorr,
-    no_permutations_pre_vs
+    no_permutations_pre_vs,
+    variable_selection_using_VIP
   )
 }
 
@@ -946,7 +954,7 @@ kable(percentage_and_pvalue_perm_Model3, row.names = T) %>%
 
 ```{R plot permutation best model pcorr with highest Q2, fig.height = 10}
 
-plotpermutationswithoriginalmodelandreg(permutated_models_Model3, subsetdatamatrix, ortho_pre_vs, orhoIoptimized,classordered,pcorr)
+plotpermutationswithoriginalmodelandreg(permutated_models_Model3, subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class=classordered,pcorr, variable_selection_using_VIP)
 
 ```
 
@@ -1009,9 +1017,10 @@ model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4 <-
     subsetdatamatrix, 
     no_of_orthogonal_in_model_pre_vs=max_no_of_ortho_pre_vs_in_Model3_and_Model4, 
     no_of_orthogonal_in_model_post_vs=max_no_of_ortho_post_vs_in_Model3_and_Model4,
-    classordered, 
+    class=classordered, 
     pcorr=pcorr,
-    no_permutations_post_vs=no_permutations_post_vs
+    no_permutations_post_vs=no_permutations_post_vs,
+    variable_selection_using_VIP
   )
 }
 }
@@ -1146,9 +1155,10 @@ permutated_models_Model4 <-
     subsetdatamatrix,
     ortho_pre_vs,
     ortho_post_vs,
-    classordered, 
+    class=classordered, 
     pcorr,
-    no_permutations_pre_vs
+    no_permutations_pre_vs,
+    variable_selection_using_VIP
   )
 }
 } else {permutated_models_Model4 <- permutated_models_Model3}
@@ -1196,11 +1206,11 @@ kable(percentage_and_pvalue_perm_Model4, row.names = T) %>%
 
 ```{R plot permutation best model pcorr with highest Q2 using minimal amount of variables, fig.height = 10}
 
-plotpermutationswithoriginalmodelandreg(permutated_models_Model4, subsetdatamatrix, ortho_pre_vs, orhoIoptimized,classordered,pcorr)
+plotpermutationswithoriginalmodelandreg(permutated_models_Model4, subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class=classordered,pcorr,variable_selection_using_VIP)
 
 
 
 save.image(directory_and_filename_rdata)
 
-rm(list=setdiff(ls(), c("model_table_to_analyse","filename_model_table_to_analyse","directory_model_table_to_analyse","projectname","date_of_analysis","directory_Rmarkdownfiles","filename_Rmarkdownfile_each_model","filename_Rmarkdownfile_summary","directory_input_matrix_sampleID","filename_matrix","decimal_separator","variable_names_length", "variable_names_position","filename_sampleID","colname_groupID","colname_secID","directory_output_reports","directory_and_filename_function_file","p_pearson_of_pcorr_cutoff","no_permutations_post_vs","no_permutations_post_vs_selected_models","no_permutations_pre_vs","filter_percent_in_each_group","directory_output_reports_and_projectname","groupsnumeric","max_no_of_ortho_pre_vs_in_Model2", "max_no_of_ortho_pre_vs_in_Model3_and_Model4","max_no_of_ortho_post_vs_in_Model2","max_no_of_ortho_post_vs_in_Model3_and_Model4","each_model_or_summary","prefered_pR2_and_pQ2_permutated_post_vs","cluster","reordered_levels_of_groups","pcorr_diff")))
+rm(list=setdiff(ls(), c("model_table_to_analyse","filename_model_table_to_analyse","directory_model_table_to_analyse","projectname","date_of_analysis","directory_Rmarkdownfiles","filename_Rmarkdownfile_each_model","filename_Rmarkdownfile_summary","directory_input_matrix_sampleID","filename_matrix","decimal_separator","variable_names_length", "variable_names_position","filename_sampleID","colname_groupID","colname_secID","directory_output_reports","directory_and_filename_function_file","p_pearson_of_pcorr_cutoff","no_permutations_post_vs","no_permutations_post_vs_selected_models","no_permutations_pre_vs","filter_percent_in_each_group","directory_output_reports_and_projectname","groupsnumeric","max_no_of_ortho_pre_vs_in_Model2", "max_no_of_ortho_pre_vs_in_Model3_and_Model4","max_no_of_ortho_post_vs_in_Model2","max_no_of_ortho_post_vs_in_Model3_and_Model4","each_model_or_summary","prefered_pR2_and_pQ2_permutated_post_vs","cluster","reordered_levels_of_groups","pcorr_diff","variable_selection_using_VIP")))
 ```
