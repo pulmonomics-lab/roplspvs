@@ -33,3 +33,8 @@ p_pearson_of_pcorr_cutoff <- 0.05 # P-value for p(corr) cutoff during variable s
 setseedfirstmodel <- 1 #Numeric. Setseed of the first model. Second model will have setseedfirstmodel+1 etc.
 order_of_groups_names <- "correct" # character vector containing correct order of group names or enter "correct". Deseased first and controls last in order to get direction of models with high score in diseased.
 models_to_run <- "all" # numeric vector indicating models to run if all models are to be run enter "all"
+
+## Paths of directories
+directory_of_analysis <-  paste(location_of_analysis_folder,"/",analysis_folder_name,sep="")
+directory_input_matrix_sampleID <-  paste(directory_of_analysis,"/",foldername_of_input_matrix_and_sampleID,"/",sep="")
+directory_output_reports <- paste(directory_of_analysis,"/",foldername_output_reports,"/",sep="")

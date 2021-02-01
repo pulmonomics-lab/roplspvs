@@ -1,9 +1,16 @@
 #Load configurations
+setwd(analysis_folder_name)
 source("Ropls_with_permutated_variable_selection_Configure_Advanced.R")
-if (file.exists("Ropls_with_permutated_variable_selection_Configure_Get_Started_example_data.R")) {
-  source("Ropls_with_permutated_variable_selection_Configure_Get_Started_example_data.R")} else {
-    source("Ropls_with_permutated_variable_selection_Configure_Get_Started.R")}
+if (file.exists(list.files(getwd(), pattern="\\Get_Started.R"))) {
+  source(list.files(getwd(), pattern="\\Get_Started.R"))} else {
+    source(list.files(getwd(), pattern="\\Get_Started_example_data.R"))}
 
+#Read directories of Function files and Rmarkdown files
+
+directory_Rmarkdownfiles <- paste(directory_of_Ropls_with_permutated_variable_selection,"/","Ropls-with-permutated-variable-selection","/",foldername_Rmarkdownfiles,"/",sep="") # "path of directory/filename"
+directory_function_file <- paste(directory_of_Ropls_with_permutated_variable_selection,"/","Ropls-with-permutated-variable-selection","/",foldername_function_file,"/", sep="")
+foldername_model_table_to_analyse <- foldername_output_reports #model_table_to_analyse will be saved in this folder.
+directory_model_table_to_analyse <- paste(directory_of_analysis,"/",foldername_model_table_to_analyse,"/",sep="")
 
 #Load functions
 
