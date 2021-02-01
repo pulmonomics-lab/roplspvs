@@ -229,12 +229,33 @@ pcorr <- calculatepcorrfrompvalue(selectpvalue=p_pearson_of_pcorr_cutoff,n=nrow(
   pcorr <- pcorr_Model1
 }
 
+```
+##PCA 
+###all subjects included in comparison
+```{R}
 
+plot(opls(subsetdatamatrix,typeVc = "x-score",info.txtC="none", fig.pdfC="none"), parAsColFcVn = classordered)
+```
+
+###Subjects in `r group1`
+
+```{R}
+subsetdatamatrix_group1 <- subset(subsetdatamatrix, subsetsampleID$Diagnos==group1)
+opls(subsetdatamatrix_group1,typeVc = "x-score",info.txtC="none")
+```
+
+###Subjects in `r group2`
+
+```{R}
+subsetdatamatrix_group2 <- subset(subsetdatamatrix, subsetsampleID$Diagnos==group2)
+opls(subsetdatamatrix_group2,typeVc = "x-score",info.txtC="none")
 
 ```
+
 #Model 1. Models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection
+
 ###Model descripton
-Model after variable selection using p(corr) cutoff `r paste(pcorr); if(pcorr_Model1=="according to p-value"){paste(" which correspond to p-value ", p_pearson_of_pcorr_cutoff)}` and has `r ortho_pre_vs_Model1` orthogonal in model pre variable selection and `r ortho_post_vs_Model1` orthogonal in model post variable selection
+Model post variable selection using p(corr) cutoff `r paste(pcorr); if(pcorr_Model1=="according to p-value"){paste(" which correspond to p-value ", p_pearson_of_pcorr_cutoff)}` and has `r ortho_pre_vs_Model1` orthogonals in model pre variable selection and `r ortho_post_vs_Model1` orthogonals in model post variable selection
 
 
 ```{R Model using set pcorr cutoff or from p-value and set amount orthogonal}
@@ -269,6 +290,7 @@ kable(result_pre_vs, row.names = T) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
 ```
+
 ###Model statistics
 
 ```{R}
@@ -573,7 +595,10 @@ colnames(result_pre_vs)[6] <- "ortho pre v.s."
 kable(result_pre_vs, row.names = T) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
+plot(result_Model2$beforevsdata.oplsda , typeVc= c("overview"))
+
 ```
+
 ###Model statistics
 
 ```{R}
@@ -834,7 +859,11 @@ colnames(result_pre_vs)[6] <- "ortho pre v.s."
 kable(result_pre_vs, row.names = T) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
+
+plot(result_Model3$beforevsdata.oplsda , typeVc= c("overview"))
+
 ```
+
 ###Model statistics
 
 ```{R}
@@ -1084,7 +1113,11 @@ colnames(result_pre_vs)[6] <- "ortho pre v.s."
 kable(result_pre_vs, row.names = T) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
+
+plot(result_Model4$beforevsdata.oplsda , typeVc= c("overview"))
+
 ```
+
 ###Model statistics
 
 ```{R}
