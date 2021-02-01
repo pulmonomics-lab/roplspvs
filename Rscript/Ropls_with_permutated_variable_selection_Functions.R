@@ -61,37 +61,37 @@ subsetdatamatrix
     vipropls <- getVipVn(beforevsdata.oplsda)
     summaryropls <- getSummaryDF(beforevsdata.oplsda)
     loadingropls <- getLoadingMN(beforevsdata.oplsda)
-    Scoreofmir <- getScoreMN(beforevsdata.oplsda)
+    Scoreofvariables <- getScoreMN(beforevsdata.oplsda)
   
     
     ### Calculate correlation between x and score to give p(corr)
     
-    pcorrofmir <-vector()
+    pcorrofvariables <-vector()
     for (i in 1:ncol(subsetdatamatrix)){
-      pcorrofmirhtest <- cor.test(subsetdatamatrix[,i],Scoreofmir,method="pearson")
-      pcorrofmir[i] <- pcorrofmirhtest$estimate
+      pcorrofvariableshtest <- cor.test(subsetdatamatrix[,i],Scoreofvariables,method="pearson")
+      pcorrofvariables[i] <- pcorrofvariableshtest$estimate
     }
-    pcorrofmir <- as.data.frame(pcorrofmir)
-    row.names(pcorrofmir) <- colnames(subsetdatamatrix)
+    pcorrofvariables <- as.data.frame(pcorrofvariables)
+    row.names(pcorrofvariables) <- colnames(subsetdatamatrix)
     ### pcorrlist of selected variables
-    choosingsubset <- pcorrofmir$pcorrofmir>pcorr|pcorrofmir$pcorrofmir<(-(pcorr))
+    choosingsubset <- pcorrofvariables$pcorrofvariables>pcorr|pcorrofvariables$pcorrofvariables<(-(pcorr))
     choosingVIP <- vipropls>1
     choosingVIPandpcorr <- choosingsubset & choosingVIP
-    subsetpcorrandVIPofmir <- subset(pcorrofmir,choosingVIPandpcorr)
+    subsetpcorrandVIPofvariables <- subset(pcorrofvariables,choosingVIPandpcorr)
 
-    if (nrow(subsetpcorrandVIPofmir)>ortho_post_vs+1) {
+    if (nrow(subsetpcorrandVIPofvariables)>ortho_post_vs+1) {
   
       ### model after variable selection
-      aftervariableselectionsubsetdatamatrix <- subsetdatamatrix[,rownames(subsetpcorrandVIPofmir)]
+      aftervariableselectionsubsetdatamatrix <- subsetdatamatrix[,rownames(subsetpcorrandVIPofvariables)]
       
       aftervsdata.oplsda = opls(aftervariableselectionsubsetdatamatrix, class, predI = 1, orthoI = ortho_post_vs, scaleC="standard",info.txtC=printoptmodel,fig.pdfC=plotoptmodel,permI=no_permutations_post_vs)
       viproplsaftervs <- getVipVn(aftervsdata.oplsda)
       summaryroplsaftervs <- getSummaryDF(aftervsdata.oplsda)
       loadingroplsaftervs <- getLoadingMN(aftervsdata.oplsda)
-      scoreofmiraftervs <- getScoreMN(aftervsdata.oplsda)
+      scoreofvariablesaftervs <- getScoreMN(aftervsdata.oplsda)
       variables_no <-length(loadingroplsaftervs)
       resultaftervs <- cbind(pcorr,ortho_pre_vs,variables_no,summaryroplsaftervs)
-      resultoplsmodelwithvariableselection <- list(beforevsdata.oplsda=beforevsdata.oplsda, aftervsdata.oplsda=aftervsdata.oplsda,resultaftervs=resultaftervs,variables_no=variables_no, scoreofmiraftervs=scoreofmiraftervs, loadingroplsaftervs=loadingroplsaftervs,pcorrlistaftervs=subsetpcorrandVIPofmir)
+      resultoplsmodelwithvariableselection <- list(beforevsdata.oplsda=beforevsdata.oplsda, aftervsdata.oplsda=aftervsdata.oplsda,resultaftervs=resultaftervs,variables_no=variables_no, scoreofvariablesaftervs=scoreofvariablesaftervs, loadingroplsaftervs=loadingroplsaftervs,pcorrlistaftervs=subsetpcorrandVIPofvariables)
 
     } else {
       resultaftervs <- data.frame(matrix(NA,nrow=1, ncol=11))
@@ -556,7 +556,7 @@ sinkout <- function() {
   #jackknifedloading <- jackknife(subsetdatamatrix[,row.names(loadingropls)[1]], getLoadingMN(aftervsdata.oplsda))
 
   plotscore <- function(model){
-    scoresropls <- as.data.frame(model$scoreofmiraftervs)
+    scoresropls <- as.data.frame(model$scoreofvariablesaftervs)
   
   fontsize <- 15/4 + 15*(15/nrow(scoresropls)*3/4)
   if (fontsize>15) {fontsize <- 15}
@@ -589,7 +589,7 @@ sinkout <- function() {
   }
   
   plotboxplot <- function(model){
-    scoresropls <- as.data.frame(model$scoreofmiraftervs)
+    scoresropls <- as.data.frame(model$scoreofvariablesaftervs)
     
     fontsize <- 15
     
