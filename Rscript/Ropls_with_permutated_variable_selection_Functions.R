@@ -603,22 +603,20 @@ sinkout <- function() {
 
   ##  create iterationtable                                                   ####
  
-  iterationtable <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorrselectionsvector, no_permutations_post_vs=no_permutations_post_vs){
+  iterationtable <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorrselectionsvector, no_permutations_post_vs, variable_selection_using_VIP){
   iterationtable <- data.frame()
   iterationmatrix <- subsetdatamatrix
     for (i in pcorrselectionsvector){
-     if (ncol(iterationmatrix)>ortho_pre_vs+1) 
-     { 
-      iterationi <- opls_model_with_variable_selection_trycatch(iterationmatrix, ortho_pre_vs,ortho_post_vs,class, pcorr=i, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP)
+ 
+      iterationi <- opls_model_with_variable_selection_trycatch(iterationmatrix, ortho_pre_vs=NA,ortho_post_vs=NA,class, pcorr=i, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP=variable_selection_using_VIP)
+      if (is.na(iterationi$resultaftervs$`no. variables`)){
+        iterationi <- opls_model_with_variable_selection_trycatch(iterationmatrix, ortho_pre_vs=ortho_pre_vs,ortho_post_vs=NA,class, pcorr=i, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP=variable_selection_using_VIP)}
+      if (is.na(iterationi$resultaftervs$`no. variables`)){
+        iterationi <- opls_model_with_variable_selection_trycatch(iterationmatrix, ortho_pre_vs=ortho_pre_vs,ortho_post_vs=ortho_post_vs,class, pcorr=i, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP=variable_selection_using_VIP)}
+      
       iterationmatrix <- iterationmatrix[,rownames(iterationi$loadingroplsaftervs)]
-     } else {
-        resultaftervs <- data.frame(matrix(NA,nrow=1, ncol=11))
-        colnames(resultaftervs)<-c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pre","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
-        row.names(resultaftervs)<-c("Model")
-        iterationi <- list(resultaftervs=resultaftervs)
-      }
-    iteration <- cbind(iterationi$resultaftervs)
-    iterationtable <- rbind(iterationtable, iteration)
+ 
+    iterationtable <- rbind(iterationtable, iterationi$resultaftervs)
     }
   row.names(iterationtable) <- c(paste("model",1:nrow(iterationtable)))
  iterationtable

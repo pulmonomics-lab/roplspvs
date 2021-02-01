@@ -563,6 +563,31 @@ ortho_post_vs_Model2 <- ortho_post_vs
 
 ```
 
+###Iteration table
+####Create iteration table continuously increasing p(corr) during variable selection and adding orthogonals only if it increases Q2 1% in the actual model (i.e. not concidering the total amount of orthogonals pre and post)
+
+```{R iteration table pcorr from pvalue}
+testvariablename <- "iterationtable_Model2"
+testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
+if (!is.null(testvariable)){iterationtable_Model2 <- testvariable} else {
+
+iterationtable_Model2<-
+  iterationtable(
+  subsetdatamatrix,
+  ortho_pre_vs<-0,
+  ortho_post_vs<-0,
+  class=classordered, 
+  pcorrselectionsvector=c(seq(0.01,0.9,by=0.01)),
+  no_permutations_post_vs=no_permutations_post_vs,
+  variable_selection_using_VIP=variable_selection_using_VIP
+) 
+}
+short_iterationtable_Model2 <- subset(iterationtable_Model2,!duplicated(iterationtable_Model2$"no. variables")&!is.na(iterationtable_Model2$"no. variables"))
+
+kable(short_iterationtable_Model2, row.names = T) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
+
 ##Best performing model using p(corr) cutoff corresponding to userset pvalue cutoff for correlation
 ###Model description
 ####Best performing model performing variable selection using p(corr) cutoff `r pcorr` corresponding to p-value `r p_pearson_of_pcorr_cutoff` has `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection before variable selection
