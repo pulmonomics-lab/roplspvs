@@ -21,7 +21,7 @@ params:
 ---
 title: "Summary ropls models `r gsub("_"," ",paste(params$projectname))`"
 author: |
-    | Ropls with permutated variable selection: Version 10
+    | Ropls with permutated variable selection: Version 11
     | Marika Strom
 date: "`r Sys.Date()`"
 ---
