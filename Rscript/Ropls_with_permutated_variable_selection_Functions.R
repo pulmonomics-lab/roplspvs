@@ -1804,8 +1804,7 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
      
      setwd(l.path)
      # sub dir
-     l.subdir <- c(foldername_of_input_matrix_and_sampleID, foldername_Rmarkdownfiles, foldername_output_reports)
-     l.subdir <- paste0("./",l.subdir)
+     l.subdir <- c(directory_input_matrix_sampleID, directory_output_reports)
      sapply(l.subdir,dir.create)
    }
  }
