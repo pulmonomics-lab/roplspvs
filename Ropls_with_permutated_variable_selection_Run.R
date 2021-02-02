@@ -1,9 +1,9 @@
 #Load configurations
-setwd(analysis_folder_name)
-source("Ropls_with_permutated_variable_selection_Configure_Advanced.R")
-if (file.exists(list.files(getwd(), pattern="\\Get_Started.R"))) {
-  source(list.files(getwd(), pattern="\\Get_Started.R"))} else {
-    source(list.files(getwd(), pattern="\\Get_Started_example_data.R"))}
+
+source(paste(analysis_folder_name,"/Ropls_with_permutated_variable_selection_Configure_Advanced.R",sep=""))
+if (file.exists(list.files(paste(getwd(),"/",analysis_folder_name,sep=""), pattern="\\Get_Started.R"))) {
+  source(paste(analysis_folder_name,"/",list.files(paste(getwd(),"/",analysis_folder_name,sep=""), pattern="\\Get_Started.R"),sep=""))} else {
+    source(paste(analysis_folder_name,"/",list.files(paste(getwd(),"/",analysis_folder_name,sep=""), pattern="\\Get_Started_example_data.R"),sep=""))}
 
 #Read directories of Function files and Rmarkdown files
 

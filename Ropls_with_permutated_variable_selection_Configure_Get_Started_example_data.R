@@ -5,6 +5,9 @@
 #Preparations to run example data
 #3. Download data_to_R_analysis containing exampledata
 
+# Set path where Ropls-with-permutated-variable-selection is stored
+directory_of_Ropls_with_permutated_variable_selection <- getwd()
+
 ## Project settings
 projectname <- "testproj MTBLS136" # "projectname" will appear in filenames and header of reports with underscores removed.
 date_of_analysis <- 201218 # "yymmdd" numeric date of analysis will appear in filenames.
@@ -32,4 +35,8 @@ setseedfirstmodel <- 200 #Numeric. Setseed of the first model. Second model will
 order_of_groups_names <- c("E+P","E-only","Nonuser") # character vector containing correct order of group names or enter "correct". Deseased first and controls last in order to get direction of models with high score in diseased.
 models_to_run <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,23) # numeric vector indicating models to run if all models are to be run enter "all"
 
+## Paths of directories
+directory_of_analysis <-  paste(location_of_analysis_folder,"/",analysis_folder_name,sep="")
+directory_input_matrix_sampleID <-  paste(directory_of_analysis,"/",foldername_of_input_matrix_and_sampleID,"/",sep="")
+directory_output_reports <- paste(directory_of_analysis,"/",foldername_output_reports,"/",sep="")
 

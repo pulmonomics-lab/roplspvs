@@ -7,6 +7,9 @@
 #2. Prepare a sampleID file with sampleID in the first column and containing one column with the groups to be compared and one column with secondaryID (for example gender) if stratification is desired. 
 #3. Save datamatrix and sampleID files as tabdelimited .txt files in a manually created folder in the project folder with default name "data_to_R_analysis" or enter path in advanced settings.
 
+# Set path where Ropls-with-permutated-variable-selection is stored
+directory_of_Ropls_with_permutated_variable_selection <- getwd()
+
 ## Project settings
 projectname <- "projectname" # "projectname" will appear in filenames and header of reports with underscores removed.
 date_of_analysis <- 201218 # yymmdd numeric date of analysis will appear in filenames.
