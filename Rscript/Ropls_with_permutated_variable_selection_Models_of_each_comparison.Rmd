@@ -574,10 +574,10 @@ if (!is.null(testvariable)){iterationtable_Model2 <- testvariable} else {
 iterationtable_Model2<-
   iterationtable(
   subsetdatamatrix,
-  ortho_pre_vs<-0,
-  ortho_post_vs<-0,
+  ortho_pre_vs=0,
+  ortho_post_vs=0,
   class=classordered, 
-  pcorrselectionsvector=c(seq(0.01,0.9,by=0.01)),
+  pcorrselectionsvector=c(seq(0.01,0.9,by=0.02)),
   no_permutations_post_vs=no_permutations_post_vs,
   variable_selection_using_VIP=variable_selection_using_VIP
 ) 
