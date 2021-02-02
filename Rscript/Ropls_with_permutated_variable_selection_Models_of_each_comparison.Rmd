@@ -240,14 +240,14 @@ plot(opls(subsetdatamatrix,typeVc = "x-score",info.txtC="none", fig.pdfC="none")
 ###Subjects in `r group1`
 
 ```{R}
-subsetdatamatrix_group1 <- subset(subsetdatamatrix, subsetsampleID$Diagnos==group1)
+subsetdatamatrix_group1 <- subset(subsetdatamatrix, subsetsampleID[,paste(colname_groupID)]==group1)
 opls(subsetdatamatrix_group1,typeVc = "x-score",info.txtC="none")
 ```
 
 ###Subjects in `r group2`
 
 ```{R}
-subsetdatamatrix_group2 <- subset(subsetdatamatrix, subsetsampleID$Diagnos==group2)
+subsetdatamatrix_group2 <- subset(subsetdatamatrix, subsetsampleID[,paste(colname_groupID)]==group2)
 opls(subsetdatamatrix_group2,typeVc = "x-score",info.txtC="none")
 
 ```
