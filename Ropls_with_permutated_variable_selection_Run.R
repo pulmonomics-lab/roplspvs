@@ -1,7 +1,7 @@
 #Load configurations
 
 source(paste(analysis_folder_name,"/Ropls_with_permutated_variable_selection_Configure_Advanced.R",sep=""))
-if (file.exists(list.files(paste(getwd(),"/",analysis_folder_name,sep=""), pattern="\\Get_Started.R"))) {
+if (file.exists(paste(analysis_folder_name,"/",list.files(paste(getwd(),"/",analysis_folder_name,sep=""), pattern="\\Get_Started.R"),sep=""))) {
   source(paste(analysis_folder_name,"/",list.files(paste(getwd(),"/",analysis_folder_name,sep=""), pattern="\\Get_Started.R"),sep=""))} else {
     source(paste(analysis_folder_name,"/",list.files(paste(getwd(),"/",analysis_folder_name,sep=""), pattern="\\Get_Started_example_data.R"),sep=""))}
 
