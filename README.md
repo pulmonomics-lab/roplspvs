@@ -42,7 +42,7 @@ Set working directory to the location of your project folder and run your analys
 setwd("enter path to where your project folder is stored")
 directory_of_Ropls_with_permutated_variable_selection <- " enter path to where Ropls_with_permutated_variable_selection is stored"
 analysis_folder_name <- "enter the name of your project folder" # 
-source(paste(directory_of_Ropls_with_permutated_variable_selection,"/Ropls_with_permutated_variable_selection_Run.R",sep=""))
+source(paste(directory_of_Ropls_with_permutated_variable_selection,"/Ropls-with-permutated-variable-selection/Ropls_with_permutated_variable_selection_Run.R",sep=""))
 
 ```
 
