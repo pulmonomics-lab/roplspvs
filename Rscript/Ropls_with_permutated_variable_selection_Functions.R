@@ -1,4 +1,4 @@
-#Version 11
+#Version 12
 
 subsetmatrixfunction <- function(sampleID,datamatrix,group1,group2,secID){
   if(secID=="joint"|secID=="no gender stratification"){

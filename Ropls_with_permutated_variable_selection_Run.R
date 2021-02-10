@@ -1,3 +1,4 @@
+#version12
 #Load configurations
 
 source(paste(analysis_folder_name,"/Ropls_with_permutated_variable_selection_Configure_Advanced.R",sep=""))
