@@ -6,7 +6,6 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
 BiocManager::install("ropls")
-install.packages("ropls")
 install.packages("ggplot2")
 install.packages("ggrepel")
 install.packages("kableExtra")
