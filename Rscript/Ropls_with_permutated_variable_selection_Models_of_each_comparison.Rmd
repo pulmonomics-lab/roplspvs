@@ -249,7 +249,7 @@ opls(subsetdatamatrix_group1,typeVc = "x-score",info.txtC="none", crossvalI=set_
 
 ```{R PCA group2}
 subsetdatamatrix_group2 <- subset(subsetdatamatrix, subsetsampleID[,paste(colname_groupID)]==group2)
-if (nrow(subsetdatamatrix_group2<7)) {set_crossvalI <- nrow(subsetdatamatrix_group1)} else {set_crossvalI <- 7}
+if (nrow(subsetdatamatrix_group2<7)) {set_crossvalI <- nrow(subsetdatamatrix_group2)} else {set_crossvalI <- 7}
 opls(subsetdatamatrix_group2,typeVc = "x-score",info.txtC="none", crossvalI=set_crossvalI)
 
 ```
