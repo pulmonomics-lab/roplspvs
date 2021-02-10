@@ -565,30 +565,6 @@ ortho_post_vs_Model2 <- ortho_post_vs
 
 ```
 
-###Iteration table
-####Create iteration table continuously increasing p(corr) during variable selection and adding orthogonals only if it increases Q2 1% in the actual model (i.e. not concidering the total amount of orthogonals pre and post)
-
-```{R iteration table}
-testvariablename <- "iterationtable_Model2"
-testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
-if (!is.null(testvariable)){iterationtable_Model2 <- testvariable} else {
-
-iterationtable_Model2<-
-  iterationtable(
-  subsetdatamatrix,
-  ortho_pre_vs=0,
-  ortho_post_vs=0,
-  class=classordered, 
-  pcorrselectionsvector=c(seq(0.01,0.9,by=0.02)),
-  no_permutations_post_vs=no_permutations_post_vs,
-  variable_selection_using_VIP=variable_selection_using_VIP
-) 
-}
-short_iterationtable_Model2 <- subset(iterationtable_Model2,!duplicated(iterationtable_Model2$"no. variables")&!is.na(iterationtable_Model2$"no. variables"))
-
-kable(short_iterationtable_Model2, row.names = T) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
-```
 
 ##Best performing model using p(corr) cutoff corresponding to userset pvalue cutoff for correlation
 ###Model description
@@ -1268,6 +1244,46 @@ kable(percentage_and_pvalue_perm_Model4, row.names = T) %>%
 
 plotpermutationswithoriginalmodelandreg(permutated_models_Model4, subsetdatamatrix, ortho_pre_vs, ortho_post_vs,class=classordered,pcorr,variable_selection_using_VIP)
 
+```
+#Iteration table
+##Create iteration table continuously increasing p(corr) during variable selection and adding orthogonals only if it increases Q2 1% in the model (i.e. not concidering the total amount of orthogonals pre and post)
+
+```{R iteration table}
+testvariablename <- "iterationtable"
+testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
+if (!is.null(testvariable)){iterationtable <- testvariable} else {
+
+iterationtable<-
+  iterationtable(
+  subsetdatamatrix,
+  ortho_pre_vs=0,
+  ortho_post_vs=0,
+  class=classordered, 
+  pcorrselectionsvector=c(seq(0.01,0.9,by=0.02)),
+  no_permutations_post_vs=no_permutations_post_vs,
+  variable_selection_using_VIP=variable_selection_using_VIP
+) 
+}
+short_iterationtable <- subset(iterationtable,!duplicated(iterationtable$"no. variables")&!is.na(iterationtable$"no. variables"))
+
+short_iterationtable$"diff R2Y(cum)-Q2(cum)" <- short_iterationtable$`R2Y(cum)`- short_iterationtable$`Q2(cum)`
+
+kable(short_iterationtable, row.names = T) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+
+best_performing_iteration_model_few_variables <-
+    selecting_model_with_diff_less_than_02_max_Q2_low_pperm_and_high_pcorr_few_variables(
+    short_iterationtable,
+    prefered_pR2_and_pQ2_permutated_post_vs, pcorr_diff)
+
+
+```
+##Best performing iteration model
+
+```{R}
+
+kable(best_performing_iteration_model_few_variables, row.names = T) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
 
 
 save.image(directory_and_filename_rdata)
