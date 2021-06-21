@@ -1,15 +1,15 @@
-#version12
-#Load configurations
-
-source(paste(analysis_folder_name,"/Ropls_with_permutated_variable_selection_Configure_Advanced.R",sep=""))
-if (file.exists(paste(analysis_folder_name,"/",list.files(paste(getwd(),"/",analysis_folder_name,sep=""), pattern="\\Get_Started.R"),sep=""))) {
-  source(paste(analysis_folder_name,"/",list.files(paste(getwd(),"/",analysis_folder_name,sep=""), pattern="\\Get_Started.R"),sep=""))} else {
-    source(paste(analysis_folder_name,"/",list.files(paste(getwd(),"/",analysis_folder_name,sep=""), pattern="\\Get_Started_example_data.R"),sep=""))}
+#version13
+#Load configurations advanced
+setwd(directory_of_analysis)
+if (file.exists(paste(list.files(directory_of_analysis, pattern="\\Advanced.R")),sep="")) {
+source(paste(filename_Configure_Advanced,sep=""))} else {
+  source(paste(directory_of_Ropls_with_permutated_variable_selection,"/Ropls_with_permutated_variable_selection_Configure_Advanced.R",sep=""))  
+}
 
 #Read directories of Function files and Rmarkdown files
 
-directory_Rmarkdownfiles <- paste(directory_of_Ropls_with_permutated_variable_selection,"/","Ropls-with-permutated-variable-selection","/",foldername_Rmarkdownfiles,"/",sep="") # "path of directory/filename"
-directory_function_file <- paste(directory_of_Ropls_with_permutated_variable_selection,"/","Ropls-with-permutated-variable-selection","/",foldername_function_file,"/", sep="")
+directory_Rmarkdownfiles <- paste(directory_of_Ropls_with_permutated_variable_selection,"/",foldername_Rmarkdownfiles,"/",sep="") # "path of directory/filename"
+directory_function_file <- paste(directory_of_Ropls_with_permutated_variable_selection,"/",foldername_function_file,"/", sep="")
 foldername_model_table_to_analyse <- foldername_output_reports #model_table_to_analyse will be saved in this folder.
 directory_model_table_to_analyse <- paste(directory_of_analysis,"/",foldername_model_table_to_analyse,"/",sep="")
 
@@ -20,8 +20,7 @@ source(directory_and_filename_function_file)
 
 #Create directories.
 makeproject(directory_of_analysis)
-
-
+if (length(dir("data_to_R_analysis")) ==0) {directory_input_matrix_sampleID <- paste(directory_of_Ropls_with_permutated_variable_selection,"/","data_to_R_analysis",sep="")}
 #Reorder groups to have deseased first if nessasary
 setwd(directory_input_matrix_sampleID)
 file_sampleID <- read.table(filename_sampleID,header=T, dec = ".", row.names=1, check.names = FALSE, na.strings=c("", "NA", "Inf",""), sep="\t")
@@ -34,9 +33,6 @@ order_of_groups_numeric <- match(levels_of_groups,reordered_levels_of_groups)
 #Create or load model table to analyse containing the comparisons to be modeled.
 filename_model_table_to_analyse <- "model_table_to_analyse.txt"
 model_table_to_analyse <- create_or_load_Model_table_to_analyze() # Checks if model_table_to_analyse exist and loads or creats it in the folder foldername_model_table_to_analyse
-model_table_to_analyse #check which models should be included in analysis
-model_table_to_analyse <- select_models_to_run(model_table_to_analyse, models_to_run)
-
 
 #Send data to Rmarkdown file to create html files and lists of loadings
 
