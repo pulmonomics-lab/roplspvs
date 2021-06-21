@@ -1801,6 +1801,10 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
      write.table(model_table_to_analyse_reordered, paste("reordered",filename_model_table_to_analyse,sep="_"), row.names=T,quote=F,sep="\t")
      model_table_to_analyse<-model_table_to_analyse_reordered
    }
+   if (models_to_run!="all") {
+   model_table_to_analyse <- select_models_to_run(model_table_to_analyse, models_to_run)
+   write.table(model_table_to_analyse, paste("selected",filename_model_table_to_analyse,sep="_"), row.names=T,quote=F,sep="\t")
+   }
    model_table_to_analyse
  }
  
