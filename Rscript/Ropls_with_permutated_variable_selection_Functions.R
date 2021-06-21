@@ -413,35 +413,35 @@ sinkout <- function() {
         widthsize <- 60
         lineheight <- 0.7
         message("more than 40 variables, no overlap")}} else {
-          if(length(rownames(pcorrplot))>30) {
+          if(length(rownames(pcorrplot))>20) {
             if (max(nchar(rownames(pcorrplot[1])))>60) {
               fontsize <- 6
               widthsize <- 60
               lineheight <- 0.7
-              message("30-40 variables, overlap")} else {
+              message("20-40 variables, overlap")} else {
                 fontsize <- 8
                 widthsize <- 45
                 lineheight <- 0.7
-                message("30-40 variables, no overlap")}} else { 
+                message("20-40 variables, no overlap")}} else { 
                   if(length(rownames(pcorrplot))>20) {
                     if (max(nchar(rownames(pcorrplot[1])))>45) {
                       fontsize <- 8
                       widthsize <- 45
                       lineheight <- 0.7
-                      message("20-30 variables, overlap")} else {
+                      message("20-20 variables, overlap")} else {
                         fontsize <- 10
                         widthsize <- 30
-                        lineheight <- 1
-                        message("20-30 variables, no overlap")}} else { 
+                        lineheight <- 0.7
+                        message("20-20 variables, no overlap")}} else { 
                           if(length(rownames(pcorrplot))>10) {
                             if (max(nchar(rownames(pcorrplot[1])))>30) {
                               fontsize <- 10
                               widthsize <- 30
-                              lineheight <- 1
+                              lineheight <- 0.7
                               message("10-20 variables, overlap")} else {
                                 fontsize <- 12
                                 widthsize <- 25
-                                lineheight <- 1
+                                lineheight <- 0.7
                                 message("10-20 variables, no overlap")    
                               }} else {
                                 if (max(nchar(rownames(pcorrplot[1])))>25) {
@@ -458,7 +458,7 @@ sinkout <- function() {
     pB1 <- ggplot(pcorrplot, aes(x=reorder(row.names(pcorrplot),-pcorrplot$pcorrlistaftervs),y=pcorrplot$pcorrlistaftervs))
     pB2 <- pB1 +geom_col()
     pB3 <- pB2 + theme(axis.text.x = element_text(angle = 90, size=fontsize, lineheight=lineheight,hjust=1,vjust=0.5), text=element_text(size=15), axis.text=element_text(size=15))
-    pB4 <- pB3 + labs(y="p(corr)", x=element_blank(),title="Loadingplot")
+    pB4 <- pB3 + labs(y="p(corr)", x=element_blank(),title="P(corr) plot")
     pB5 <- pB4 + scale_x_discrete(labels = function(x) str_wrap(x, width = widthsize))
     pB6 <- pB5 + ylim(-1,1)
     if (nrow(pcorrplot)>50) {pB7 <- pB6 + theme(axis.text.x = element_blank())
@@ -544,7 +544,7 @@ sinkout <- function() {
     pB1 <- ggplot(pcorrplot, aes(x=reorder(row.names(pcorrplot),-pcorrplot$pcorrlistaftervs),y=pcorrplot$pcorrlistaftervs))
     pB2 <- pB1 +geom_col()
     pB3 <- pB2 + theme(axis.text.x = element_text(angle = 90, size=fontsize, lineheight=lineheight,hjust=1,vjust=0.5), text=element_text(size=15), axis.text=element_text(size=15))
-    pB4 <- pB3 + labs(y="p(corr)", x=element_blank(),title="Loadingplot of 50 most contributing variables")
+    pB4 <- pB3 + labs(y="p(corr)", x=element_blank(),title="P(corr) plot of 50 most contributing variables")
     pB5 <- pB4 + scale_x_discrete(labels = function(x) str_wrap(x, width = widthsize))
     pB6 <- pB5 + ylim(-1,1)
     pB6
@@ -559,10 +559,10 @@ sinkout <- function() {
   fontsize <- 15/4 + 15*(15/nrow(scoresropls)*3/4)
   if (fontsize>15) {fontsize <- 15}
   
-  pC1 <-  ggplot(scoresropls, aes(x=row.names(scoresropls),y=scoresropls$p1, color=subsetsampleID[,paste(colname_groupID)]))
+  pC1 <-  ggplot(scoresropls, aes(x=row.names(scoresropls),y=scoresropls$p1, color=classordered))
   pC2 <- pC1 + geom_point() 
   pC3 <- pC2 + theme(axis.text.x = element_text(angle = 90, size=fontsize))
-  pC4 <- pC3 + labs(y="scores (t)", x="subject id",title="Scoreplot")
+  pC4 <- pC3 + labs(y="scores (t)", x="subject id",title="Predictive scores")
   pC5 <- pC4 + theme(legend.title = element_blank(), legend.justification = "top", text=element_text(size=15), axis.text=element_text(size=15))
   pC6 <- pC5 + scale_colour_manual(values=c("#0072B2","#D55E00"))
   pC7 <- pC6 + guides(col = guide_legend(reverse = TRUE))
@@ -586,16 +586,24 @@ sinkout <- function() {
     pC7
   }
   
+
   plotboxplot <- function(model){
     scoresropls <- as.data.frame(model$scoreofvariablesaftervs)
+    df <- cbind((subsetsampleID[,paste(colname_groupID)]),as.data.frame(scoresropls$p1))
+    colnames(df) <- c("sampleID","scores")
+    df$sampleID <- as.character(df$sampleID)
+    pwc <- df %>% t_test(scores ~ sampleID)
+    pwc <- pwc %>% add_xy_position(x = "sampleID", step.increase = 0.2)
+    pwc <- pwc %>% add_y_position(step.increase = 0.2)
+    pwc$p<-formatC(signif(pwc$p,digits=1), digits=1,format="g")
     
     fontsize <- 15
     
-    pC1 <-  ggplot(scoresropls, aes(x=subsetsampleID[,paste(colname_groupID)],y=scoresropls$p1, fill=subsetsampleID[,paste(colname_groupID)]))
-    pC2 <- pC1 + geom_boxplot() 
-    pC3 <- pC2 + theme(axis.text.x = element_text(size=fontsize))
-    pC4 <- pC3 + labs(y="scores (t)", x="group belonging",title="Boxplot of scores")
-    pC5 <- pC4 + theme(legend.position = "none",  text=element_text(size=15), axis.text=element_text(size=15))
+    pC1 <- ggboxplot(df, x="sampleID" ,y="scores", fill="sampleID", order=levels(classordered)) 
+    pC2 <- pC1 + theme(axis.text.x = element_text(size=fontsize))
+    pC3 <- pC2 + labs(y="scores (t)", x=NULL,title="Predictive scores")
+    pC4 <- pC3 + theme(legend.position = "none",  text=element_text(size=15), axis.text=element_text(size=15))
+    pC5 <- pC4 + stat_pvalue_manual(pwc, label = "p = {p}", hide.ns = F, label.size = 4, bracket.size = 0.5)
     pC6 <- pC5 + geom_jitter(aes(fill=subsetsampleID[,paste(colname_groupID)]),width=0.2,shape=21, color="black",size=2, alpha=0.9)
     pC7 <- pC6 + scale_fill_manual(values=c("#0072B2","#D55E00"))
     pC7
