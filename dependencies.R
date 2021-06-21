@@ -16,6 +16,8 @@ install.packages("stringr")
 install.packages("tryCatchLog")
 install.packages("devtools")
 install.packages("DescTools")
-
-
+install.packages("here")
+install.packages("precrec")
+install.packages("pROC")
+install.packages("rstatix")
 

@@ -69,6 +69,10 @@ library("matrixStats")
 library(stringr)
 library(tryCatchLog)
 library(DescTools)
+library(precrec)
+library(pROC)
+library(rstatix)
+
 ```
 
 ```{r echo=FALSE}
@@ -726,6 +730,25 @@ plotpermutationswithoriginalmodelandreg(permutated_models_Model2, subsetdatamatr
 ```
 
 
+### ROC curve
+Confidence intervals through 2000 stratified bootstrap replicates
+
+```{R}
+
+pROC_Model2 <- roc(classordered,result_Model2$scoreofvariablesaftervs[,1],
+                smoothed = TRUE,
+                ci=TRUE, stratified=T,
+                plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
+                print.auc=TRUE, show.thres=T)
+sens.ci <- ci.se(pROC_Model2)
+plot(sens.ci, type="shape", col="lightblue")
+
+data_to_evalmod <- mmdata(scores=result_Model2$scoreofvariablesaftervs, labels=classordered)
+precrec_Model2 <- evalmod(data_to_evalmod, mode="basic")
+autoplot(precrec_Model2) 
+
+```
+
 # Model 3. Model with variable using p(corr) cutoff giving best performing model and less than userset p-value cutoff for pearson correlation 
 
 Selecting model with variable selection using p(corr) which gives model with high Q2, low difference between R2 and Q2, low p-value for Q2 and corresponding to p-value for pearson correlation less than `r p_pearson_of_pcorr_cutoff`
@@ -990,6 +1013,25 @@ plotpermutationswithoriginalmodelandreg(permutated_models_Model3, subsetdatamatr
 
 ```
 
+### ROC curve
+Confidence intervals through 2000 stratified bootstrap replicates
+
+```{R}
+
+pROC_Model3 <- roc(classordered,result_Model3$scoreofvariablesaftervs[,1],
+                smoothed = TRUE,
+                ci=TRUE, stratified=T,
+                plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
+                print.auc=TRUE, show.thres=T)
+sens.ci <- ci.se(pROC_Model3)
+plot(sens.ci, type="shape", col="lightblue")
+
+data_to_evalmod <- mmdata(scores=result_Model3$scoreofvariablesaftervs, labels=classordered)
+precrec_Model3 <- evalmod(data_to_evalmod, mode="basic")
+autoplot(precrec_Model3) 
+
+```
+
 # Model 4. Model with p(corr) cutoff giving best performing model and corresponding to p-value for pearson correlation less than userset value and using minimal amount of variables
 
 Model with variable selection using p(corr) corresponding to p-value less than `r p_pearson_of_pcorr_cutoff` which gives model with high Q2, low difference between R2 and Q2, low pQ2 post variable selection and using minimal amount of variables
@@ -1246,15 +1288,34 @@ plotpermutationswithoriginalmodelandreg(permutated_models_Model4, subsetdatamatr
 
 ```
 
-# Iteration table
+### ROC curve
+Confidence intervals through 2000 stratified bootstrap replicates
+
+```{R}
+
+pROC_Model4 <- roc(classordered,result_Model4$scoreofvariablesaftervs[,1],
+                smoothed = TRUE,
+                ci=TRUE, stratified=T,
+                plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
+                print.auc=TRUE, show.thres=T)
+sens.ci <- ci.se(pROC_Model4)
+plot(sens.ci, type="shape", col="lightblue")
+
+data_to_evalmod <- mmdata(scores=result_Model4$scoreofvariablesaftervs, labels=classordered)
+precrec_Model4 <- evalmod(data_to_evalmod, mode="basic")
+autoplot(precrec_Model4) 
+
+```
+
+# Iteration Model
 ## Create iteration table continuously increasing p(corr) during variable selection and adding orthogonals only if it increases Q2 1% in the model (i.e. not concidering the total amount of orthogonals pre and post)
 
 ```{R iteration table}
-testvariablename <- "iterationtable"
+testvariablename <- "iterationsummary"
 testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
-if (!is.null(testvariable)){iterationtable <- testvariable} else {
+if (!is.null(testvariable)){iterationsummary <- testvariable} else {
 
-iterationtable<-
+iterationsummary<-
   iterationtable(
   subsetdatamatrix,
   ortho_pre_vs=0,
