@@ -268,24 +268,28 @@ percentofsignmodel <- format(percentofsignmodel, digits=0)
 ## Table of models for each comparison
 
 
-```{r each comprison models, echo=FALSE, results='asis'}
+```{r each comprison models, echo=FALSE, results='asis', include=TRUE}
 
 list_of_table_of_each_comparison <- create_table_each_comparison_first_invstigated_pcorr_by_pvalue_and_Q2max_with_pvalue(directory_output_reports, projectname, date_of_analysis)
 
 for (i in 1:length(list_of_table_of_each_comparison)) {
+
 list_of_table_of_each_comparison_df <-  as.data.frame(list_of_table_of_each_comparison[[i]], check.names=FALSE)
 row.names(list_of_table_of_each_comparison_df) <- c("Model 1","Model 2","Model 3","Model 4")
  colnames(list_of_table_of_each_comparison_df)[c(6,7,8,14,15,16)] <- c("pcorr cutoff","ortho pre vs","no variables","ortho post vs","pR2Y permutated post vs","pQ2 permutated post vs")  
 list_of_table_of_each_comparison_dftokable <- list_of_table_of_each_comparison_df
 list_of_table_of_each_comparison_dftokable[,c(17,18,19,20)] <- format(list_of_table_of_each_comparison_df[,c(17,18,19,20)], digits=2)
 list_of_table_of_each_comparison_dftokable[,c(21,22)] <- format(list_of_table_of_each_comparison_df[,c(21,22)], scientific=TRUE, digits=2)
-print(kable(list_of_table_of_each_comparison_dftokable) %>%
-  kable_styling(bootstrap_options = "striped"))
-  cat('\n')
+list_of_table_of_each_comparison_df %>%
+  kable() %>%
+  kable_styling("striped") %>% 
+  htmltools::HTML() %>% 
+  print
+cat("\n") 
   
 }
-
 ```
+
 
 ## Table of loadings for models with p(corr) corresponding to p[Pearson] `r p_pearson_of_pcorr_cutoff` 
 
