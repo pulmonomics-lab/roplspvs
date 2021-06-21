@@ -570,7 +570,7 @@ sinkout <- function() {
   pC8} else {
     pC7}
   }
-  
+
   plotrawdata <- function(variablename, Rdataname, dirRdata){
     load(paste(dirRdata,"/",Rdataname, sep=""))
     fontsize <- 15/4 + 15*(15/nrow(subsetdatamatrix)*3/4)
