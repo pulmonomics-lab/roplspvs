@@ -1265,6 +1265,7 @@ iterationtable<-
   variable_selection_using_VIP=variable_selection_using_VIP
 ) 
 }
+iterationtable <- iterationsummary[[1]]
 short_iterationtable <- subset(iterationtable,!duplicated(iterationtable$"no. variables")&!is.na(iterationtable$"no. variables"))
 
 short_iterationtable$"diff R2Y(cum)-Q2(cum)" <- short_iterationtable$`R2Y(cum)`- short_iterationtable$`Q2(cum)`
@@ -1280,12 +1281,60 @@ best_performing_iteration_model_few_variables <-
 
 ```
 ## Best performing iteration model
-
+### Model statistics
 ```{R}
 
 kable(best_performing_iteration_model_few_variables, row.names = T) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
+iterationpcorrlist <- iterationsummary[[2]][[as.numeric(gsub("model ","",row.names(best_performing_iteration_model_few_variables)))]]
+
+iterationmodel <- opls(subsetdatamatrix[,rownames(iterationpcorrlist)], y=classordered, predI = 1, orthoI = best_performing_iteration_model_few_variables$`ortho post v.s.`, scaleC="standard",info.txtC="none",fig.pdfC="none",permI=no_permutations_post_vs_selected_models)
+result_iterationmodel <- list()
+result_iterationmodel$pcorrlistaftervs <- iterationpcorrlist
+result_iterationmodel$aftervsdata.oplsda <- iterationmodel
+result_iterationmodel$scoreofvariablesaftervs <- getScoreMN(iterationmodel)
+ortho_post_vs <- best_performing_iteration_model_few_variables$`ortho post v.s.`
+```
+### Score plots
+
+```{R plot score iterationmodel}
+
+if (ortho_post_vs>0) {
+       plot(result_iterationmodel$aftervsdata.oplsda, typeVc= c("x-score"))
+     }
+
+plotscore(result_iterationmodel)
+
+plotboxplot(result_iterationmodel)
+
+```
+
+### Loading plots
+
+```{R plot loading iterationmodel}
+
+if (ortho_post_vs>0) {
+       plot(result_iterationmodel$aftervsdata.oplsda, typeVc= c("x-loading"))
+}
+
+plotpcorr(result_iterationmodel, variable_names_length, variable_names_position)
+
+if (length(result_iterationmodel$pcorrlistaftervs$pcorrlistaftervs)>=50) {
+  plotpcorronly50variables(result_iterationmodel, variable_names_length, variable_names_position)
+}
+
+```
+
+### Permutation after variable selection
+
+```{R plot perm post vs iterationmodel}
+
+plot(result_iterationmodel$aftervsdata.oplsda, typeVc= c("permutation"))
+
+```
+
+```{R}
 
 save.image(directory_and_filename_rdata)
 

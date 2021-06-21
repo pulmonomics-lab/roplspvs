@@ -613,9 +613,12 @@ sinkout <- function() {
  
   iterationtable <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorrselectionsvector, no_permutations_post_vs, variable_selection_using_VIP){
   iterationtable <- data.frame()
+  iterationpcorrlist <- list()
+  iterationsummary <- list()
   iterationmatrix <- subsetdatamatrix
+  iterationno <- 0
     for (i in pcorrselectionsvector){
- 
+      iterationno <- iterationno +1
       iterationi <- opls_model_with_variable_selection_trycatch(iterationmatrix, ortho_pre_vs=NA,ortho_post_vs=NA,class, pcorr=i, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP=variable_selection_using_VIP)
       if (is.na(iterationi$resultaftervs$`no. variables`)){
         iterationi <- opls_model_with_variable_selection_trycatch(iterationmatrix, ortho_pre_vs=ortho_pre_vs,ortho_post_vs=NA,class, pcorr=i, no_permutations_post_vs=no_permutations_post_vs, variable_selection_using_VIP=variable_selection_using_VIP)}
@@ -625,9 +628,12 @@ sinkout <- function() {
       iterationmatrix <- iterationmatrix[,rownames(iterationi$loadingroplsaftervs)]
  
     iterationtable <- rbind(iterationtable, iterationi$resultaftervs)
+    iterationpcorrlist[[iterationno]] <- iterationi$pcorrlistaftervs
     }
   row.names(iterationtable) <- c(paste("model",1:nrow(iterationtable)))
- iterationtable
+ iterationsummary[[1]] <- iterationtable
+ iterationsummary[[2]] <- iterationpcorrlist
+ iterationsummary
   }
 
   #   ____________________________________________________________________________
