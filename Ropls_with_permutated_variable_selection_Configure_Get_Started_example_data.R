@@ -29,14 +29,6 @@ p_pearson_of_pcorr_cutoff <- 0.05 # P-value for p(corr) cutoff during variable s
 
 ## Running models
 setseedfirstmodel <- 200 #Numeric. Setseed of the first model. Second model will have setseedfirstmodel+1 etc.
-order_of_groups_names <- c("E+P","E-only","Nonuser") # character vector containing correct order of group names or enter "correct". Deseased first and controls last in order to get direction of models with high score in diseased.
+order_of_groups <- c("E+P","E-only","Nonuser") # Character vector or numeric vector containing correct order of groups to compare or enter "correct" if order of levels in colname_groupID is already correct. Deseased first and controls last. This will define direction of scores as high in diseased.
 models_to_run <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,23) # numeric vector indicating models to run if all models are to be run enter "all"
-filename_Configure_Advanced <- "Ropls_with_permutated_variable_selection_Configure_Advanced.R"
-filename_run_file <- "Ropls_with_permutated_variable_selection_Run.R"
 
-## Paths of directories
-directory_of_Ropls_with_permutated_variable_selection <- "C:/Users/Marika/OneDrive - KI.SE/Documents/ropls_Rscript/Ropls-with-permutated-variable-selection" #Directory of the Ropls_with_permutated_variable_selection repository
-directory_of_analysis <-  getwd() #directory where outputR with results will be created.
-
-## Runs runfile
-source(paste(directory_of_Ropls_with_permutated_variable_selection,"/", filename_run_file, sep=""))

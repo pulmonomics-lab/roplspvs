@@ -76,10 +76,10 @@ Permutations post variable selection in selected models: `r no_permutations_post
 
 Missing value tolerance in each group: `r filter_percent_in_each_group`
 
-## Model 1. Models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection
+## Model strategy 1. Models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection
 
 
-```{r Model 1, echo=FALSE}
+```{r Model strategy 1, echo=FALSE}
 
 summary_Model1_table <- create_table_of_models(resultmodelname="result_Model1", permutated_modelsname="permutated_models_Model1", percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name = "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1",directory_output_reports,projectname,date_of_analysis)
 order_of_models <- 0
@@ -106,7 +106,7 @@ pQ2: `r meanofQ2`
 
 
 
-# Model 1. Models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection. 
+# Model strategy 1. Signigicant models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection. 
 Showing only significant models (p(Q2_perm_pre_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
 
 ```{r, echo=FALSE}
@@ -124,10 +124,10 @@ percentofsignmodel <- format(percentofsignmodel, digits=0)
 ```
 `r percentofsignmodel`% of models were significant.
 
-#Model 2. Model with p(corr) cutoff corresponding to userset pvalue cutoff for pearson correlation `r p_pearson_of_pcorr_cutoff`
+#Model strategy 2. Models with p(corr) cutoff corresponding to userset pvalue cutoff for pearson correlation `r p_pearson_of_pcorr_cutoff`
 
 
-```{r Final models, echo=FALSE}
+```{r Model strategy 2, echo=FALSE}
 
 summary_Model2_table <- create_table_of_models(resultmodelname="result_Model2", permutated_modelsname="permutated_models_Model2", percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name = "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2",directory_output_reports,projectname,date_of_analysis)
 if (groupsnumeric == "yes"){
@@ -149,7 +149,7 @@ pR2Y: `r meanofR2`
 pQ2: `r meanofQ2`
 
 
-#Model 2. Model with p(corr) cutoff corresponding to userset pvalue cutoff for pearson correlation `r p_pearson_of_pcorr_cutoff` 
+#Model strategy 2. Significant models with p(corr) cutoff corresponding to userset pvalue cutoff for pearson correlation `r p_pearson_of_pcorr_cutoff` 
 showing only significant models (p(Q2_perm_pre_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
 
 
@@ -171,10 +171,10 @@ percentofsignmodel <- format(percentofsignmodel, digits=0)
 `r percentofsignmodel`% of models were significant.
 
 
-#Model 3. Model with variable using p(corr) cutoff giving best performing model and less than userset p-value cutoff for pearson correlation 
+#Model strategy 3. Model with p(corr) cutoff giving best performing model and less than userset p-value cutoff for pearson correlation 
 
 
-```{r model with highest Q2 and correspond to at least p[Pearson] 0.05, echo=FALSE}
+```{r Model strategy 3, echo=FALSE}
 
 summary_Model3_table <- create_table_of_models(resultmodelname="result_Model3", permutated_modelsname="permutated_models_Model3", percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name = "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3",directory_output_reports,projectname,date_of_analysis)
 if (groupsnumeric == "yes"){
@@ -196,7 +196,7 @@ pR2Y: `r meanofR2`
 pQ2: `r meanofQ2`
 
 
-#Model 3. Model with variable using p(corr) cutoff giving best performing model and less than userset p-value cutoff for pearson correlation 
+#Model strategy 3. Significant models with p(corr) cutoff giving best performing model and less than userset p-value cutoff for pearson correlation 
 showing only significant models (p(Q2_perm_pre_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
 
 
@@ -218,10 +218,10 @@ percentofsignmodel <- format(percentofsignmodel, digits=0)
 `r percentofsignmodel`% of models were significant.
 
 
-#Model 4. Model with p(corr) cutoff giving best performing model and corresponding to p-value for pearson correlation less than userset value and using minimal amount of variables
+#Model strategy 4. Models with p(corr) cutoff giving best performing model and corresponding to p-value for pearson correlation less than userset value and using minimal amount of variables
 
 
-```{r model with highest Q2 and correspond to at least p[Pearson] 0.05 using few variables, echo=FALSE}
+```{r Model strategy 4, echo=FALSE}
 
 summary_Model4_table <- create_table_of_models(resultmodelname="result_Model4", permutated_modelsname="permutated_models_Model4", percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name = "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4",directory_output_reports,projectname,date_of_analysis)
 if (groupsnumeric == "yes"){
@@ -243,7 +243,7 @@ pR2Y: `r meanofR2`
 pQ2: `r meanofQ2`
 
 
-#Model 4. Model with p(corr) cutoff giving best performing model and corresponding to p-value for pearson correlation less than userset value and using minimal amount of variables
+#Model strategy 4. Significant models with p(corr) cutoff giving best performing model and corresponding to p-value for pearson correlation less than userset value and using minimal amount of variables
 showing only significant models (p(Q2_perm_pre_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
 
 
@@ -264,8 +264,49 @@ percentofsignmodel <- format(percentofsignmodel, digits=0)
 ```
 `r percentofsignmodel`% of models were significant.
 
+#Model strategy 5. Iteration models removing variables with lowest p(corr) iteratively
+
+
+```{r model strategy 5, echo=FALSE}
+
+summary_Model5_table <- create_table_of_models_iterations(directory_output_reports,projectname,date_of_analysis)
+if (groupsnumeric == "yes"){
+ summary_Model5_table <- summary_Model5_table[order_of_models,]
+}
+summary_Model5_tabletokable <- summary_Model5_table
+
+kable(summary_Model5_tabletokable, row.names = FALSE) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+```
+
+
+
+#Model strategy 5. Significant Iteration models removing variables with lowest p(corr) iteratively
+showing only significant models (p(Q2_perm_post_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
+Be aware that iteration models have not been permutated pre variable selection
+
+
+```{r, echo=FALSE}
+
+summary_Model5_tablesignificant <- subset(summary_Model5_table,summary_Model5_table$`pQ2 permutated post v.s.`<=0.05 & summary_Model5_table$`R2Y(cum)`>=0.5 & summary_Model5_table$`Q2(cum)`>=0.4)
+summary_Model5_tablesignificanttokable <- summary_Model5_tablesignificant
+
+kable(summary_Model5_tablesignificanttokable, row.names = FALSE) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+percentofsignmodel <- nrow(summary_Model5_tablesignificant)/nrow(summary_Model5_table)*100
+percentofsignmodel <- format(percentofsignmodel, digits=0)
+
+
+
+```
+`r percentofsignmodel`% of models were significant.
+
+
 
 ## Table of models for each comparison
+same models as above but sorted by comparison
 
 
 ```{r each comprison models, echo=FALSE, results='asis', include=TRUE}
@@ -275,12 +316,12 @@ list_of_table_of_each_comparison <- create_table_each_comparison_first_invstigat
 for (i in 1:length(list_of_table_of_each_comparison)) {
 
 list_of_table_of_each_comparison_df <-  as.data.frame(list_of_table_of_each_comparison[[i]], check.names=FALSE)
-row.names(list_of_table_of_each_comparison_df) <- c("Model 1","Model 2","Model 3","Model 4")
+row.names(list_of_table_of_each_comparison_df) <- c("Model strategy 1","Model strategy 2","Model strategy 3","Model strategy 4", "Iteration model")
  colnames(list_of_table_of_each_comparison_df)[c(6,7,8,14,15,16)] <- c("pcorr cutoff","ortho pre vs","no variables","ortho post vs","pR2Y permutated post vs","pQ2 permutated post vs")  
 list_of_table_of_each_comparison_dftokable <- list_of_table_of_each_comparison_df
 list_of_table_of_each_comparison_dftokable[,c(17,18,19,20)] <- format(list_of_table_of_each_comparison_df[,c(17,18,19,20)], digits=2)
 list_of_table_of_each_comparison_dftokable[,c(21,22)] <- format(list_of_table_of_each_comparison_df[,c(21,22)], scientific=TRUE, digits=2)
-list_of_table_of_each_comparison_df %>%
+list_of_table_of_each_comparison_dftokable %>%
   kable() %>%
   kable_styling("striped") %>% 
   htmltools::HTML() %>% 
@@ -291,38 +332,53 @@ cat("\n")
 ```
 
 
-## Table of loadings for models with p(corr) corresponding to p[Pearson] `r p_pearson_of_pcorr_cutoff` 
+## Table of loadings Model strategy 2
+with p(corr) corresponding to p[Pearson] `r p_pearson_of_pcorr_cutoff` 
 
-```{r table of loadings pcorrcutoff with pvalue 005}
+```{r table of loadings Model strategy 2}
 setwd(directory_output_reports)
 summarypcorrlist_Model2 <- create_table_of_loadings_with_pcorr(resultmodelname="result_Model2", directory_output_reports=directory_output_reports, projectname, date_of_analysis,groupsnumeric, order_of_models)
-write.table(summarypcorrlist_Model2,paste("Summary", projectname, date_of_analysis,"pcorr_list_model_with_pcorr_cutoff_at_ppearson.txt",sep="_"),row.names=F,quote=F,sep="\t")
+write.table(summarypcorrlist_Model2,paste("Summary", projectname, date_of_analysis,"pcorr_list_Model_strategy_2_with_pcorr_cutoff_at_ppearson.txt",sep="_"),row.names=F,quote=F,sep="\t")
 
 kable(summarypcorrlist_Model2, digits = 3 ,row.names=FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
 
 ```
-## Table of loadings for models using p(corr) that give best performing models with high Q2 and correspond to at least p[Pearson] `r p_pearson_of_pcorr_cutoff` 
+## Table of loadings Model strategy 3
+using p(corr) that give best performing models with high Q2 and correspond to at least p[Pearson] `r p_pearson_of_pcorr_cutoff` 
 
-```{r table of loadings pcorrcutoff with highest Q2 and with pvalue 005}
+```{r table of loadings Model strategy 3}
 summarypcorrlist_Model3 <- create_table_of_loadings_with_pcorr(resultmodelname="result_Model3", directory_output_reports = directory_output_reports, projectname, date_of_analysis, groupsnumeric,order_of_models)
-write.table(summarypcorrlist_Model3,paste("Summary",projectname, date_of_analysis,"pcorr_list_model_with_pcorr_cutoff_highestQ2_and_less_than_ppearson.txt",sep="_"),row.names=F,quote=F,sep="\t")
+write.table(summarypcorrlist_Model3,paste("Summary",projectname, date_of_analysis,"pcorr_list_Model_strategy_3_with_highestQ2.txt",sep="_"),row.names=F,quote=F,sep="\t")
 
 kable(summarypcorrlist_Model3, digits = 3, row.names=FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
 
 ```
-## Table of loadings for models using p(corr) that give best performing models with high Q2 and correspond to at least p[Pearson] `r p_pearson_of_pcorr_cutoff` using few variables
+## Table of loadings Model strategy 4
+using p(corr) that give best performing models with high Q2 and correspond to at least p[Pearson] `r p_pearson_of_pcorr_cutoff` using few variables
 
-```{r table of loadings pcorrcutoff with highest Q2 and with pvalue 005 using few variables}
+```{r table of loadings Model strategy 4}
 summarypcorrlistmodel_Model4 <- create_table_of_loadings_with_pcorr(resultmodelname="result_Model4", directory_output_reports = directory_output_reports, projectname, date_of_analysis, groupsnumeric,order_of_models)
-write.table(summarypcorrlistmodel_Model4,paste("Summary",projectname, date_of_analysis,"pcorr_list_model_with_pcorr_cutoff_highestQ2_and_less_than_ppearson_and_few_variables.txt",sep="_"),row.names=F,quote=F,sep="\t")
+write.table(summarypcorrlistmodel_Model4,paste("Summary",projectname, date_of_analysis,"pcorr_list_Model_strategy_4_with_pcorr_cutoff_highestQ2_and_less_than_ppearson_and_few_variables.txt",sep="_"),row.names=F,quote=F,sep="\t")
 
 kable(summarypcorrlistmodel_Model4, digits = 3, row.names=FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
+```
+## Table of loadings Model strategy 5
+iteration model using few variables
 
+```{r table of loadings iteration model}
+summarypcorrlistmodel_Model5 <- create_table_of_loadings_with_pcorr(resultmodelname="result_iterationmodel", directory_output_reports = directory_output_reports, projectname, date_of_analysis, groupsnumeric,order_of_models)
+write.table(summarypcorrlistmodel_Model5,paste("Summary",projectname, date_of_analysis,"pcorr_list_Model_strategy_5_iterationmodel.txt",sep="_"),row.names=F,quote=F,sep="\t")
+
+kable(summarypcorrlistmodel_Model5, digits = 3, row.names=FALSE) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+
+save(list = ls(all.names = TRUE), file = paste(directory_output_reports,"/", "Summary_",projectname, "_",date_of_analysis,".Rdata", sep=""), envir = environment())
 ```
 

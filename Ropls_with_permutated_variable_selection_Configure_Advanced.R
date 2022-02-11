@@ -2,11 +2,11 @@
 # Set Advanced parameter settings
 ## Foldernames
 foldername_Rmarkdownfiles <- "Rscript" #"foldername". This is the folder for the scripts .R and .rmd files.
-foldername_of_input_matrix_and_sampleID <- "data_to_R_analysis" #"foldername" Folder is automatically created if it does not excist. This is the folder for datamatrix and sampleID files
+foldername_of_input_matrix_and_sampleID <- "data" #"foldername" Folder is automatically created if it does not excist. This is the folder for datamatrix and sampleID files
 foldername_output_reports <- "outputR" # "foldername"  Folder is automatically created if it does not excist. In this folder one html file for each group comparison and a summary html file of all comparisons will be created.
 foldername_function_file <- foldername_Rmarkdownfiles # foldername_Rmarkdownfiles or "foldername". This is the folder for the .R and .Rmd files.
 
-directory_input_matrix_sampleID <-  paste(directory_of_analysis,"/",foldername_of_input_matrix_and_sampleID,"/",sep="") #may be altered to other than directory_of_analysis
+directory_input_matrix_sampleID <-  paste(directory_of_analysis,"/",foldername_of_input_matrix_and_sampleID,"/",sep="")#may be altered to other than directory_of_analysis
 directory_output_reports <- paste(directory_of_analysis,"/",foldername_output_reports,"/",sep="")  #may be altered to other than directory_of_analysis
 
 ## File names
@@ -41,7 +41,7 @@ variable_names_length <- "all" #Number of characters of variablenames shown in l
 variable_names_position <- "all" # enter "beginning", "end" or "all" give selection of variablenames shown in loadingplot
 
 ## Running models
-order_of_groups_numeric <- "correct" # numeric vector* containing correct order of groups or enter "correct". Deseased first and controls last in order to get direction of models with high score in diseased.
 cluster <- "no" # "no" if analysis is run locally and "yes" if script is run using the bash scripts to run the R-scripts passing modelnumbers to run as arguments ("args").
 name_intermediate_dir <- "default" # "name_of_directory" enter name of intermediate directory. On UPPMAX it is "SNIC_TMP" else enter "default"
 each_model_or_summary <- "both" # enter "summary" if only summary should be run and "each" if only models of each comparison should be run. Otherwise enter "both". "Both" is not possible if cluster is "yes".
+model_strategies_to_run <- c(1,2,3,4,5)
