@@ -1,0 +1,287 @@
+---
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+mathjax: null
+
+---
+
+---
+title: |
+    | Model strategy 4
+---
+
+# Model 4. Model with p(corr) cutoff giving best performing model and corresponding to p-value for pearson correlation less than userset value and using minimal amount of variables
+
+Model with variable selection using p(corr) corresponding to p-value less than `r p_pearson_of_pcorr_cutoff` which gives model with high Q2, low difference between R2 and Q2, low pQ2 post variable selection and using minimal amount of variables
+
+## Optimizing model
+
+### P(corr) table, investigating different p(corr) cutoff using minimal amount of variables
+
+```{R}
+ortho_pre_vs <- ortho_pre_vs_Model2
+ortho_post_vs <- ortho_post_vs_Model2
+```
+
+#### Table of models after variable selection using different p(corr) cutoff and using `r ortho_pre_vs` orthogonal in model pre variable selection, `r ortho_post_vs` orthogonal in model post variable selection and using minimal amount of variables.
+
+```{R pcorr table model4}
+pcorr_corresponging_to_pvalue <- calculatepcorrfrompvalue(selectpvalue = p_pearson_of_pcorr_cutoff, n = nrow(subsetsampleID))
+
+kable(short_pcorr_table_of_model_post_vs, row.names = T) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+
+max_pcorrtable_with_max_Q2_and_diff_less_than_02_few_variables <-
+  selecting_model_with_diff_less_than_02_max_Q2_low_pperm_and_high_pcorr_few_variables(
+    short_pcorr_table_of_model_post_vs,
+    prefered_pR2_and_pQ2_permutated_post_vs, pcorr_diff
+  )
+
+
+pcorr <- max_pcorrtable_with_max_Q2_and_diff_less_than_02_few_variables$"pcorr cutoff"
+```
+#### Plot of p(corr) table of models post variable selection using different p(corr) cutoff showing models with different amount of variables versus Q2(cum).
+Model using minimal amount of variables is indicated in red.
+
+labels show pcorr cutoff
+
+```{R plot pcorr table model4}
+
+plot_pcorrtable_amount_of_variables_with_pcorr_labels(
+  short_pcorr_table_of_model_post_vs, max_pcorrtable_with_max_Q2_and_diff_less_than_02_few_variables
+)
+```
+
+### Selecting amount of orthogonal variables in model pre variable selection and in model post variable selection
+
+#### Table of models post variable selection with different amount of orthogonal variables in model pre variable selection and in model post variable selection using p(corr)=`r pcorr` giving highest Q2, lowest diff between R2 and Q2 and corresponding to p-value less than `r p_pearson_of_pcorr_cutoff` using minimal amount of variables
+
+
+```{R table of orthogonals Model 4}
+if (pcorr == result_Model3$resultaftervs$`pcorr cutoff`) {
+  model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4 <- model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model3
+} else {
+  testvariablename <- "model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4"
+  testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
+  if (!is.null(testvariable)) {
+    model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4 <- testvariable
+  } else {
+    model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4 <-
+      model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs(
+        subsetdatamatrix,
+        no_of_orthogonal_in_model_pre_vs = max_no_of_ortho_pre_vs_in_Model3_and_Model4,
+        no_of_orthogonal_in_model_post_vs = max_no_of_ortho_post_vs_in_Model3_and_Model4,
+        class = classordered,
+        pcorr = pcorr,
+        no_permutations_post_vs = no_permutations_post_vs,
+        variable_selection_using_VIP
+      )
+  }
+}
+
+kable(model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4, row.names = T) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+no_orto_in_model_pre_vs_and_in_model_post_vs_with_max_Q2_and_diff_less_than_02_few_variables <-
+  selecting_model_with_diff_less_than_02_max_Q2_low_pperm_and_few_orthogonals(
+    model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4, prefered_pR2_and_pQ2_permutated_post_vs
+  )
+
+
+ortho_pre_vs <- no_orto_in_model_pre_vs_and_in_model_post_vs_with_max_Q2_and_diff_less_than_02_few_variables$"ortho pre v.s."
+
+ortho_post_vs <- no_orto_in_model_pre_vs_and_in_model_post_vs_with_max_Q2_and_diff_less_than_02_few_variables$"ortho post v.s."
+```
+#### Plot of model post variable selection with different amount of orthogonal variables in model pre variable selection and in model post variable selection using p(corr)=`r pcorr` giving highest Q2 while using minimal amount of variables showing difference between R2Y(cum) and Q2(cum) versus Q2(cum)
+
+labels show amount of latent orthogonal variables in model (original,post variable selection)
+```{R plot table of orthogonals Model 4}
+
+plotof_model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs(
+  model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4, no_orto_in_model_pre_vs_and_in_model_post_vs_with_max_Q2_and_diff_less_than_02_few_variables
+)
+```
+
+`r ortho_pre_vs` orthogonal latent variables in model pre variable selection and `r ortho_post_vs` in model post variable selection give model post variable selection with highest Q2 and lowest R2-Q2.
+
+## Best performing model using p(corr) cutoff giving highest Q2 using minimal amount of variables
+### Model description
+#### Best performing model with variable selection using p(corr) cutoff `r pcorr` with highest Q2  using minimal amount of variables after variable selection resulted in `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection
+
+```{R Best performing Model 4, fig.fullwidth=TRUE}
+
+testvariablename <- "result_Model4"
+testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
+if (!is.null(testvariable)) {
+  result_Model4 <- testvariable
+} else {
+  result_Model4 <-
+    opls_model_with_variable_selection_trycatch(
+      subsetdatamatrix,
+      ortho_pre_vs,
+      ortho_post_vs,
+      class = classordered,
+      pcorr,
+      printoptmodel = "none",
+      plotoptmodel = "none",
+      no_permutations_post_vs = no_permutations_post_vs_selected_models,
+      variable_selection_using_VIP
+    )
+}
+```
+### Model pre variable selection
+
+```{R plot summary model pre vs model4}
+result_pre_vs <- result_Model4$beforevsdata.oplsda@summaryDF
+colnames(result_pre_vs)[6] <- "ortho pre v.s."
+kable(result_pre_vs, row.names = T) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+
+plot(result_Model4$beforevsdata.oplsda, typeVc = c("overview"))
+```
+
+### Model statistics
+
+```{R plot summary model4}
+
+kable(result_Model4$resultaftervs, row.names = T) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+plot(result_Model4$aftervsdata.oplsda, typeVc = c("overview"))
+if (ortho_post_vs > 0) {
+  plot(result_Model4$aftervsdata.oplsda, typeVc = c("outlier"))
+}
+```
+
+### Score plots
+
+```{R plot score model 4}
+
+if (ortho_post_vs > 0) {
+  plot(result_Model4$aftervsdata.oplsda, typeVc = c("x-score"))
+}
+
+plotscore(result_Model4, classordered)
+
+plotboxplot(result_Model4, subsetsampleID, colname_groupID, classordered)
+```
+
+### Loading plots
+
+```{R plot loading model4}
+
+if (ortho_post_vs > 0) {
+  plot(result_Model4$aftervsdata.oplsda, typeVc = c("x-loading"))
+}
+
+plotpcorr(result_Model4, variable_names_length, variable_names_position)
+
+if (length(result_Model4$pcorrlistaftervs$pcorrlistaftervs) >= 50) {
+  plotpcorronly50variables(result_Model4, variable_names_length, variable_names_position)
+}
+```
+
+### Permutation after variable selection
+
+```{R plot perm post vs model4}
+
+plot(result_Model4$aftervsdata.oplsda, typeVc = c("permutation"))
+```
+
+
+### Permutation before variable selection
+Subjects were permutated and variable selection performed using p(corr) cutoff `r pcorr` with highest Q2 after variable selection using minimal amount of variables and using `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection
+
+#### Table of permutations
+
+```{R permutation pre vs of Model 4}
+
+if (result_Model4$resultaftervs$`pcorr cutoff` != result_Model3$resultaftervs$`pcorr cutoff`) {
+  testvariablename <- "permutated_models_Model4"
+  testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
+  if (!is.null(testvariable)) {
+    permutated_models_Model4 <- testvariable
+  } else {
+    permutated_models_Model4 <-
+      table_of_randomised_models_before_vs(
+        subsetsampleID,
+        colname_groupID,
+        subsetdatamatrix,
+        ortho_pre_vs,
+        ortho_post_vs,
+        class = classordered,
+        pcorr,
+        no_permutations_pre_vs,
+        variable_selection_using_VIP
+      )
+  }
+} else {
+  permutated_models_Model4 <- permutated_models_Model3
+}
+
+for (l in 1:nrow(permutated_models_Model4)) {
+  if (is.na(permutated_models_Model4$`Q2(cum)`[l]) | permutated_models_Model4$`Q2(cum)`[l] < (-1)) {
+    permutated_models_Model4$`Q2(cum)`[l] <- 0
+  }
+}
+
+kable(permutated_models_Model4) %>%
+  kable_styling() %>%
+  scroll_box(width = "fullwidth", height = "300px")
+```
+
+ 
+#### Percentage of R2 and Q2 in permutated model larger than R2 and Q2 in unpermutated model
+
+```{R}
+
+percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4 <-
+  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated(
+    permutated_models_Model4,
+    R2optimized = result_Model4$resultaftervs$`R2Y(cum)`,
+    Q2optimized = result_Model4$resultaftervs$`Q2(cum)`
+  )
+
+
+pvalue_R2_and_Q2_in_perm_Model4 <-
+  pvalue_R2_and_Q2_in_perm(
+    permutated_models_Model4,
+    result_Model4$resultaftervs$`R2Y(cum)`,
+    result_Model4$resultaftervs$`Q2(cum)`
+  )
+
+percentage_and_pvalue_perm_Model4 <- as.data.frame(cbind(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4, row.names(pvalue_R2_and_Q2_in_perm_Model4), pvalue_R2_and_Q2_in_perm_Model4[, 1]))
+
+colnames(percentage_and_pvalue_perm_Model4) <- NULL
+kable(percentage_and_pvalue_perm_Model4, row.names = T) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
+#### Plot permutations of model with variable selection using p(corr) cutoff `r pcorr` with highest Q2 after variable selection  using minimal amount of variables and `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection
+
+```{R plot permutation pre vs model4, fig.height = 10}
+
+plotpermutationswithoriginalmodelandreg(permutated_models_Model4, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP)
+```
+
+### ROC curve
+Confidence intervals through 2000 stratified bootstrap replicates
+
+```{R}
+
+pROC_Model4 <- roc(classordered, result_Model4$scoreofvariablesaftervs[, 1],
+  smoothed = TRUE,
+  ci = TRUE, stratified = T,
+  plot = TRUE, auc.polygon = TRUE, max.auc.polygon = TRUE, grid = TRUE,
+  print.auc = TRUE, show.thres = T
+)
+sens.ci <- ci.se(pROC_Model4)
+plot(sens.ci, type = "shape", col = "lightblue")
+
+data_to_evalmod <- mmdata(scores = result_Model4$scoreofvariablesaftervs, labels = classordered)
+precrec_Model4 <- evalmod(data_to_evalmod, mode = "basic")
+autoplot(precrec_Model4)
+```

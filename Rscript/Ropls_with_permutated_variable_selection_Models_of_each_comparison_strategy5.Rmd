@@ -1,0 +1,106 @@
+---
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+mathjax: null
+
+---
+
+---
+title: |
+    | Model strategy 5
+---
+
+
+
+# Iteration Model
+## Create iteration table continuously increasing p(corr) during variable selection and adding orthogonals only if it increases Q2 1% in the model (i.e. not concidering the total amount of orthogonals pre and post)
+
+```{R iteration table}
+testvariablename <- "iterationsummary"
+testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
+if (!is.null(testvariable)){iterationsummary <- testvariable} else {
+
+iterationsummary<-
+  iterationtable(
+  subsetdatamatrix,
+  ortho_pre_vs=0,
+  ortho_post_vs=0,
+  class=classordered, 
+  pcorrselectionsvector=c(seq(0.01,1,by=0.02)),
+  no_permutations_post_vs=no_permutations_post_vs,
+  variable_selection_using_VIP=variable_selection_using_VIP
+) 
+}
+iterationtable <- iterationsummary[[1]]
+short_iterationtable <- subset(iterationtable,!duplicated(iterationtable$"no. variables")&!is.na(iterationtable$"no. variables"))
+
+short_iterationtable$"diff R2Y(cum)-Q2(cum)" <- short_iterationtable$`R2Y(cum)`- short_iterationtable$`Q2(cum)`
+
+kable(short_iterationtable, row.names = T) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+
+best_performing_iteration_model_few_variables <-
+    selecting_model_with_diff_less_than_02_max_Q2_low_pperm_and_high_pcorr_few_variables(
+    short_iterationtable,
+    prefered_pR2_and_pQ2_permutated_post_vs, pcorr_diff)
+
+
+```
+## Best performing iteration model
+### Model statistics
+```{R}
+
+kable(best_performing_iteration_model_few_variables, row.names = T) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+iterationpcorrlist <- iterationsummary[[2]][[as.numeric(gsub("model ","",row.names(best_performing_iteration_model_few_variables)))]]
+
+iterationmodel <- opls(subsetdatamatrix[,rownames(iterationpcorrlist)], y=classordered, predI = 1, orthoI = best_performing_iteration_model_few_variables$`ortho post v.s.`, scaleC="standard",info.txtC="none",fig.pdfC="none",permI=no_permutations_post_vs_selected_models)
+result_iterationmodel <- list()
+result_iterationmodel$pcorrlistaftervs <- iterationpcorrlist
+result_iterationmodel$aftervsdata.oplsda <- iterationmodel
+result_iterationmodel$scoreofvariablesaftervs <- getScoreMN(iterationmodel)
+result_iterationmodel$resultaftervs <- best_performing_iteration_model_few_variables
+ortho_post_vs <- best_performing_iteration_model_few_variables$`ortho post v.s.`
+```
+### Score plots
+
+```{R plot score iterationmodel}
+
+if (ortho_post_vs>0) {
+       plot(result_iterationmodel$aftervsdata.oplsda, typeVc= c("x-score"))
+     }
+
+plotscore(result_iterationmodel,classordered)
+
+plotboxplot(result_iterationmodel, subsetsampleID, colname_groupID, classordered)
+
+```
+
+### Loading plots
+
+```{R plot loading iterationmodel}
+
+if (ortho_post_vs>0) {
+       plot(result_iterationmodel$aftervsdata.oplsda, typeVc= c("x-loading"))
+}
+
+plotpcorr(result_iterationmodel, variable_names_length, variable_names_position)
+
+if (length(result_iterationmodel$pcorrlistaftervs$pcorrlistaftervs)>=50) {
+  plotpcorronly50variables(result_iterationmodel, variable_names_length, variable_names_position)
+}
+
+```
+
+### Permutation after variable selection
+
+```{R plot perm post vs iterationmodel}
+
+plot(result_iterationmodel$aftervsdata.oplsda, typeVc= c("permutation"))
+
+```
+

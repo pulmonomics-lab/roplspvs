@@ -1,0 +1,30 @@
+---
+title: "Ropls.with.permutated.variable.selection_vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Ropls.with.permutated.variable.selection_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+library(Ropls.with.permutated.variable.selection)
+```
+# The greatest package for a very specific pupose
+
+THis package solves all problems. See for yourslelf:
+```{r}
+#
+
+
+
+```
+
+#Future plans
