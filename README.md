@@ -4,7 +4,7 @@ Input is one matrix, one file with sampleID including the groups to be compared 
 The output is one html file per comparison of groups containing four selected models and one summary html file of all comparisons. Also tables with loadings are created.
 
 # Installation
-This package is tested on R 3.6.2, 4.0.0 and 4.0.3
+This package is tested on R 3.6.2, 4.0.0, 4.0.3, 4.0.5 and 4.1.2
 Install needed packages BiocManager, Ropls, ggplot2, ggrepel, kableExtr, gridEstra, ggpubr, matrixStats, stringr, tryCatchLog, devtools and DescTools. These are installed if running the file dependencies.R using the following code
  
  ```
