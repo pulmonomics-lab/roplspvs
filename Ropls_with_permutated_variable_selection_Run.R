@@ -1,5 +1,5 @@
-#directory_of_Ropls_with_permutated_variable_selection <- dirname(sys.frame(1)$ofile)
-directory_of_Ropls_with_permutated_variable_selection <- "C:/Users/Marika/OneDrive - KI.SE/Documents/ropls_Rscript/Ropls-with-permutated-variable-selection"
+require(tools)
+directory_of_Ropls_with_permutated_variable_selection <- file_path_as_absolute(dirname(sys.frame(1)$ofile))
 directory_of_analysis <- getwd()
 
 if (length(paste(list.files(directory_of_analysis, pattern = "\\Get_Started.R"), sep = "")) != 0) {

@@ -1,7 +1,7 @@
 Package: Ropls.with.permutated.variable.selection
 Type: Package
 Title: Opls modeling of group comparisons with variable selection
-Version: 13
+Version: 0.1.0
 Author: Marika Strom
 Maintainer: The package maintainer <marika.strom@ki.se>
 Description: Performs opls models comparing all groups to eachother, performs variable selection using 4 strategies and produces scores, loading plots, rock curves and signifcant test using permutations pre variable selection.

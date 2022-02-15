@@ -4,20 +4,37 @@ Input is one matrix, one file with sampleID including the groups to be compared 
 The output is one html file per comparison of groups containing four selected models and one summary html file of all comparisons. Also tables with loadings are created.
 
 # Installation
-This package is tested on R 3.6.2, 4.0.0, 4.0.3, 4.0.5 and 4.1.2
-Install needed packages BiocManager, Ropls, ggplot2, ggrepel, kableExtr, gridEstra, ggpubr, matrixStats, stringr, tryCatchLog, devtools and DescTools. These are installed if running the file dependencies.R using the following code
- 
+To be able to contribute to the repository install git by running the following code on command line. All other commands are in R.
  ```
-analysis_folder_name <- "Ropls-with-permutated-variable-selection"
-source(paste(analysis_folder_name,"/dependencies.R", sep=""))
+ apt-get install git
+ git clone https://github.com/MarikaStrom/Ropls-with-permutated-variable-selection.git
+ 
+```
+To run the package without contributing download it from https://github.com/MarikaStrom/Ropls-with-permutated-variable-selection.git
+
+to load the package to get helpfiles and load the function run the following code (this is not nessessary to run the workflow since all help is also in the configuration files)
+
+```
+require(tools)
+devtools::load_all(<directory of Ropls_with_permutated_variable_selection including folder name>)
+
+```
+
+This package is tested on R 3.6.2, 4.0.0, 4.0.3, 4.0.5 and 4.1.2
+Install needed packages BiocManager, Ropls, ggplot2, ggrepel, kableExtr, gridEstra, ggpubr, matrixStats, stringr, tryCatchLog, tools, devtools and DescTools. These are installed if running the file dependencies.R using the following code
+ 
+```
+source("<directory of Ropls_with_permutated_variable_selection including folder name>/dependencies.R")
+
  ```
 
 # Run example data
-To run exampledata download folders and files in Ropls-with-permutated-variable-selection. Set workingdirectory to location of Ropls-with-permutated-variable-selection. To start the analysis run the file "Ropls_with_permutated_variable_selection_Run.R" using the following code
+To run exampledata download folders and files in Ropls-with-permutated-variable-selection. Set workingdirectory to directory_of_analysis where the results will be stored. To start the analysis run the following code
 
 ```
-analysis_folder_name <- "Ropls-with-permutated-variable-selection"
-source(paste(analysis_folder_name,"/Ropls_with_permutated_variable_selection_Run.R",sep=""))
+setwd("<path of your project folder>")
+source("<directory of Ropls_with_permutated_variable_selection including folder name>/Ropls_with_permutated_variable_selection_Run.R")
+
 ```
 
 # Run your own data
@@ -31,18 +48,16 @@ source(paste(analysis_folder_name,"/Ropls_with_permutated_variable_selection_Run
 6. Both datamatrix and sampleID files should be saved as Tab delimited ("*.txt") files. 
 7. Create a project folder for the analysis manually or use the Ropls-with-permutated-variable-selection-main folder. In this folder a subdirectory will be created called "outputR" where the results and the tables called model_table_to_analyse and the reordered_model_table_to_analyse describing which models are run will be stored. 
 8. Create a folder and save your datamatrix and sampleID file here. Default name is "data_to_R_analysis" and is created by default in the project folder. You may also enter the path and foldername to your own input data folder.  
-9. Save the Ropls_with_permutated_variable_selection_Configure_Get_Started.R and Ropls_with_permutated_variable_selection_Configure_Advanced.R in your project folder. The names of the files may be changed to your choice "Any_name_Advanced.R" and "Any_name_Get_Started.R".
+9. Save the Ropls_with_permutated_variable_selection_Configure_Get_Started.R and if advanced parameters are to be changed Ropls_with_permutated_variable_selection_Configure_Advanced.R in your project folder. The names of the files may be changed to your choice "Any_name_Advanced.R" and "Any_name_Get_Started.R".
 10. Edit basic settings of parameters in file "Ropls_with_permutated_variable_selection_Configure_Get_Started.R" which contains the parameters that has to be entered including file names, folder names and column names discribing the groups to be compared. Default settings and advanced parameters may be altered in file "Ropls_with_permutated_variable_selection_Configure_Advanced.R".
 
 ## Run analysis:
 When running Ropls_with_permutated_variable_selection_Run.R the data in Configure files are sent to file "Ropls_with_permutated_variable_selection_Models_of_each_comparison.Rmd" which renders one HTML file for each comparison containing score plots, loading plots, permutation pre and post varible selection plots and model statistics. When all comparisons have been performed "Ropls_with_permutated_variable_selection_Summary_of_models.Rmd" renders a summary HTML-file of all models containing tables of all selected models and all significant models.
-Set working directory to the location of your project folder and run your analysis using the following code
+Set working directory to the location of your project folder where the results will be stored and run your analysis using the following code
 
 ```
-setwd("enter path to where your project folder is stored")
-directory_of_Ropls_with_permutated_variable_selection <- " enter path to where Ropls_with_permutated_variable_selection is stored"
-analysis_folder_name <- "enter the name of your project folder" # 
-source(paste(directory_of_Ropls_with_permutated_variable_selection,"/Ropls-with-permutated-variable-selection/Ropls_with_permutated_variable_selection_Run.R",sep=""))
+setwd("<path of your project folder>"")
+source("<directory of Ropls_with_permutated_variable_selection including folder name>/Ropls_with_permutated_variable_selection_Run.R")
 
 ```
 
