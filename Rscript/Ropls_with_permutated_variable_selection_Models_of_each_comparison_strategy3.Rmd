@@ -9,8 +9,12 @@ mathjax: null
 ---
 
 ---
-title: |
-    | Model strategy 3
+#title: |
+#    | Model strategy 3
+    
+author: |
+    | Ropls with permutated variable selection: Version 0.13.0
+    | Marika Strom
 ---
 
 # Model 3. Model with variable using p(corr) cutoff giving best performing model and less than userset p-value cutoff for pearson correlation 

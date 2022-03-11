@@ -9,8 +9,12 @@ mathjax: null
 ---
 
 ---
-title: |
-    | Model strategy 1
+#title: |
+#    | Model strategy 1
+    
+author: |
+    | Ropls with permutated variable selection: Version 0.13.0
+    | Marika Strom
 ---
 
 # Model 1. Models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection

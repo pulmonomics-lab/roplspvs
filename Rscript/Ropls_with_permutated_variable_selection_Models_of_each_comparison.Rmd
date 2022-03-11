@@ -48,7 +48,7 @@ title: |
     | Model of group `r group1` versus `r group2` for `r secID`
  
 author: |
-    | Ropls with permutated variable selection: Version 12
+    | Ropls with permutated variable selection: Version 0.13.0
     | Marika Strom
 date: `r Sys.Date()`
 ---
