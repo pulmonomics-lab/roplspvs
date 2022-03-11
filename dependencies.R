@@ -1,7 +1,7 @@
 
 # Installation istructions for Ropls-with-permutated-variable-selection
 #This package was created for r 3.6.2 using rstudio 1.1.463 but has been tested
-#for R 3.6.2, 4.0.0, 4.0.3 and 4.0.5
+#for R 3.6.2, 4.0.0, 4.0.3, 4.0.5 and 4.1.2
 
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")

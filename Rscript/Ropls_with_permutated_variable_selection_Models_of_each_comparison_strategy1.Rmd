@@ -24,11 +24,11 @@ Model post variable selection using p(corr) cutoff `r paste(pcorr); if(pcorr_Mod
 ortho_pre_vs <- ortho_pre_vs_Model1
 ortho_post_vs <- ortho_post_vs_Model1
 
-#testvariablename <- "result_Model1"
-#testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, #directory_and_filename_rdata)
-#if (!is.null(testvariable)) {
-#  result_Model1 <- testvariable
-#} else {
+testvariablename <- "result_Model1"
+testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
+if (!is.null(testvariable)) {
+  result_Model1 <- testvariable
+} else {
   result_Model1 <-
     opls_model_with_variable_selection_trycatch(
       subsetdatamatrix,
@@ -40,7 +40,7 @@ ortho_post_vs <- ortho_post_vs_Model1
       no_permutations_post_vs = no_permutations_post_vs_selected_models,
       variable_selection_using_VIP
     )
-#}
+}
 ```
 ### Model pre variable selection
 
@@ -107,11 +107,11 @@ Subjects were permutated and variable selection performed using p(corr) cutoff `
 
 ```{R permutation pre vs of model1}
 
-#testvariablename <- "permutated_models_Model1"
-#testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, #directory_and_filename_rdata)
-#if (!is.null(testvariable)) {
-#  permutated_models_Model1 <- testvariable
-#} else {
+testvariablename <- "permutated_models_Model1"
+testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
+if (!is.null(testvariable)) {
+  permutated_models_Model1 <- testvariable
+} else {
   permutated_models_Model1 <-
     table_of_randomised_models_before_vs(
       subsetsampleID,
@@ -124,7 +124,7 @@ Subjects were permutated and variable selection performed using p(corr) cutoff `
       no_permutations_pre_vs,
       variable_selection_using_VIP
     )
-#}
+}
 
 for (l in 1:nrow(permutated_models_Model1)) {
   if (is.na(permutated_models_Model1$`Q2(cum)`[l]) | permutated_models_Model1$`Q2(cum)`[l] < (-1)) {

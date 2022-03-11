@@ -275,7 +275,10 @@ opls(subsetdatamatrix_group2, typeVc = "x-score", info.txtC = "none", crossvalI 
 
 ```{r}
 
+if(!file.exists(paste(directory_output_reports, filename_rdata,sep=""))){first_analysis<-T}
+if(first_analysis==T){
 save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = environment())
+}
 
 ```
 
@@ -287,7 +290,9 @@ save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = e
 
 ```{r}
 
+if(first_analysis==T){
 save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = environment())
+}
 
 ```
 
@@ -298,7 +303,9 @@ save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = e
 
 ```{r}
 
+if(first_analysis==T){
 save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = environment())
+}
 
 ```
 
@@ -308,7 +315,9 @@ save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = e
 
 ```{r}
 
+if(first_analysis==T){
 save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = environment())
+}
 
 ```
 
