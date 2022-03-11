@@ -16,7 +16,7 @@ to load the package to get helpfiles and load the function run the following cod
 
 ```
 require(tools)
-devtools::load_all(<directory of Ropls_with_permutated_variable_selection including folder name>)
+devtools::load_all(<path to Ropls_with_permutated_variable_selection>)
 
 ```
 
@@ -24,16 +24,16 @@ This package is tested on R 3.6.2, 4.0.0, 4.0.3, 4.0.5 and 4.1.2
 Install needed packages BiocManager, Ropls, ggplot2, ggrepel, kableExtr, gridEstra, ggpubr, matrixStats, stringr, tryCatchLog, tools, devtools and DescTools. These are installed if running the file dependencies.R using the following code
  
 ```
-source("<directory of Ropls_with_permutated_variable_selection including folder name>/dependencies.R")
+source("<path to Ropls_with_permutated_variable_selection>/dependencies.R")
 
  ```
 
 # Run example data
-To run exampledata download folders and files in Ropls-with-permutated-variable-selection. Set workingdirectory to directory_of_analysis where the results will be stored. To start the analysis run the following code
+To run exampledata download folders and files in Ropls-with-permutated-variable-selection. Set workingdirectory to your project folder where the results will be stored. To start the analysis run the following code
 
 ```
-setwd("<path of your project folder>")
-source("<directory of Ropls_with_permutated_variable_selection including folder name>/Ropls_with_permutated_variable_selection_Run.R")
+setwd("<path to your project folder>")
+source("<path to Ropls_with_permutated_variable_selection>/Ropls_with_permutated_variable_selection_Run.R")
 
 ```
 
@@ -52,12 +52,12 @@ source("<directory of Ropls_with_permutated_variable_selection including folder 
 10. Edit basic settings of parameters in file "Ropls_with_permutated_variable_selection_Configure_Get_Started.R" which contains the parameters that has to be entered including file names, folder names and column names discribing the groups to be compared. Default settings and advanced parameters may be altered in file "Ropls_with_permutated_variable_selection_Configure_Advanced.R".
 
 ## Run analysis:
-When running Ropls_with_permutated_variable_selection_Run.R the data in Configure files are sent to file "Ropls_with_permutated_variable_selection_Models_of_each_comparison.Rmd" which renders one HTML file for each comparison containing score plots, loading plots, permutation pre and post varible selection plots and model statistics. When all comparisons have been performed "Ropls_with_permutated_variable_selection_Summary_of_models.Rmd" renders a summary HTML-file of all models containing tables of all selected models and all significant models.
+When running Ropls_with_permutated_variable_selection_Run.R the data in Configure files are sent to file "Ropls_with_permutated_variable_selection_Models_of_each_comparison.Rmd" which renders one HTML file for each comparison containing score plots, loading plots, permutation pre and post variable selection plots and model statistics. When all comparisons have been performed "Ropls_with_permutated_variable_selection_Summary_of_models.Rmd" renders a summary HTML-file of all models containing tables of all selected models and all significant models.
 Set working directory to the location of your project folder where the results will be stored and run your analysis using the following code
 
 ```
-setwd("<path of your project folder>"")
-source("<directory of Ropls_with_permutated_variable_selection including folder name>/Ropls_with_permutated_variable_selection_Run.R")
+setwd("<path to your project folder>"")
+source("<path to Ropls_with_permutated_variable_selection>/Ropls_with_permutated_variable_selection_Run.R")
 
 ```
 
@@ -66,7 +66,8 @@ The script generates four selected models:
 Model 1 uses p(corr) cutoff which is userset either to numeric value or corresponding to userset p[Pearson_pcorr_cutoff] and userset number of orthogonals with default 0. 
 Model 2 uses p(corr) cutoff corresponding to userset p[Pearson_pcorr_cutoff] and number of orthogonals resulting in best performing model after variable selection. 
 Model 3 uses both p(corr) cutoff and number of orthogonals resulting in best performing model after variable selection. Only pcorr cutoff higher than p[Pearson_pcorr_cutoff] is used.
-Model 4 uses both p(corr) cutoff and number of orthogonals resulting in best performing model after variable selection while keeping the amount of variables down by only adding variables if a decrease in p(corr) cutoff less than userset Δpcorr cutoff results in an increase in Q2 of more than 1%.
+Model 4 uses both p(corr) cutoff and number of orthogonals resulting in best performing model after variable selection while keeping the amount of variables down by only adding variables if a decrease in p(corr) cutoff less than userset p(corr) cutoff results in an increase in Q2 of more than 1%.
+Model 5 is an iteration model using increasing p(corr) cutoff from 0.01 to until no more variables are selected. The amount of orthogonals is set using ropls default method adding an orthogonal as long as Q2 post vs is increased by 1 %. Best performing model is selected comparing each iteration.
 
 ### Best performing model during selection of amount of orthogonal variables and p(corr) cutoff
 Best performing models are defined as models that after variable selection give high Q2, low difference between R2 and Q2 and also low p[Q2_perm_ post_vs] and low p[R2_perm_ post_vs]. The weight between low difference and low p[Q2_perm_ post_vs] is given by userset prefered_pR2_and_pQ2_permutated_post_vs with lower prefered_pR2_and_pQ2_permutated_post_vs giving more weight to p[Q2_perm_ post_vs] compared to high Q2 and low difference between R2 and Q2.
@@ -91,7 +92,7 @@ Best performing models are defined as models that after variable selection give 
 R2 is derived from the ropls package and is a measure of the fitness of the model and shows how much of the variation is explained by the model with a maximum value of 1. Q2 is a measure of the predictability of the model determined by 7 fold crossvalidation which is the default in the ropls package. The package gives R2 and Q2 pre and post variable selection.
 
 ### Permutations
-In addition to the p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] which is calculated by default by the ropls package this package also calculates p[R2_perm_ pre_vs] and p[Q2_perm_ pre_vs]. This includes randomisation of subject respons lables followed by variable selection and fitting of model post variable selection to obtain R2 and Q2 for permutated models. The same amount of orthogonals is used in the permutated models as in the unpermutated model under investigation. R2 and Q2 for the permutated models are compared to R2 and Q2 for the unpermutated models to generate p[R2_perm_ pre_vs] and p[Q2_perm_ pre_vs]. The number of permutations performed is userset by setting parameter no_permutations_post_vs, no_permutations_post_vs_selected_models and no_permutations_pre_vs with default 20.
+In addition to the p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] which is calculated by default by the ropls package this package also calculates p[R2_perm_ pre_vs] and p[Q2_perm_ pre_vs]. This includes randomization of subject respons labels followed by variable selection and fitting of model post variable selection to obtain R2 and Q2 for permutated models. The same amount of orthogonals is used in the permutated models as in the unpermutated model under investigation. R2 and Q2 for the permutated models are compared to R2 and Q2 for the unpermutated models to generate p[R2_perm_ pre_vs] and p[Q2_perm_ pre_vs]. The number of permutations performed is userset by setting parameter no_permutations_post_vs, no_permutations_post_vs_selected_models and no_permutations_pre_vs with default 20.
 
 ## RMSE
 RMSE is derived using ropls package and is a measure from the ropls package square root of the mean error between actual and predicted responses.
