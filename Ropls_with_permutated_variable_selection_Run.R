@@ -2,8 +2,8 @@ require(tools)
 directory_of_Ropls_with_permutated_variable_selection <- file_path_as_absolute(dirname(sys.frame(1)$ofile))
 directory_of_analysis <- getwd()
 
-if (length(paste(list.files(directory_of_analysis, pattern = "\\Get_Started.R"), sep = "")) != 0) {
-  source(paste(list.files(directory_of_analysis, pattern = "\\Get_Started.R"), sep = ""))
+if (length(paste(list.files(directory_of_analysis, pattern = "Get_Started"), sep = "")) != 0) {
+  source(paste(list.files(directory_of_analysis, pattern = "Get_Started"), sep = ""))
 } else {
   source(paste(directory_of_Ropls_with_permutated_variable_selection,
                "/Ropls_with_permutated_variable_selection_Configure_Get_Started_example_data.R", sep = ""))

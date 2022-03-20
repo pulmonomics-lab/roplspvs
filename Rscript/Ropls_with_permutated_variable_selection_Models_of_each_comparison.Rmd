@@ -131,7 +131,7 @@ if (decimal_separator == "dot") {
   datamatrix <- read.csv(directory_and_filename_input_matrix, header = T, dec = ",", row.names = 1, check.names = FALSE, na.strings = c("", "NA", "Inf"), sep = "\t")
 }
 
-# Read meta data with sample and peptide information for annotation####
+# Read meta data with sample information for annotation####
 if (decimal_separator == "dot") {
   sampleID <- read.table(directory_and_filename_sampleID, header = T, dec = ".", row.names = 1, check.names = FALSE, na.strings = c("", "NA", "Inf"), sep = "\t")
 } else {
