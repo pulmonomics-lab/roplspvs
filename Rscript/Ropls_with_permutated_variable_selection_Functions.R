@@ -745,7 +745,7 @@ sinkout <- function() {
     pforpermutationtable[2] <- pcorrtestpermutation$Q2$estimate
     pforpermutationtable[3] <- pcorrtestpermutation$R2Y$p.value
     pforpermutationtable[4] <- pcorrtestpermutation$Q2$p.value
-    names(pforpermutationtable) <-c("Correlation between R2Y for permutations pre variable selection and correlation between permutated and unpermutated","Correlation between Q2 for permutations pre variable selection. and correlation between permutated and unpermutated","P-value for correlation between R2Y for permutations pre variable selection and correlation between permutated and unpermutated","P-value for correlation between Q2 for permutations pre variable selection and correlation between permutated and unpermutated")
+    names(pforpermutationtable) <-c("Correlation between R2Y for permutations over variable selection and correlation between permutated and unpermutated","Correlation between Q2 for permutations over variable selection. and correlation between permutated and unpermutated","P-value for correlation between R2Y for permutations over variable selection and correlation between permutated and unpermutated","P-value for correlation between Q2 for permutations over variable selection and correlation between permutated and unpermutated")
     t(pforpermutationtable)
     }
 
@@ -821,8 +821,8 @@ plot(permutated_models$corrcoff, permutated_models$`Q2(cum)`, xlab="correlation 
 resultmodel <- get(resultmodelname)
 permutated_models <- get(permutated_modelsname)
 percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated <- get(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name)
-rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated) <- c("pR2Y permutated pre v.s.", "pQ2 permutated pre v.s.")
-percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated==0] <-100/no_permutations_pre_vs
+rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated) <- c("pR2Y permutated over v.s.", "pQ2 permutated over v.s.")
+percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated==0] <-100/no_permutations_over_vs
 pforpermutation <- calculatepforpermutation(permutated_models, unpermutatedmodel = resultmodel)
 
 summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated)/100,t(pforpermutation))
@@ -866,8 +866,8 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
 
   permutated_models <- get(permutated_modelsname)
   percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated <- get(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name)
-  rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated) <- c("pR2Y permutated pre v.s.", "pQ2 permutated pre v.s.")
-  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated==0] <-100/no_permutations_pre_vs
+  rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated) <- c("pR2Y permutated over v.s.", "pQ2 permutated over v.s.")
+  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated==0] <-100/no_permutations_over_vs
   pforpermutation <- calculatepforpermutation(permutated_models, unpermutatedmodel = resultmodel)
 
   modelresult_with_perm <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated)/100,t(pforpermutation))
@@ -943,20 +943,20 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
       load(selectedRows[j])
       rm(list=lsf.str())
       pforpermutation <- calculatepforpermutation(permutated_models=permutated_models_Model1, unpermutatedmodel = result_Model1)
-      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1) <- c("pR2Y permutated pre v.s.", "pQ2 permutated pre v.s.")
-      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1==0] <- 100/no_permutations_pre_vs
+      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1) <- c("pR2Y permutated over v.s.", "pQ2 permutated over v.s.")
+      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1==0] <- 100/no_permutations_over_vs
       summary_Model1_modeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,result_Model1$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1)/100, t(pforpermutation))
       summaryeachcomparisontable <- rbind(summaryeachcomparisontable,summary_Model1_modeltablei)
 
       pforpermutation <- calculatepforpermutation(permutated_models=permutated_models_Model2 , unpermutatedmodel = result_Model2)
-      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2) <- c("pR2Y permutated pre v.s.", "pQ2 permutated pre v.s.")
-      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2==0] <-100/no_permutations_pre_vs
+      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2) <- c("pR2Y permutated over v.s.", "pQ2 permutated over v.s.")
+      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2==0] <-100/no_permutations_over_vs
       summaryModel2tablei <- cbind(group1,ngroup1,group2,ngroup2,secID,result_Model2$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2)/100, t(pforpermutation))
       summaryeachcomparisontable <- rbind(summaryeachcomparisontable,summaryModel2tablei)
 
       pforpermutation <- calculatepforpermutation(permutated_models=permutated_modelsadditionallyinvestigated , unpermutatedmodel = resultmodeladditionallyinvestigated)
-      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_additionallyinvestigated) <- c("pR2Y permutated pre v.s.", "pQ2 permutated pre v.s.")
-      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_additionallyinvestigated[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_additionallyinvestigated==0] <-100/no_permutations_pre_vs
+      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_additionallyinvestigated) <- c("pR2Y permutated over v.s.", "pQ2 permutated over v.s.")
+      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_additionallyinvestigated[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_additionallyinvestigated==0] <-100/no_permutations_over_vs
       summaryadditionallyinvestigatedmodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodeladditionallyinvestigated$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_additionallyinvestigated)/100, t(pforpermutation))
       summaryeachcomparisontable <- rbind(summaryeachcomparisontable,summaryadditionallyinvestigatedmodeltablei)
       table_of_each_comparison[[j]] <- list(summaryeachcomparisontable)
@@ -975,27 +975,27 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
       load(selectedRows[j])
       rm(list=lsf.str())
       pforpermutation <- calculatepforpermutation(permutated_models=permutated_models_Model1, unpermutatedmodel = result_Model1)
-      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1) <- c("pR2Y permutated pre v.s.", "pQ2 permutated pre v.s.")
-      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1==0] <- 100/no_permutations_pre_vs
+      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1) <- c("pR2Y permutated over v.s.", "pQ2 permutated over v.s.")
+      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1==0] <- 100/no_permutations_over_vs
       summary_Model1_modeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,result_Model1$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1)/100, t(pforpermutation))
       summaryeachcomparisontable <- rbind(summaryeachcomparisontable,summary_Model1_modeltablei)
 
       pforpermutation <- calculatepforpermutation(permutated_models=permutated_models_Model2 , unpermutatedmodel = result_Model2)
-      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2) <- c("pR2Y permutated pre v.s.", "pQ2 permutated pre v.s.")
-      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2==0] <-100/no_permutations_pre_vs
+      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2) <- c("pR2Y permutated over v.s.", "pQ2 permutated over v.s.")
+      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2==0] <-100/no_permutations_over_vs
       summaryModel2tablei <- cbind(group1,ngroup1,group2,ngroup2,secID,result_Model2$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2)/100, t(pforpermutation))
       summaryeachcomparisontable <- rbind(summaryeachcomparisontable,summaryModel2tablei)
 
       pforpermutation <- calculatepforpermutation(permutated_models=permutated_models_Model3 , unpermutatedmodel = result_Model3)
-      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3) <- c("pR2Y permutated pre v.s.", "pQ2 permutated pre v.s.")
-      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3==0] <-100/no_permutations_pre_vs
+      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3) <- c("pR2Y permutated over v.s.", "pQ2 permutated over v.s.")
+      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3==0] <-100/no_permutations_over_vs
       summary_Model3modeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,result_Model3$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3)/100, t(pforpermutation))
       summaryeachcomparisontable <- rbind(summaryeachcomparisontable,summary_Model3modeltablei)
       table_of_each_comparison[[j]] <- list(summaryeachcomparisontable)
 
       pforpermutation <- calculatepforpermutation(permutated_models=permutated_models_Model4 , unpermutatedmodel = result_Model4)
-      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4) <- c("pR2Y permutated pre v.s.", "pQ2 permutated pre v.s.")
-      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4==0] <-100/no_permutations_pre_vs
+      rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4) <- c("pR2Y permutated over v.s.", "pQ2 permutated over v.s.")
+      percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4==0] <-100/no_permutations_over_vs
       summary_Model4modeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,result_Model4$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4)/100, t(pforpermutation))
       summaryeachcomparisontable <- rbind(summaryeachcomparisontable,summary_Model4modeltablei)
       table_of_each_comparison[[j]] <- list(summaryeachcomparisontable)

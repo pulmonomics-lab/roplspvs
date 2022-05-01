@@ -17,9 +17,9 @@ author: |
     | Marika Strom
 ---
 
-# Model 4. Model with p(corr) cutoff giving best performing model and corresponding to p-value for pearson correlation less than userset value and using minimal amount of variables
+# Model strategy 4. Model with p(corr) cutoff giving best performing model and using lower amount of variables
 
-Model with variable selection using p(corr) corresponding to p-value less than `r p_pearson_of_pcorr_cutoff` which gives model with high Q2, low difference between R2 and Q2, low pQ2 post variable selection and using minimal amount of variables
+Model with variable selection using p(corr) corresponding to p-value less than `r p_pearson_of_pcorr_cutoff` which gives model with high Q2, low difference between R2 and Q2, low pQ2 post variable selection and using lower amount of variables
 
 ## Optimizing model
 
@@ -197,7 +197,7 @@ plot(result_Model4$aftervsdata.oplsda, typeVc = c("permutation"))
 ```
 
 
-### Permutation before variable selection
+### Permutation including variable selection
 Subjects were permutated and variable selection performed using p(corr) cutoff `r pcorr` with highest Q2 after variable selection using minimal amount of variables and using `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection
 
 #### Table of permutations
@@ -211,7 +211,7 @@ if (result_Model4$resultaftervs$`pcorr cutoff` != result_Model3$resultaftervs$`p
     permutated_models_Model4 <- testvariable
   } else {
     permutated_models_Model4 <-
-      table_of_randomised_models_before_vs(
+      table_of_randomised_models_over_vs(
         subsetsampleID,
         colname_groupID,
         subsetdatamatrix,
@@ -219,7 +219,7 @@ if (result_Model4$resultaftervs$`pcorr cutoff` != result_Model3$resultaftervs$`p
         ortho_post_vs,
         class = classordered,
         pcorr,
-        no_permutations_pre_vs,
+        no_permutations_over_vs,
         variable_selection_using_VIP
       )
   }
@@ -266,7 +266,7 @@ kable(percentage_and_pvalue_perm_Model4, row.names = T) %>%
 ```
 #### Plot permutations of model with variable selection using p(corr) cutoff `r pcorr` with highest Q2 after variable selection  using minimal amount of variables and `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection
 
-```{R plot permutation pre vs model4, fig.height = 10}
+```{R plot permutation over vs model4, fig.height = 10}
 
 plotpermutationswithoriginalmodelandreg(permutated_models_Model4, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP)
 ```

@@ -25,7 +25,7 @@ params:
   date_of_analysis: 0
   no_permutations_post_vs: 0
   no_permutations_post_vs_selected_models: 0
-  no_permutations_pre_vs: 0
+  no_permutations_over_vs: 0
   colname_groupID: "tomt"
   colname_secID: "tomt"
   filter_percent_in_each_group: 0
@@ -96,7 +96,7 @@ projectname <- params$projectname
 date_of_analysis <- params$date_of_analysis
 no_permutations_post_vs <- params$no_permutations_post_vs
 no_permutations_post_vs_selected_models <- params$no_permutations_post_vs_selected_models
-no_permutations_pre_vs <- params$no_permutations_pre_vs
+no_permutations_over_vs <- params$no_permutations_over_vs
 colname_groupID <- params$colname_groupID
 colname_secID <- params$colname_secID
 filter_percent_in_each_group <- params$filter_percent_in_each_group
@@ -155,7 +155,7 @@ Directory output reports: `r directory_output_reports`
 
 File name rdata: `r filename_rdata`
 
-Permutations before variable selection in selected models: `r no_permutations_pre_vs`
+Permutations including variable selection in selected models: `r no_permutations_over_vs`
 
 Permutations after variable selection during model selection: `r no_permutations_post_vs`
 
@@ -329,5 +329,5 @@ save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = e
 
 save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = environment())
 
-rm(list = setdiff(ls(envir = environment()), c("model_table_to_analyse", "filename_model_table_to_analyse", "directory_model_table_to_analyse", "projectname", "date_of_analysis", "directory_Rmarkdownfiles", "filename_Rmarkdownfile_each_model", "filename_Rmarkdownfile_summary", "directory_input_matrix_sampleID", "filename_matrix", "decimal_separator", "variable_names_length", "variable_names_position", "filename_sampleID", "colname_groupID", "colname_secID", "directory_output_reports", "directory_and_filename_function_file", "p_pearson_of_pcorr_cutoff", "no_permutations_post_vs", "no_permutations_post_vs_selected_models", "no_permutations_pre_vs", "filter_percent_in_each_group", "directory_output_reports_and_projectname", "groupsnumeric", "max_no_of_ortho_pre_vs_in_Model2", "max_no_of_ortho_pre_vs_in_Model3_and_Model4", "max_no_of_ortho_post_vs_in_Model2", "max_no_of_ortho_post_vs_in_Model3_and_Model4", "each_model_or_summary", "prefered_pR2_and_pQ2_permutated_post_vs", "cluster", "reordered_levels_of_groups", "pcorr_diff", "variable_selection_using_VIP", "model_strategies_to_run")))
+rm(list = setdiff(ls(envir = environment()), c("model_table_to_analyse", "filename_model_table_to_analyse", "directory_model_table_to_analyse", "projectname", "date_of_analysis", "directory_Rmarkdownfiles", "filename_Rmarkdownfile_each_model", "filename_Rmarkdownfile_summary", "directory_input_matrix_sampleID", "filename_matrix", "decimal_separator", "variable_names_length", "variable_names_position", "filename_sampleID", "colname_groupID", "colname_secID", "directory_output_reports", "directory_and_filename_function_file", "p_pearson_of_pcorr_cutoff", "no_permutations_post_vs", "no_permutations_post_vs_selected_models", "no_permutations_over_vs", "filter_percent_in_each_group", "directory_output_reports_and_projectname", "groupsnumeric", "max_no_of_ortho_pre_vs_in_Model2", "max_no_of_ortho_pre_vs_in_Model3_and_Model4", "max_no_of_ortho_post_vs_in_Model2", "max_no_of_ortho_post_vs_in_Model3_and_Model4", "each_model_or_summary", "prefered_pR2_and_pQ2_permutated_post_vs", "cluster", "reordered_levels_of_groups", "pcorr_diff", "variable_selection_using_VIP", "model_strategies_to_run")))
 ```

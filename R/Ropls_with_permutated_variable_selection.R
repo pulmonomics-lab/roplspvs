@@ -1,9 +1,9 @@
-#' Opls with permutation pre variable selection version 0.13.0
+#' Opls with permutationed variable selection version 0.13.0
 #'
 #' Pipeline for OPLS models, variable selection and permutation
 #'
 #' Performs variable selection using p(corr) and optionally VIP. In addition to permutation post variable
-#' selection included in the ropls package also permutations pre variable selection with proceeding
+#' selection included in the ropls package also permutations over variable selection with proceeding
 #' variable selection of every permutation resulting in p-values for R2 and Q2 including the variable
 #' selection procedure. It produces tables of all group comparisons including optional stratification
 #' by secondary ID.
@@ -20,7 +20,7 @@
 #' @param colname_secID "column name"* column name of secondary id in sampleID file to stratify or write "joint" for no stratification
 #' @param no_permutations_post_vs Numeric. Number of permutations post variable selection during model selection.
 #' @param no_permutations_post_vs_selected_models Numeric. Number of permutations post variable selection in selected models.
-#' @param no_permutations_pre_vs Numeric. Number of permutations pre variable selection in selected models.
+#' @param no_permutations_over_vs Numeric. Number of permutations including variable selection in selected models.
 #' @param p_pearson_of_pcorr_cutoff Numeric. P-value for p(corr) cutoff during variable selection in model 2 and minimum cutoff in model 3 and 4. Optionally in model 1.
 #' @param setseedfirstmodel Numeric. Setseed of the first model. Second model will have setseedfirstmodel+1 etc.
 #' @param order_of_groups Character vector or numeric vector containing correct order of groups or enter "correct" if order of levels in colname_groupID is already correct. Deseased first and controls last. This will define dirction of scores as high in diseased.
@@ -60,9 +60,9 @@
 #' tables of all models of all comparisons. Also tables with loadings are created.
 #'
 #' @examples
-#' opls_with_permutation_pre_variable_selection(directory_of_Ropls_with_permutated_variable_selection,directory_of_analysis,
+#' Ropls_with_permutated_variable_selection(directory_of_Ropls_with_permutated_variable_selection,directory_of_analysis,
 #' projectname,date_of_analysis,filename_matrix,decimal_separator,filename_sampleID,colname_groupID,groupsnumeric,
-#' colname_secID,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_pre_vs,
+#' colname_secID,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
 #' p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,model_strategies_to_run,
 #' foldername_Rmarkdownfiles,foldername_of_input_matrix_and_sampleID,foldername_output_reports,foldername_function_file,
 #' directory_input_matrix_sampleID,directory_output_reports,filename_Rmarkdownfile_each_model,filename_Rmarkdownfile_summary,
@@ -78,7 +78,7 @@
 #' @export
 Ropls_with_permutated_variable_selection <- function(directory_of_Ropls_with_permutated_variable_selection,directory_of_analysis,
                                                          projectname,date_of_analysis,filename_matrix,decimal_separator,filename_sampleID,colname_groupID,groupsnumeric,
-                                                         colname_secID,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_pre_vs,
+                                                         colname_secID,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
                                                          p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,
                                                          foldername_Rmarkdownfiles,foldername_of_input_matrix_and_sampleID,foldername_output_reports,foldername_function_file,
                                                          directory_input_matrix_sampleID,directory_output_reports,filename_Rmarkdownfile_each_model,filename_Rmarkdownfile_summary,
@@ -158,7 +158,7 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                           date_of_analysis=date_of_analysis,
                           no_permutations_post_vs=no_permutations_post_vs,
                           no_permutations_post_vs_selected_models=no_permutations_post_vs_selected_models,
-                          no_permutations_pre_vs=no_permutations_pre_vs,
+                          no_permutations_over_vs=no_permutations_over_vs,
                           filter_percent_in_each_group=filter_percent_in_each_group,
                           directory_and_filename_function_file=directory_and_filename_function_file,
                           max_no_of_ortho_pre_vs_in_Model2=max_no_of_ortho_pre_vs_in_Model2,
@@ -198,7 +198,7 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                           date_of_analysis=date_of_analysis,
                           no_permutations_post_vs=no_permutations_post_vs,
                           no_permutations_post_vs_selected_models=no_permutations_post_vs_selected_models,
-                          no_permutations_pre_vs=no_permutations_pre_vs,
+                          no_permutations_over_vs=no_permutations_over_vs,
                           filter_percent_in_each_group=filter_percent_in_each_group,
                           directory_and_filename_function_file=directory_and_filename_function_file,
                           max_no_of_ortho_pre_vs_in_Model2=max_no_of_ortho_pre_vs_in_Model2,
@@ -232,7 +232,7 @@ if (each_model_or_summary=="summary"|(cluster=="no" & each_model_or_summary=="bo
                       directory_input_matrix_sampleID=directory_input_matrix_sampleID,
                       filename_matrix=filename_matrix,
                       filename_sampleID=filename_sampleID,
-                      no_permutations_pre_vs=no_permutations_pre_vs,
+                      no_permutations_over_vs=no_permutations_over_vs,
                       no_permutations_post_vs_selected_models=no_permutations_post_vs_selected_models,
                       filter_percent_in_each_group=filter_percent_in_each_group,
                       groupsnumeric=groupsnumeric))

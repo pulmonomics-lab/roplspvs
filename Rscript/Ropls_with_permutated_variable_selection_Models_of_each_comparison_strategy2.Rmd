@@ -240,12 +240,12 @@ if (length(result_Model2$pcorrlistaftervs$pcorrlistaftervs) >= 50) {
 plot(result_Model2$aftervsdata.oplsda, typeVc = c("permutation"))
 ```
 
-### Permutation before variable selection
+### Permutation including variable selection
 Subjects were permutated and variable selection performed using p(corr) cutoff `r pcorr` corresponding to p-value `r p_pearson_of_pcorr_cutoff`,  with `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection
 
 #### Table of permutation
 
-```{R permutation pre vs Model2}
+```{R permutation over vs Model2}
 
 testvariablename <- "permutated_models_Model2"
 testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
@@ -253,7 +253,7 @@ if (!is.null(testvariable)) {
   permutated_models_Model2 <- testvariable
 } else {
   permutated_models_Model2 <-
-    table_of_randomised_models_before_vs(
+    table_of_randomised_models_over_vs(
       subsetsampleID,
       colname_groupID,
       subsetdatamatrix,
@@ -261,7 +261,7 @@ if (!is.null(testvariable)) {
       ortho_post_vs,
       class = classordered,
       pcorr,
-      no_permutations_pre_vs,
+      no_permutations_over_vs,
       variable_selection_using_VIP
     )
 }
@@ -304,7 +304,7 @@ kable(percentage_and_pvalue_perm_Model2, row.names = T) %>%
 ```
 #### Plot permutations of best performing model with variable selection using p(corr) cutoff `r pcorr` corresponding to p-value `r p_pearson_of_pcorr_cutoff`
 
-```{R  plot permutation pre vs model2, fig.height = 10}
+```{R  plot permutation over vs model2, fig.height = 10}
 
 plotpermutationswithoriginalmodelandreg(permutated_models_Model2, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP)
 ```

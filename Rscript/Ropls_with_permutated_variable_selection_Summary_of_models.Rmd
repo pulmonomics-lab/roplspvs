@@ -12,7 +12,7 @@ params:
   directory_input_matrix_sampleID: "tomt"
   filename_matrix: "tomt"
   filename_sampleID: "tomt"
-  no_permutations_pre_vs: 0
+  no_permutations_over_vs: 0
   no_permutations_post_vs_selected_models: 0
   filter_percent_in_each_group: 0
   groupsnumeric: "tomt"
@@ -35,7 +35,7 @@ date_of_analysis<-params$date_of_analysis
 directory_input_matrix_sampleID<-params$directory_input_matrix_sampleID
 filename_matrix<-params$filename_matrix
 filename_sampleID<-params$filename_sampleID
-no_permutations_pre_vs<-params$no_permutations_pre_vs
+no_permutations_over_vs<-params$no_permutations_over_vs
 no_permutations_post_vs_selected_models<-params$no_permutations_post_vs_selected_models
 filter_percent_in_each_group<-params$filter_percent_in_each_group
 groupsnumeric<-params$groupsnumeric
@@ -70,7 +70,7 @@ Directory and file name function file: `r directory_and_filename_function_file`
 
 Directory rdata files: `r directory_output_reports`
 
-Permutations pre variable selection: `r no_permutations_pre_vs`
+Permutations including variable selection: `r no_permutations_over_vs`
 
 Permutations post variable selection in selected models: `r no_permutations_post_vs_selected_models`
 
@@ -94,24 +94,24 @@ summary_Model1_tabletokable[,c(21,22)] <-
   format(summary_Model1_table[,c(21,22)], scientific=TRUE, digits=2)
 kable(summary_Model1_tabletokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
-meanofR2 <- mean(summary_Model1_table$`pR2Y permutated pre v.s.`)
-meanofQ2 <- mean(summary_Model1_table$`pQ2 permutated pre v.s.`)
+meanofR2 <- mean(summary_Model1_table$`pR2Y permutated over v.s.`)
+meanofQ2 <- mean(summary_Model1_table$`pQ2 permutated over v.s.`)
 meanofR2 <- format(meanofR2, digits = 2)
 meanofQ2 <- format(meanofQ2, digits = 2)
 
 ```
-Average of pR2Y respectively pQ2 of models with permutations pre v.s.:
+Average of pR2Y respectively pQ2 of models with permutations over v.s.:
 pR2Y: `r meanofR2`
 pQ2: `r meanofQ2`
 
 
 
-# Model strategy 1. Signigicant models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection. 
-Showing only significant models (p(Q2_perm_pre_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
+## Model strategy 1. Signigicant models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection. 
+Showing only significant models (p(Q2_perm_over_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
 
 ```{r, echo=FALSE}
 
-summary_Model1_tablesignificant <- subset(summary_Model1_table,summary_Model1_table$`pQ2 permutated pre v.s.`<=0.05 & summary_Model1_table$`R2Y(cum)`>=0.5 & summary_Model1_table$`Q2(cum)`>=0.4)
+summary_Model1_tablesignificant <- subset(summary_Model1_table,summary_Model1_table$`pQ2 permutated over v.s.`<=0.05 & summary_Model1_table$`R2Y(cum)`>=0.5 & summary_Model1_table$`Q2(cum)`>=0.4)
 summary_Model1_tablesignificanttokable <- summary_Model1_tablesignificant
 summary_Model1_tablesignificanttokable[,c(17,18,19,20)] <- format(summary_Model1_tablesignificant[,c(17,18,19,20)], digits=2)
 summary_Model1_tablesignificanttokable[,c(21,22)] <- format(summary_Model1_tablesignificant[,c(21,22)], scientific=TRUE, digits=2)
@@ -138,24 +138,24 @@ summary_Model2_tabletokable[,c(17,18,19,20)] <- format(summary_Model2_table[,c(1
 summary_Model2_tabletokable[,c(21,22)] <- format(summary_Model2_table[,c(21,22)], scientific=TRUE, digits=2)
 kable(summary_Model2_tabletokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
-meanofR2 <- mean(summary_Model2_table$`pR2Y permutated pre v.s.`)
-meanofQ2 <- mean(summary_Model2_table$`pQ2 permutated pre v.s.`)
+meanofR2 <- mean(summary_Model2_table$`pR2Y permutated over v.s.`)
+meanofQ2 <- mean(summary_Model2_table$`pQ2 permutated over v.s.`)
 meanofR2 <- format(meanofR2, digits = 2)
 meanofQ2 <- format(meanofQ2, digits = 2)
 
 ```
-Average of pR2Y respectively pQ2 of models with permutations pre v.s.:
+Average of pR2Y respectively pQ2 of models with permutations over v.s.:
 pR2Y: `r meanofR2`
 pQ2: `r meanofQ2`
 
 
-#Model strategy 2. Significant models with p(corr) cutoff corresponding to userset pvalue cutoff for pearson correlation `r p_pearson_of_pcorr_cutoff` 
-showing only significant models (p(Q2_perm_pre_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
+## Model strategy 2. Significant models with p(corr) cutoff corresponding to userset pvalue cutoff for pearson correlation `r p_pearson_of_pcorr_cutoff` 
+showing only significant models (p(Q2_perm_over_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
 
 
 ```{r, echo=FALSE}
 
-summary_Model2_tablesignificant <- subset(summary_Model2_table,summary_Model2_table$`pQ2 permutated pre v.s.`<=0.05 & summary_Model2_table$`R2Y(cum)`>=0.5 & summary_Model2_table$`Q2(cum)`>=0.4)
+summary_Model2_tablesignificant <- subset(summary_Model2_table,summary_Model2_table$`pQ2 permutated over v.s.`<=0.05 & summary_Model2_table$`R2Y(cum)`>=0.5 & summary_Model2_table$`Q2(cum)`>=0.4)
 summary_Model2_tablesignificanttokable <- summary_Model2_tablesignificant
 summary_Model2_tablesignificanttokable[,c(17,18,19,20)] <- 
   format(summary_Model2_tablesignificant[,c(17,18,19,20)], digits=2)
@@ -185,24 +185,24 @@ summary_Model3_tabletokable[,c(17,18,19,20)] <- format(summary_Model3_table[,c(1
 summary_Model3_tabletokable[,c(21,22)] <- format(summary_Model3_table[,c(21,22)], scientific=TRUE, digits=2)
 kable(summary_Model3_tabletokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
-meanofR2 <- mean(summary_Model3_table$`pR2Y permutated pre v.s.`)
-meanofQ2 <- mean(summary_Model3_table$`pQ2 permutated pre v.s.`)
+meanofR2 <- mean(summary_Model3_table$`pR2Y permutated over v.s.`)
+meanofQ2 <- mean(summary_Model3_table$`pQ2 permutated over v.s.`)
 meanofR2 <- format(meanofR2, digits = 2)
 meanofQ2 <- format(meanofQ2, digits = 2)
 
 ```
-Average of pR2Y respectively pQ2 of models with permutations pre v.s.:
+Average of pR2Y respectively pQ2 of models with permutations over v.s.:
 pR2Y: `r meanofR2`
 pQ2: `r meanofQ2`
 
 
-#Model strategy 3. Significant models with p(corr) cutoff giving best performing model and less than userset p-value cutoff for pearson correlation 
-showing only significant models (p(Q2_perm_pre_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
+## Model strategy 3. Significant models with p(corr) cutoff giving best performing model and less than userset p-value cutoff for pearson correlation 
+showing only significant models (p(Q2_perm_over_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
 
 
 ```{r, echo=FALSE}
 
-summary_Model3_tablesignificant <- subset(summary_Model3_table,summary_Model3_table$`pQ2 permutated pre v.s.`<=0.05 & summary_Model3_table$`R2Y(cum)`>=0.5 & summary_Model3_table$`Q2(cum)`>=0.4)
+summary_Model3_tablesignificant <- subset(summary_Model3_table,summary_Model3_table$`pQ2 permutated over v.s.`<=0.05 & summary_Model3_table$`R2Y(cum)`>=0.5 & summary_Model3_table$`Q2(cum)`>=0.4)
 summary_Model3_tablesignificanttokable <- summary_Model3_tablesignificant
 summary_Model3_tablesignificanttokable[,c(17,18,19,20)] <- format(summary_Model3_tablesignificant[,c(17,18,19,20)], digits=2)
 summary_Model3_tablesignificanttokable[,c(21,22)] <- format(summary_Model3_tablesignificant[,c(21,22)], scientific=TRUE, digits=2)
@@ -232,24 +232,24 @@ summary_Model4_tabletokable[,c(17,18,19,20)] <- format(summary_Model4_table[,c(1
 summary_Model4_tabletokable[,c(21,22)] <- format(summary_Model4_table[,c(21,22)], scientific=TRUE, digits=2)
 kable(summary_Model4_tabletokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
-meanofR2 <- mean(summary_Model4_table$`pR2Y permutated pre v.s.`)
-meanofQ2 <- mean(summary_Model4_table$`pQ2 permutated pre v.s.`)
+meanofR2 <- mean(summary_Model4_table$`pR2Y permutated over v.s.`)
+meanofQ2 <- mean(summary_Model4_table$`pQ2 permutated over v.s.`)
 meanofR2 <- format(meanofR2, digits = 2)
 meanofQ2 <- format(meanofQ2, digits = 2)
 
 ```
-Average of pR2Y respectively pQ2 of models with permutations pre v.s.:
+Average of pR2Y respectively pQ2 of models with permutations over v.s.:
 pR2Y: `r meanofR2`
 pQ2: `r meanofQ2`
 
 
-#Model strategy 4. Significant models with p(corr) cutoff giving best performing model and corresponding to p-value for pearson correlation less than userset value and using minimal amount of variables
-showing only significant models (p(Q2_perm_pre_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
+## Model strategy 4. Significant models with p(corr) cutoff giving best performing model and corresponding to p-value for pearson correlation less than userset value and using minimal amount of variables
+showing only significant models (p(Q2_perm_over_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
 
 
 ```{r, echo=FALSE}
 
-summary_Model4_tablesignificant <- subset(summary_Model4_table,summary_Model4_table$`pQ2 permutated pre v.s.`<=0.05 & summary_Model4_table$`R2Y(cum)`>=0.5 & summary_Model4_table$`Q2(cum)`>=0.4)
+summary_Model4_tablesignificant <- subset(summary_Model4_table,summary_Model4_table$`pQ2 permutated over v.s.`<=0.05 & summary_Model4_table$`R2Y(cum)`>=0.5 & summary_Model4_table$`Q2(cum)`>=0.4)
 summary_Model4_tablesignificanttokable <- summary_Model4_tablesignificant
 summary_Model4_tablesignificanttokable[,c(17,18,19,20)] <- format(summary_Model4_tablesignificant[,c(17,18,19,20)], digits=2)
 summary_Model4_tablesignificanttokable[,c(21,22)] <- format(summary_Model4_tablesignificant[,c(21,22)], scientific=TRUE, digits=2)
@@ -282,9 +282,9 @@ kable(summary_Model5_tabletokable, row.names = FALSE) %>%
 
 
 
-#Model strategy 5. Significant Iteration models removing variables with lowest p(corr) iteratively
+## Model strategy 5. Significant Iteration models removing variables with lowest p(corr) iteratively
 showing only significant models (p(Q2_perm_post_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
-Be aware that iteration models have not been permutated pre variable selection
+Be aware that iteration models have not been permutated over variable selection
 
 
 ```{r, echo=FALSE}
