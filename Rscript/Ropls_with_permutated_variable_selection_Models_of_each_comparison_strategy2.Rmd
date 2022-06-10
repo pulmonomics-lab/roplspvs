@@ -17,7 +17,7 @@ author: |
     | Marika Strom
 ---
 
-# Model 2. Model with p(corr) cutoff corresponding to userset pvalue cutoff for correlation
+# Model strategy 2. Model with p(corr) cutoff corresponding to a p-value cutoff set by user
 
 Selecting model with variable selection using p(corr) cutoff `r pcorr` corresponding to p-value `r p_pearson_of_pcorr_cutoff`
 
@@ -64,42 +64,6 @@ plotof_model_pre_vs_with_different_amount_of_ortho_pre_vs(
 ```
 
 `r no_orto_original_with_max_Q2$ort` orthogonal latent variables in model pre variable selection give model pre variable selection with highest Q2
-
-
-```{R table post vs Model2}
-### Table of model post variable selection with different amount of orthogonal variables in model pre variable selection
-
-testvariablename <- "table_model_post_vs_different_amount_of_ort_in_model_pre_vs_Model2"
-testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
-if (!is.null(testvariable)) {
-  table_model_post_vs_different_amount_of_ort_in_model_pre_vs_Model2 <- testvariable
-} else {
-  table_model_post_vs_different_amount_of_ort_in_model_pre_vs_Model2 <-
-    model_post_vs_with_different_amount_of_ortho_pre_vs_table(
-      subsetdatamatrix,
-      no_of_orthogonal_in_model_pre_vs = 15,
-      ortho_post_vs = 0,
-      class = classordered,
-      pcorr = pcorr,
-      no_permutations_post_vs = no_permutations_post_vs,
-      variable_selection_using_VIP
-    )
-}
-
-no_orto_original_with_max_Q2_and_diff_less_than_02 <-
-  selecting_model_with_diff_less_than_02_and_max_Q2(
-    table_model_post_vs_different_amount_of_ort_in_model_pre_vs_Model2, prefered_pR2_and_pQ2_permutated_post_vs
-  )
-```
-#### Plot of model post variable selection with different amount of orthogonal variables in model pre variable selection showing difference between R2Y(cum) and Q2(cum) versus Q2(cum)
-```{R plot models post vs Model2}
-
-plotof_model_post_vs_with_different_amount_of_ortho_pre_vs(
-  table_model_post_vs_different_amount_of_ort_in_model_pre_vs_Model2
-)
-```
-
-`r no_orto_original_with_max_Q2_and_diff_less_than_02$"ortho pre v.s."` orthogonal latent variables in model pre variable selection give model post variable selection with highest Q2 and lowest R2-Q2 in model post variable selection when 0 orthogonal variables are used in model post variable selection
 
 ### Selecting amount of orthogonal variables in model pre variable selection and in model post variable selection
 
@@ -157,9 +121,9 @@ ortho_post_vs_Model2 <- ortho_post_vs
 ```
 
 
-## Best performing model using p(corr) cutoff corresponding to userset pvalue cutoff for correlation
+## Best performing model using p(corr) cutoff corresponding to userset pvalue cutoff
 ### Model description
-#### Best performing model performing variable selection using p(corr) cutoff `r pcorr` corresponding to p-value `r p_pearson_of_pcorr_cutoff` has `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection before variable selection
+#### Best performing model performing variable selection using p(corr) cutoff `r pcorr` corresponding to p-value `r p_pearson_of_pcorr_cutoff` has `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection
 
 ```{R Best performing model2}
 
@@ -304,7 +268,7 @@ kable(percentage_and_pvalue_perm_Model2, row.names = T) %>%
 ```
 #### Plot permutations of best performing model with variable selection using p(corr) cutoff `r pcorr` corresponding to p-value `r p_pearson_of_pcorr_cutoff`
 
-```{R  plot permutation over vs model2, fig.height = 10}
+```{R  plot permutation over vs model2, fig.width = 10}
 
 plotpermutationswithoriginalmodelandreg(permutated_models_Model2, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP)
 ```

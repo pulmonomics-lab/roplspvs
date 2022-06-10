@@ -48,7 +48,7 @@ max_pcorrtable_with_max_Q2_and_diff_less_than_02_few_variables <-
 pcorr <- max_pcorrtable_with_max_Q2_and_diff_less_than_02_few_variables$"pcorr cutoff"
 ```
 #### Plot of p(corr) table of models post variable selection using different p(corr) cutoff showing models with different amount of variables versus Q2(cum).
-Model using minimal amount of variables is indicated in red.
+Best performing model using minimal amount of variables selected using model strategy 4 is indicated in red.
 
 labels show pcorr cutoff
 
@@ -99,9 +99,9 @@ ortho_pre_vs <- no_orto_in_model_pre_vs_and_in_model_post_vs_with_max_Q2_and_dif
 
 ortho_post_vs <- no_orto_in_model_pre_vs_and_in_model_post_vs_with_max_Q2_and_diff_less_than_02_few_variables$"ortho post v.s."
 ```
-#### Plot of model post variable selection with different amount of orthogonal variables in model pre variable selection and in model post variable selection using p(corr)=`r pcorr` giving highest Q2 while using minimal amount of variables showing difference between R2Y(cum) and Q2(cum) versus Q2(cum)
+#### Plot of model post variable selection with different amount of orthogonal variables in model pre variable selection and in model post variable selection using p(corr)=`r pcorr` giving highest Q2 while using minimal amount of variables showing difference between R2Y(cum) and Q2(cum) versus Q2(cum) post variable selection
 
-labels show amount of latent orthogonal variables in model (original,post variable selection)
+labels show amount of latent orthogonal variables in model (pre variable selection, post variable selection)
 ```{R plot table of orthogonals Model 4}
 
 plotof_model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs(
@@ -266,7 +266,7 @@ kable(percentage_and_pvalue_perm_Model4, row.names = T) %>%
 ```
 #### Plot permutations of model with variable selection using p(corr) cutoff `r pcorr` with highest Q2 after variable selection  using minimal amount of variables and `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection
 
-```{R plot permutation over vs model4, fig.height = 10}
+```{R plot permutation over vs model4, fig.width = 10}
 
 plotpermutationswithoriginalmodelandreg(permutated_models_Model4, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP)
 ```

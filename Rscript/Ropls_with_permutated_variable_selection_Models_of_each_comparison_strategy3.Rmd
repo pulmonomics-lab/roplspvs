@@ -17,9 +17,9 @@ author: |
     | Marika Strom
 ---
 
-# Model 3. Model with variable using p(corr) cutoff giving best performing model and less than userset p-value cutoff for pearson correlation 
+# Model strategy 3. Model with variable using p(corr) cutoff giving best performing model
 
-Selecting model with variable selection using p(corr) which gives model with high Q2, low difference between R2 and Q2, low p-value for Q2 and corresponding to p-value for pearson correlation less than `r p_pearson_of_pcorr_cutoff`
+Selecting model with variable selection using p(corr) cutoff which gives model with high Q2, low difference between R2 and Q2, low p-value for Q2 and corresponding to p-value for pearson correlation less than `r p_pearson_of_pcorr_cutoff`
 
 ## Model optimization
 
@@ -60,10 +60,10 @@ max_pcorrtable_with_max_Q2_and_diff_less_than_02_many_variables <-
 pcorr <- max_pcorrtable_with_max_Q2_and_diff_less_than_02_many_variables$"pcorr cutoff"
 ```
 
-#### Plot of p(corr) table of models post variable selection using different p(corr) cutoff showing models with different amount of variables versus Q2(cum).
-Model using minimal amount of variables is indicated in red.
+#### Plot of p(corr) table of models post variable selection using different p(corr) cutoff showing models with different amount of variables versus Q2(cum) post variable selection.
+Most predictive model selected using models strategy 3 is indicated in red.
 
-labels show pcorr cutoff in A and amount of variables in B
+labels show pcorr cutoff
 
 ```{R plot pcorr table Model3}
 
@@ -272,7 +272,7 @@ kable(percentage_and_pvalue_perm_Model3, row.names = T) %>%
 ```
 #### Plot permutations of model with variable selection using p(corr) cutoff `r pcorr` with highest Q2 after variable selection and `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection
 
-```{R plot permutation over vs model3, fig.height = 10}
+```{R plot permutation over vs model3, fig.width = 10}
 
 plotpermutationswithoriginalmodelandreg(permutated_models_Model3, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP)
 ```

@@ -165,17 +165,17 @@ Missing value tolerance in each group: `r filter_percent_in_each_group`
 
 Model: group `r group1` vs group `r group2` for `r secID`
 
-max number of orthogonal variables in model pre variable selection in Model 2: `r max_no_of_ortho_pre_vs_in_Model2`
+max number of orthogonal variables in model pre variable selection in Model strategy 2: `r max_no_of_ortho_pre_vs_in_Model2`
 
-max number of orthogonal variables in model pre variable selection in Model 3 and 4: `r max_no_of_ortho_pre_vs_in_Model3_and_Model4`
+max number of orthogonal variables in model pre variable selection in Model strategy 3 and 4: `r max_no_of_ortho_pre_vs_in_Model3_and_Model4`
 
-max number of orthogonal variables in model post variable selection in model 2: `r max_no_of_ortho_post_vs_in_Model2`
+max number of orthogonal variables in model post variable selection in Model strategy 2: `r max_no_of_ortho_post_vs_in_Model2`
 
-max number of orthogonal variables in model post variable selection in model 3 and 4: `r max_no_of_ortho_post_vs_in_Model3_and_Model4`
+max number of orthogonal variables in model post variable selection in Model strategy 3 and 4: `r max_no_of_ortho_post_vs_in_Model3_and_Model4`
 
 prefered pR2 and pQ2 during model selection permutated post variable selection: `r prefered_pR2_and_pQ2_permutated_post_vs`
 
-pcorr increase allowing Q2 to decrease 1% during model selection in Model4: `r pcorr_diff`
+pcorr increase allowing Q2 to decrease 1% during model selection in Model strategy 4: `r pcorr_diff`
 
 variable selection method: `r if(variable_selection_using_VIP=="yes") {paste("Using p(corr) and VIP")} else {paste("Using p(corr)")}`
 
@@ -274,8 +274,8 @@ opls(subsetdatamatrix_group2, typeVc = "x-score", info.txtC = "none", crossvalI 
 ```
 
 ```{r}
-
-if(!file.exists(paste(directory_output_reports, filename_rdata,sep=""))){first_analysis<-T}
+first_analysis<-T
+if(file.exists(paste(directory_output_reports, filename_rdata,sep=""))){first_analysis<-F}
 if(first_analysis==T){
 save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = environment())
 }

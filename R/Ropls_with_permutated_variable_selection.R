@@ -104,13 +104,13 @@ source(directory_and_filename_function_file)
 #Create directories.
 makeproject(directory_of_analysis, directory_output_reports)
 if (length(dir(directory_input_matrix_sampleID)) ==0) {directory_input_matrix_sampleID <- paste(directory_of_Ropls_with_permutated_variable_selection,"/inst/extdata",sep="")}
-#Reorder groups to have deseased first if nessasary
+#Reorder groups to have diseased first if necessary
 setwd(directory_input_matrix_sampleID)
 file_sampleID <- read.table(filename_sampleID,header=T, dec = ".", row.names=1, check.names = FALSE, na.strings=c("", "NA", "Inf",""), sep="\t")
 levels_of_groups <- levels(as.factor(file_sampleID[,paste(colname_groupID)]))
-levels_of_groups # Check if order of the groups are correct with deseased first and controls last
+levels_of_groups # Check if order of the groups are correct with diseased first and controls last
 reordered_levels_of_groups <- reorder_levels_of_groups(order_of_groups,levels_of_groups) # Note that it has to be run even if order is "correct"
-reordered_levels_of_groups #Check that reordered groups has deseased first and controls last.
+reordered_levels_of_groups #Check that reordered groups has diseased first and controls last.
 order_of_groups_numeric <- match(levels_of_groups,reordered_levels_of_groups)
 
 #Create or load model table to analyse containing the comparisons to be modeled.
@@ -235,7 +235,16 @@ if (each_model_or_summary=="summary"|(cluster=="no" & each_model_or_summary=="bo
                       no_permutations_over_vs=no_permutations_over_vs,
                       no_permutations_post_vs_selected_models=no_permutations_post_vs_selected_models,
                       filter_percent_in_each_group=filter_percent_in_each_group,
-                      groupsnumeric=groupsnumeric))
+                      groupsnumeric=groupsnumeric,
+                      model_strategies_to_run=model_strategies_to_run,
+                      max_no_of_ortho_pre_vs_in_Model2=max_no_of_ortho_pre_vs_in_Model2,
+                      max_no_of_ortho_pre_vs_in_Model3_and_Model4=max_no_of_ortho_pre_vs_in_Model3_and_Model4,
+                      max_no_of_ortho_post_vs_in_Model2=max_no_of_ortho_post_vs_in_Model2,
+                      max_no_of_ortho_post_vs_in_Model3_and_Model4=max_no_of_ortho_post_vs_in_Model3_and_Model4,
+                      prefered_pR2_and_pQ2_permutated_post_vs=prefered_pR2_and_pQ2_permutated_post_vs,
+                      reordered_levels_of_groups=reordered_levels_of_groups,
+                      pcorr_diff=pcorr_diff,
+                      variable_selection_using_VIP=variable_selection_using_VIP))
 }
 }
 

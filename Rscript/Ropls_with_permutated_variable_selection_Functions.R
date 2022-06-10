@@ -52,58 +52,6 @@ subsetdatamatrix
   ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
   ### oplsmodelwithvariableselection                                           ####
 
-  oplsmodelwithvariableselection <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr=0.4, printoptmodel="none",plotoptmodel="none", no_permutations_post_vs=no_permutations_post_vs){
-
-    beforevsdata.oplsda <- opls(subsetdatamatrix, class, predI = 1, orthoI = ortho_pre_vs, scaleC="standard",info.txtC="none",fig.pdfC="none", permI=0)
-
-    vipropls <- getVipVn(beforevsdata.oplsda)
-    summaryropls <- getSummaryDF(beforevsdata.oplsda)
-    loadingropls <- getLoadingMN(beforevsdata.oplsda)
-    Scoreofvariables <- getScoreMN(beforevsdata.oplsda)
-
-
-    ### Calculate correlation between x and score to give p(corr)
-
-    pcorrofvariables <-vector()
-    for (i in 1:ncol(subsetdatamatrix)){
-      pcorrofvariableshtest <- cor.test(subsetdatamatrix[,i],Scoreofvariables,method="pearson")
-      pcorrofvariables[i] <- pcorrofvariableshtest$estimate
-    }
-    pcorrofvariables <- as.data.frame(pcorrofvariables)
-    row.names(pcorrofvariables) <- colnames(subsetdatamatrix)
-    ### pcorrlist of selected variables
-    choosingsubset <- pcorrofvariables$pcorrofvariables>pcorr|pcorrofvariables$pcorrofvariables<(-(pcorr))
-    choosingVIP <- vipropls>1
-    choosingVIPandpcorr <- choosingsubset & choosingVIP
-    subsetpcorrandVIPofvariables <- subset(pcorrofvariables,choosingVIPandpcorr)
-
-    if (nrow(subsetpcorrandVIPofvariables)>ortho_post_vs+1) {
-
-      ### model after variable selection
-      aftervariableselectionsubsetdatamatrix <- subsetdatamatrix[,rownames(subsetpcorrandVIPofvariables)]
-
-      aftervsdata.oplsda = opls(aftervariableselectionsubsetdatamatrix, class, predI = 1, orthoI = ortho_post_vs, scaleC="standard",info.txtC=printoptmodel,fig.pdfC=plotoptmodel,permI=no_permutations_post_vs)
-      viproplsaftervs <- getVipVn(aftervsdata.oplsda)
-      summaryroplsaftervs <- getSummaryDF(aftervsdata.oplsda)
-      loadingroplsaftervs <- getLoadingMN(aftervsdata.oplsda)
-      scoreofvariablesaftervs <- getScoreMN(aftervsdata.oplsda)
-      variables_no <-length(loadingroplsaftervs)
-      resultaftervs <- cbind(pcorr,ortho_pre_vs,variables_no,summaryroplsaftervs)
-      resultoplsmodelwithvariableselection <- list(beforevsdata.oplsda=beforevsdata.oplsda, aftervsdata.oplsda=aftervsdata.oplsda,resultaftervs=resultaftervs,variables_no=variables_no, scoreofvariablesaftervs=scoreofvariablesaftervs, loadingroplsaftervs=loadingroplsaftervs,pcorrlistaftervs=subsetpcorrandVIPofvariables)
-
-    } else {
-      resultaftervs <- data.frame(matrix(NA,nrow=1, ncol=11))
-      colnames(resultaftervs)<-c("pcorr","ortho_pre_vs","variables_no","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pre","ort","pR2Y","pQ2")
-      row.names(resultaftervs)<-c("Total")
-      resultoplsmodelwithvariableselection <- list(resultaftervs=resultaftervs)
-      resultoplsmodelwithvariableselection
-    }
-
-
-    class(resultoplsmodelwithvariableselection) <- "modelresultsummary"
-   resultoplsmodelwithvariableselection
-
-  }
 
 opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, printoptmodel="none",plotoptmodel="none", no_permutations_post_vs, variable_selection_using_VIP){
 
@@ -150,23 +98,23 @@ opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_p
         variables_no <-length(loadingroplsaftervs)
         resultaftervs <- cbind(pcorr,beforevsdata.oplsda@summaryDF$ort,variables_no,summaryroplsaftervs)
 
-        pcorrlistaftervs <-vector()
+        pcorrlistaftervs <-data.frame(matrix(ncol=3))
         for (i in 1:ncol(aftervariableselectionsubsetdatamatrix)){
           pcorrlistaftervshtest <- cor.test(aftervariableselectionsubsetdatamatrix[,i],scoreofvariablesaftervs,method="pearson")
-          pcorrlistaftervs[i] <- pcorrlistaftervshtest$estimate
+          pcorrlistaftervs[i,] <- c(pcorrlistaftervshtest$estimate,pcorrlistaftervshtest$conf.int[1],pcorrlistaftervshtest$conf.int[2])
         }
-        pcorrlistaftervs <- as.data.frame(pcorrlistaftervs)
+        colnames(pcorrlistaftervs) <- c("pcorrlistaftervs","conf.int.low","conf.int.high")
         row.names(pcorrlistaftervs) <- colnames(aftervariableselectionsubsetdatamatrix)
 
-        if ("pR2Y" %in% colnames(resultaftervs)) {colnames(resultaftervs) <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pre","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")} else {
-          colnames(resultaftervs) <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pre","ortho post v.s.")
+        if ("pR2Y" %in% colnames(resultaftervs)) {colnames(resultaftervs) <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")} else {
+          colnames(resultaftervs) <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.")
           }
         rownames(resultaftervs) <- "model"
         resultoplsmodelwithvariableselection <- list(beforevsdata.oplsda=beforevsdata.oplsda, aftervsdata.oplsda=aftervsdata.oplsda,resultaftervs=resultaftervs,variables_no=variables_no, scoreofvariablesaftervs=scoreofvariablesaftervs, loadingroplsaftervs=loadingroplsaftervs,pcorrlistaftervs=pcorrlistaftervs)
         resultoplsmodelwithvariableselection
       } else {
         resultaftervs <- data.frame(matrix(NA,nrow=1, ncol=11))
-        colnames(resultaftervs)<-c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pre","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
+        colnames(resultaftervs)<-c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
         row.names(resultaftervs)<-c("Total")
         resultoplsmodelwithvariableselection <- list(resultaftervs=resultaftervs)
         resultoplsmodelwithvariableselection
@@ -175,7 +123,7 @@ opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_p
     },
     error = function(e){
       resultaftervs <- data.frame(matrix(NA,nrow=1, ncol=11))
-      colnames(resultaftervs)<-c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pre","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
+      colnames(resultaftervs)<-c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
       row.names(resultaftervs)<-c("Total")
       resultoplsmodelwithvariableselection <- list(resultaftervs=resultaftervs)
       resultoplsmodelwithvariableselection
@@ -234,7 +182,7 @@ sinkout <- function() {
        geom_point() +
      geom_text_repel(label=amountofvariablesinmodelwithdiffplot$ort)+
             labs(y="difference between R2Y(cum) and Q2(cum)")+
-       labs(x="Q2(cum)")+
+       labs(x="Q2(cum) pre variable selection")+
      theme(text=element_text(size=14), axis.text=element_text(size=14))
 
   }
@@ -289,7 +237,7 @@ sinkout <- function() {
     ggplot(amountofvariablesinmodelwithdiffplot, aes(Q2cum, diff, color=c(amountofvariablesinmodelwithdiffplot$`ortho pre v.s.` == choosen_model$`ortho pre v.s.` & amountofvariablesinmodelwithdiffplot$`ortho post v.s.` == choosen_model$`ortho post v.s.`))) +
       geom_point() +
       geom_text_repel(label=paste(amountofvariablesinmodelwithdiffplot$"ortho pre v.s.",",",amountofvariablesinmodelwithdiffplot$"ortho post v.s.")) +
-      labs(y="difference between R2Y(cum) and Q2(cum)", x="Q2(cum)") +
+      labs(y="difference between R2Y(cum) and Q2(cum)", x="Q2(cum) post variable selection") +
       theme(text=element_text(size=14), axis.text=element_text(size=14)) +
       scale_color_manual(values=c("black","red"), name=NULL) +
       guides(fill=FALSE, color=FALSE)
@@ -337,7 +285,7 @@ sinkout <- function() {
      ggplot(amountofvariablesinmodelwithdiffplot, aes(Q2cum, `no. variables`,color=c(amountofvariablesinmodelwithdiffplot$`no. variables`==max_pcorrtable_with_max_Q2_and_diff_less_than_02_few_variables$`no. variables`))) +
       geom_point() +
       geom_text_repel(label=paste(amountofvariablesinmodelwithdiffplot$`pcorr cutoff`)) +
-      labs(y="no. variables", x="Q2(cum)") +
+      labs(y="Number of variables", x="Q2(cum) post variable selection") +
       theme(text=element_text(size=14), axis.text=element_text(size=14)) +
       scale_color_manual(values=c("black","red"), name=NULL) +
       guides(fill=FALSE, color=FALSE)
@@ -455,15 +403,22 @@ sinkout <- function() {
                                     message("<10 variables, no overlap")
                                   }
                               }}}}
-    pB1 <- ggplot(pcorrplot, aes(x=reorder(row.names(pcorrplot),-pcorrplot$pcorrlistaftervs),y=pcorrplot$pcorrlistaftervs))
+    pB1 <- ggplot(pcorrplot, aes(x=reorder(row.names(pcorrplot),-pcorrlistaftervs),y=pcorrlistaftervs))
     pB2 <- pB1 +geom_col()
     pB3 <- pB2 + theme(axis.text.x = element_text(angle = 90, size=fontsize, lineheight=lineheight,hjust=1,vjust=0.5), text=element_text(size=15), axis.text=element_text(size=15))
     pB4 <- pB3 + labs(y="p(corr)", x=element_blank(),title="P(corr) plot")
     pB5 <- pB4 + scale_x_discrete(labels = function(x) str_wrap(x, width = widthsize))
     pB6 <- pB5 + ylim(-1,1)
-    if (nrow(pcorrplot)>50) {pB7 <- pB6 + theme(axis.text.x = element_blank())
-    pB7} else {
-      pB6}
+    pB7<-pB6 +
+      geom_errorbar(
+        aes(x=reorder(row.names(pcorrplot),-pcorrlistaftervs),
+            ymin = conf.int.low,
+            ymax = conf.int.high),
+        color = "red"
+      )
+    if (nrow(pcorrplot)>50) {pB8 <- pB7 + theme(axis.text.x = element_blank())
+    pB8} else {
+      pB7}
   }
 
   plotpcorronly50variables <- function(model, variable_names_length, variable_names_position){
@@ -541,13 +496,19 @@ sinkout <- function() {
 
 
 
-    pB1 <- ggplot(pcorrplot, aes(x=reorder(row.names(pcorrplot),-pcorrplot$pcorrlistaftervs),y=pcorrplot$pcorrlistaftervs))
+    pB1 <- ggplot(pcorrplot, aes(x=reorder(row.names(pcorrplot),-pcorrlistaftervs),y=pcorrlistaftervs))
     pB2 <- pB1 +geom_col()
     pB3 <- pB2 + theme(axis.text.x = element_text(angle = 90, size=fontsize, lineheight=lineheight,hjust=1,vjust=0.5), text=element_text(size=15), axis.text=element_text(size=15))
     pB4 <- pB3 + labs(y="p(corr)", x=element_blank(),title="P(corr) plot of 50 most contributing variables")
     pB5 <- pB4 + scale_x_discrete(labels = function(x) str_wrap(x, width = widthsize))
     pB6 <- pB5 + ylim(-1,1)
-    pB6
+    pB7<-pB6 +
+      geom_errorbar(
+        aes(x=reorder(row.names(pcorrplot),-pcorrlistaftervs),
+            ymin = conf.int.low,
+            ymax = conf.int.high),
+        color = "red")
+    pB7
   }
 
   #library(bootstrap)
@@ -669,14 +630,14 @@ sinkout <- function() {
 
   ##  ............................................................................
   ##  create table of randomized model                                        ####
-  table_of_randomised_models_before_vs <- function(subsetsampleID,colname_groupID,subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, no_permutations_pre_vs, variable_selection_using_VIP){
-  permutated_models <- data.frame(matrix(NA,nrow=no_permutations_pre_vs,ncol=10))
-  for (i in 1:no_permutations_pre_vs){
+  table_of_randomised_models_over_vs <- function(subsetsampleID,colname_groupID,subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, no_permutations_over_vs, variable_selection_using_VIP){
+  permutated_models <- data.frame(matrix(NA,nrow=no_permutations_over_vs,ncol=10))
+  for (i in 1:no_permutations_over_vs){
     permutated_models[i,] <- permoplsmodelwithvariableselection(subsetsampleID,colname_groupID,subsetdatamatrix,ortho_pre_vs,ortho_post_vs,class, pcorr, variable_selection_using_VIP=variable_selection_using_VIP)
   sinkout()
 	}
   row.names(permutated_models) <- c(paste("model",1:nrow(permutated_models)))
-  colnames(permutated_models) <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pre","ortho post v.s.","corrcoff")
+  colnames(permutated_models) <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.","corrcoff")
   permutated_models
   }
 
@@ -740,12 +701,16 @@ sinkout <- function() {
     pcorrtestpermutationQ2 <- cor.test(permutated_modelsplusunpermutated$`Q2cum`,permutated_modelsplusunpermutated$corrcoff,method="pearson")
     pcorrtestpermutation <- list(pcorrtestpermutationR2Y,pcorrtestpermutationQ2)
     names(pcorrtestpermutation) <- c("R2Y","Q2")
-    pforpermutationtable <- data.frame(nrow=4)
-    pforpermutationtable[1] <- pcorrtestpermutation$R2Y$estimate
-    pforpermutationtable[2] <- pcorrtestpermutation$Q2$estimate
-    pforpermutationtable[3] <- pcorrtestpermutation$R2Y$p.value
-    pforpermutationtable[4] <- pcorrtestpermutation$Q2$p.value
-    names(pforpermutationtable) <-c("Correlation between R2Y for permutations over variable selection and correlation between permutated and unpermutated","Correlation between Q2 for permutations over variable selection. and correlation between permutated and unpermutated","P-value for correlation between R2Y for permutations over variable selection and correlation between permutated and unpermutated","P-value for correlation between Q2 for permutations over variable selection and correlation between permutated and unpermutated")
+    pforpermutationtable <- data.frame(nrow=5)
+    reg_of_perm <- lm(permutated_modelsplusunpermutated$`Q2cum`~permutated_modelsplusunpermutated$corrcoff)
+    pforpermutationtable[1] <- reg_of_perm$coefficients[1]
+    pforpermutationtable[2] <- pcorrtestpermutation$R2Y$estimate
+    pforpermutationtable[3] <- pcorrtestpermutation$Q2$estimate
+    pforpermutationtable[4] <- pcorrtestpermutation$R2Y$p.value
+    pforpermutationtable[5] <- pcorrtestpermutation$Q2$p.value
+
+
+    names(pforpermutationtable) <-c("intercept of permutation","Correlation between R2Y for permutations over variable selection and correlation between permutated and unpermutated","Correlation between Q2 for permutations over variable selection. and correlation between permutated and unpermutated","P-value for correlation between R2Y for permutations over variable selection and correlation between permutated and unpermutated","P-value for correlation between Q2 for permutations over variable selection and correlation between permutated and unpermutated")
     t(pforpermutationtable)
     }
 
@@ -763,9 +728,9 @@ sinkout <- function() {
 
     pC1 <-  ggplot(permutated_modelsplusunpermutated, aes(x=corrcoff,y=`R2Ycum`, color=corrcoff==1))
     pC2 <- pC1 + geom_point()
-    pC3 <- pC2 + labs(y="R2Y(cum) of permutated model", x="correlation coefficient between Y and permutated Y",title="Permutation plot R2Y(cum)")
+    pC3 <- pC2 + labs(y="R2Y(cum) post variable selection", x=NULL,title="R2Y(cum)")
     pC4 <- pC3 + geom_smooth(method = "lm", se=FALSE, color="black", formula = y ~ x)
-    pC5 <- pC4 + stat_cor(method = "pearson", color="black", size=5,label.y.npc="middle",label.x.npc="middle")
+    pC5 <- pC4 + stat_cor(method = "pearson", color="black", size=5,label.y.npc="bottom",label.x.npc=0.5)
     pC6 <- pC5 + theme(legend.position = "top",text=element_text(size=15), axis.text=element_text(size=15))
     pC7 <- pC6 + scale_color_manual(values=c("red","blue"),labels = c("permutated","unpermutated"), name=NULL)
 
@@ -774,12 +739,15 @@ sinkout <- function() {
 
     pC8 <-  ggplot(permutated_modelsplusunpermutated, aes(x=corrcoff,y=`Q2cum`, color=corrcoff==1))
     pC9 <- pC8 + geom_point()
-    pC10 <- pC9 + labs(y="Q2(cum) of permutated model", x="correlation coefficient between Y and permutated Y",title="Permutation plot Q2(cum)")
+    pC10 <- pC9 + labs(y="Q2(cum) post variable selection", x=NULL,title="Q2(cum)")
     pC11 <- pC10 + geom_smooth(method = "lm", se=FALSE, color="black", formula = y ~ x)
-    pC12 <- pC11 + stat_cor(method = "pearson", color="black", size=5,label.y.npc="middle",label.x.npc="middle")
+    pC12 <- pC11 + stat_cor(method = "pearson", color="black", size=5,label.y.npc="bottom",label.x.npc=0.5)
     pC13 <- pC12 + theme(legend.position = "top",text=element_text(size=15), axis.text=element_text(size=15))
     pC14 <- pC13 + scale_color_manual(values=c("red","blue"),labels = c("permutated","unpermutated"), name=NULL)
-grid.arrange(pC7, pC14, nrow = 2)
+
+    grid.arrange(pC7, pC14, nrow = 1,top=text_grob("Permutation over variable selection", size = 20),bottom=text_grob(
+      "correlation coefficient between Y and permutated Y", size=15))
+
 }
 
   plotpermutationswithoriginalmodelandregusingggscatter <- function(permutated_models, subsetdatamatrix, ortho_pre_vs, orhoIoptimized,class,pcorr,variable_selection_using_VIP){
@@ -1001,7 +969,7 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
       table_of_each_comparison[[j]] <- list(summaryeachcomparisontable)
 
       best_performing_iteration_model_few_variables$`diff R2Y(cum)-Q2(cum)` <- NULL
-      summary_Model5modeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,best_performing_iteration_model_few_variables,NA,NA,NA,NA,NA,NA)
+      summary_Model5modeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,best_performing_iteration_model_few_variables,NA,NA,NA,NA,NA,NA,NA)
       colnames(summary_Model5modeltablei) <- colnames(summaryeachcomparisontable)
       summaryeachcomparisontable <- rbind(summaryeachcomparisontable,summary_Model5modeltablei)
       table_of_each_comparison[[j]] <- list(summaryeachcomparisontable)

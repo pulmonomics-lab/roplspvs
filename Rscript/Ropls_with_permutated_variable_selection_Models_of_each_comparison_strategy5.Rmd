@@ -20,7 +20,7 @@ author: |
 
 
 # Iteration Model
-## Create iteration table continuously increasing p(corr) during variable selection and adding orthogonals only if it increases Q2 1% in the model (i.e. not concidering the total amount of orthogonals pre and post)
+## Create iteration table continuously increasing p(corr) during variable selection and adding orthogonals only if it increases Q2 1% in the model
 
 ```{R iteration table}
 testvariablename <- "iterationsummary"

@@ -170,7 +170,7 @@ kable(percentage_and_pvalue_perm_Model1, row.names = T) %>%
 
 #### Plot of permutations including variable selection
 
-```{R  plot permutation over vs Model1, fig.height = 10}
+```{R  plot permutation over vs Model1, fig.width = 10}
 
 plotpermutationswithoriginalmodelandreg(permutated_models_Model1, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP)
 
