@@ -1,0 +1,72 @@
+---
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+mathjax: null
+
+---
+
+---
+title: |
+    | Model summary each strategy
+
+author: |
+    | Ropls with permutated variable selection: Version 13
+    | Marika Strom
+---
+
+# Model strategy `r model_strategy`. `r model_description`
+
+
+```{r, echo=FALSE}
+
+summary_Model_table <- create_table_of_models(resultmodelname=resultmodelname, permutated_modelsname=permutated_modelsname, percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name = percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name,directory_output_reports,projectname,date_of_analysis)
+order_of_models <- 0
+if (groupsnumeric == "yes"){
+  order_of_models <- order(as.numeric(as.character(summary_Model_table$group1)),as.numeric(as.character(summary_Model_table$group2)))
+ summary_Model_table <- summary_Model_table[order_of_models,]
+}
+summary_Model_tabletokable <- summary_Model_table
+summary_Model_tabletokable[,c(17,18,19,20,21)] <- 
+  format(summary_Model_table[,c(17,18,19,20,21)], digits=2)
+summary_Model_tabletokable[,c(22,23)] <- 
+  format(summary_Model_table[,c(22,23)], scientific=TRUE, digits=2)
+kable(summary_Model_tabletokable, row.names = FALSE) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+meanofR2 <- mean(summary_Model_table$`pR2Y permutated over v.s.`)
+meanofQ2 <- mean(summary_Model_table$`pQ2 permutated over v.s.`)
+meanofR2 <- format(meanofR2, digits = 2)
+meanofQ2 <- format(meanofQ2, digits = 2)
+
+```
+Average of pR2Y respectively pQ2 of models with permutations over v.s.:
+pR2Y: `r meanofR2`
+pQ2: `r meanofQ2`
+
+
+
+# Significant model strategy `r model_strategy`.  `r model_description` 
+Showing significant models (p(Q2_perm_over_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
+
+```{r, echo=FALSE}
+
+summary_Model_tablesignificant <- subset(summary_Model_table,summary_Model_table$`pQ2 permutated over v.s.`<=0.05 & summary_Model_table$`R2Y(cum)`>=0.5 & summary_Model_table$`Q2(cum)`>=0.4 & as.numeric(summary_Model_table$`Correlation between Q2 for permutations over variable selection. and correlation between permutated and unpermutated`)>=0.1&as.numeric(summary_Model_table$`P-value for correlation between Q2 for permutations over variable selection and correlation between permutated and unpermutated`)<=0.05)
+summary_Model_tablesignificanttokable <- summary_Model_tablesignificant
+summary_Model_tablesignificanttokable[,c(17,18,19,20,21)] <- format(summary_Model_tablesignificant[,c(17,18,19,20,21)], digits=2)
+summary_Model_tablesignificanttokable[,c(22,23)] <- format(summary_Model_tablesignificant[,c(22,23)], scientific=TRUE, digits=2)
+kable(summary_Model_tablesignificanttokable, row.names = FALSE) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+percentofsignmodel <- nrow(summary_Model_tablesignificant)/nrow(summary_Model_table)*100
+percentofsignmodel <- format(percentofsignmodel, digits=0)
+
+assign(paste("summary_Model",model_strategy,"_table",sep=""),summary_Model_table)
+assign(paste("summary_Model",model_strategy,"_tabletokable",sep=""),summary_Model_tabletokable)
+assign(paste("summary_Model",model_strategy,"_tablesignificanttokable",sep=""),summary_Model_tablesignificanttokable)
+assign(paste("summary_Model",model_strategy,"_tablesignificant",sep=""),summary_Model_tablesignificant)
+
+```
+`r percentofsignmodel`% of models were significant.
+
