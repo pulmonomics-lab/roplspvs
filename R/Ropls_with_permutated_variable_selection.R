@@ -1,4 +1,4 @@
-#' Opls with permutationed variable selection version 0.13.0
+#' Opls with permutationed variable selection version 0.15.0
 #'
 #' Pipeline for OPLS models, variable selection and permutation
 #'

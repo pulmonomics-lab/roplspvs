@@ -13,7 +13,7 @@ title: |
     | Model summary iteration strategy
 
 author: |
-    | Ropls with permutated variable selection: Version 13
+    | Ropls with permutated variable selection: Version 0.15.0
     | Marika Strom
 ---
 

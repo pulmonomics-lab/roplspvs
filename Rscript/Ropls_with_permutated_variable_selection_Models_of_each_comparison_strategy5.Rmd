@@ -13,7 +13,7 @@ mathjax: null
 #    | Model strategy 5
     
 author: |
-    | Ropls with permutated variable selection: Version 0.13.0
+    | Ropls with permutated variable selection: Version 0.15.0
     | Marika Strom
 ---
 

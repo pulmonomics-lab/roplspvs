@@ -1,4 +1,4 @@
-#Function file used in Ropls-with-permutated-variable-selection Version 0.13.0
+#Function file used in Ropls-with-permutated-variable-selection Version 0.15.0
 
 subsetmatrixfunction <- function(sampleID,datamatrix,group1,group2,secID){
   if(secID=="joint"|secID=="no gender stratification"){
