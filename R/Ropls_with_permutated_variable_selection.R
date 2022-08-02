@@ -42,10 +42,8 @@
 #' @param no_of_ortho_pre_vs_Model1_stratified_models Numeric. Number of orthogonal variables in model pre variable selection of Model strategy 1 for stratified models. Either enter a value for stratified comparisons or vector containing the amount of orthogonal variables investigated in model pre variable selection for each model in model_table_to_analyse.
 #' @param no_of_ortho_post_vs_Model1_joint_models Numeric. Number of orthogonal variables in model post variable selection of Model strategy 1 for joint models. Either enter a value for joint comparisons or vector containing the amount of orthogonal variables investigated in model post variable selection for each model in model_table_to_analyse.
 #' @param no_of_ortho_post_vs_Model1_stratified_models Numeric. Number of orthogonal variables in model post variable selection of Model strategy 1 for stratified models. Either enter a value for stratified comparisons or vector containing the amount of orthogonal variables investigated in model post variable selection for each model in model_table_to_analyse.
-#' @param max_no_of_ortho_pre_vs_in_Model2 Numeric. Max number of orthogonal variables in model pre variable selection of Model strategy 2 with pcorrcutoff according to pvalue
-#' @param max_no_of_ortho_pre_vs_in_Model3_and_Model4 Numeric. Max number of orthogonal variables in model pre variable selection of Model strategy 3 and 4 with pcorr cutoff giving highest Q2
-#' @param max_no_of_ortho_post_vs_in_Model2 Numeric. Max number of orthogonal variables in model post variable selection of Model strategy 2 with pcorrcutoff according to pvalue
-#' @param max_no_of_ortho_post_vs_in_Model3_and_Model4 Numeric. Max number of orthogonal variables in model post variable selection of Model strategy 3 and 4 with pcorr cutoff giving highest Q2
+#' @param max_no_of_ortho_pre_vs Numeric. Max number of orthogonal variables in model pre variable selection
+#' @param max_no_of_ortho_post_vs Numeric. Max number of orthogonal variables in model post variable selection
 #' @param prefered_pR2_and_pQ2_permutated_post_vs Numeric. Prefered pR2 and pQ2 determined by permutation post variable selection during model optimization. The lower value the larger weight will be given to pQ2 instead of Q2 as well as instead of diff between R2 and Q2. THe value is applied during pcorr optimization in model strategy 3 and 4 and during selection of othogonals in model strategy 2 to 4 and while selecting best iteration model in model strategy 5. Minimum value is 1/no_permutations_post_vs.
 #' @param pcorr_diff Numeric. A value by which pcorr cutoff is decreased to allow more variables in the model if Q2 is increased more than 1 percent. Used in model strategy 4.
 #' @param variable_names_length Numeric. Number of characters of variablenames shown in loadingplot or "all"
@@ -68,10 +66,9 @@
 #' directory_input_matrix_sampleID,directory_output_reports,filename_Rmarkdownfile_each_model,filename_Rmarkdownfile_summary,
 #' filename_function_file,filter_percent_in_each_group,pcorr_cutoff_Model1_joint_models,pcorr_cutoff_Model1_stratified_models,
 #' variable_selection_using_VIP,no_of_ortho_pre_vs_Model1_joint_models,no_of_ortho_pre_vs_Model1_stratified_models,
-#' no_of_ortho_post_vs_Model1_joint_models,no_of_ortho_post_vs_Model1_stratified_models,max_no_of_ortho_pre_vs_in_Model2,
-#' max_no_of_ortho_pre_vs_in_Model3_and_Model4,max_no_of_ortho_post_vs_in_Model2,max_no_of_ortho_post_vs_in_Model3_and_Model4,
+#' no_of_ortho_post_vs_Model1_joint_models,no_of_ortho_post_vs_Model1_stratified_models, max_no_of_ortho_pre_vs, max_no_of_ortho_post_vs,
 #' prefered_pR2_and_pQ2_permutated_post_vs,pcorr_diff,variable_names_length,variable_names_position,
-#' cluster,name_intermediate_dir,each_model_or_summary)
+#' cluster,name_intermediate_dir,each_model_or_summary,model_strategies_to_run)
 #' @details In filename_sampleID and in filename_matrix do not use the following symbols in sampleID or variable names;
 #' ?, $, %, ^, &, *, (, ), -, #, ?, ,, <, >, /, |, , ], {, } and [
 #' Missing values should be indicated by "", "NA" or "Inf"
@@ -82,10 +79,9 @@ Ropls_with_permutated_variable_selection <- function(directory_of_Ropls_with_per
                                                          p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,
                                                          foldername_Rmarkdownfiles,foldername_of_input_matrix_and_sampleID,foldername_output_reports,foldername_function_file,
                                                          directory_input_matrix_sampleID,directory_output_reports,filename_Rmarkdownfile_each_model,filename_Rmarkdownfile_summary,
-                                                         filename_function_file,filter_percent_in_each_group,pcorr_cutoff_Model1_joint_models,pcorr_cutoff_Model1_stratified_models,
+                                                         filename_function_file,replace_0, filter_percent_in_each_group, replace_NA, log_transform,pcorr_cutoff_Model1_joint_models,pcorr_cutoff_Model1_stratified_models,
                                                          variable_selection_using_VIP,no_of_ortho_pre_vs_Model1_joint_models,no_of_ortho_pre_vs_Model1_stratified_models,
-                                                         no_of_ortho_post_vs_Model1_joint_models,no_of_ortho_post_vs_Model1_stratified_models,max_no_of_ortho_pre_vs_in_Model2,
-                                                         max_no_of_ortho_pre_vs_in_Model3_and_Model4,max_no_of_ortho_post_vs_in_Model2,max_no_of_ortho_post_vs_in_Model3_and_Model4,
+                                                         no_of_ortho_post_vs_Model1_joint_models,no_of_ortho_post_vs_Model1_stratified_models,max_no_of_ortho_pre_vs, max_no_of_ortho_post_vs,
                                                          prefered_pR2_and_pQ2_permutated_post_vs,pcorr_diff,variable_names_length,variable_names_position,
                                                          cluster,name_intermediate_dir,each_model_or_summary,model_strategies_to_run) {
 
@@ -159,12 +155,13 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                           no_permutations_post_vs=no_permutations_post_vs,
                           no_permutations_post_vs_selected_models=no_permutations_post_vs_selected_models,
                           no_permutations_over_vs=no_permutations_over_vs,
+                          replace_0=replace_0,
                           filter_percent_in_each_group=filter_percent_in_each_group,
+                          replace_NA=replace_NA,
+                          log_transform=log_transform,
                           directory_and_filename_function_file=directory_and_filename_function_file,
-                          max_no_of_ortho_pre_vs_in_Model2=max_no_of_ortho_pre_vs_in_Model2,
-                          max_no_of_ortho_pre_vs_in_Model3_and_Model4=max_no_of_ortho_pre_vs_in_Model3_and_Model4,
-                          max_no_of_ortho_post_vs_in_Model2=max_no_of_ortho_post_vs_in_Model2,
-                          max_no_of_ortho_post_vs_in_Model3_and_Model4=max_no_of_ortho_post_vs_in_Model3_and_Model4,
+                          max_no_of_ortho_pre_vs=max_no_of_ortho_pre_vs,
+                          max_no_of_ortho_post_vs=max_no_of_ortho_post_vs,
                           reordered_levels_of_groups=reordered_levels_of_groups,
                           prefered_pR2_and_pQ2_permutated_post_vs=prefered_pR2_and_pQ2_permutated_post_vs,
                           pcorr_diff=pcorr_diff,
@@ -199,12 +196,13 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                           no_permutations_post_vs=no_permutations_post_vs,
                           no_permutations_post_vs_selected_models=no_permutations_post_vs_selected_models,
                           no_permutations_over_vs=no_permutations_over_vs,
+                          replace_0=replace_0,
                           filter_percent_in_each_group=filter_percent_in_each_group,
+                          replace_NA=replace_NA,
+                          log_transform=log_transform,
                           directory_and_filename_function_file=directory_and_filename_function_file,
-                          max_no_of_ortho_pre_vs_in_Model2=max_no_of_ortho_pre_vs_in_Model2,
-                          max_no_of_ortho_pre_vs_in_Model3_and_Model4=max_no_of_ortho_pre_vs_in_Model3_and_Model4,
-                          max_no_of_ortho_post_vs_in_Model2=max_no_of_ortho_post_vs_in_Model2,
-                          max_no_of_ortho_post_vs_in_Model3_and_Model4=max_no_of_ortho_post_vs_in_Model3_and_Model4,
+                          max_no_of_ortho_pre_vs=max_no_of_ortho_pre_vs,
+                          max_no_of_ortho_post_vs=max_no_of_ortho_post_vs,
                           reordered_levels_of_groups=reordered_levels_of_groups,
                           prefered_pR2_and_pQ2_permutated_post_vs=prefered_pR2_and_pQ2_permutated_post_vs,
                           pcorr_diff=pcorr_diff,
@@ -237,10 +235,8 @@ if (each_model_or_summary=="summary"|(cluster=="no" & each_model_or_summary=="bo
                       filter_percent_in_each_group=filter_percent_in_each_group,
                       groupsnumeric=groupsnumeric,
                       model_strategies_to_run=model_strategies_to_run,
-                      max_no_of_ortho_pre_vs_in_Model2=max_no_of_ortho_pre_vs_in_Model2,
-                      max_no_of_ortho_pre_vs_in_Model3_and_Model4=max_no_of_ortho_pre_vs_in_Model3_and_Model4,
-                      max_no_of_ortho_post_vs_in_Model2=max_no_of_ortho_post_vs_in_Model2,
-                      max_no_of_ortho_post_vs_in_Model3_and_Model4=max_no_of_ortho_post_vs_in_Model3_and_Model4,
+                      max_no_of_ortho_pre_vs=max_no_of_ortho_pre_vs,
+                      max_no_of_ortho_post_vs=max_no_of_ortho_post_vs,
                       prefered_pR2_and_pQ2_permutated_post_vs=prefered_pR2_and_pQ2_permutated_post_vs,
                       reordered_levels_of_groups=reordered_levels_of_groups,
                       pcorr_diff=pcorr_diff,

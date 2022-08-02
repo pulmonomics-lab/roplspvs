@@ -9,11 +9,15 @@
 
 ## Project settings
 projectname <- "projectname" # "projectname" will appear in filenames and header of reports with underscores removed.
-date_of_analysis <- 201218 # yymmdd numeric date of analysis will appear in filenames.
+date_of_analysis <- 220614 # yymmdd numeric date of analysis will appear in filenames.
 
 ## Data matrix
 filename_matrix <- "filename.txt" #"filename.txt"
 decimal_separator <- "dot" # "dot" or "comma" as decimal separator in filename_matrix
+replace_0 <- F # F or "lld" or what to replace 0 values with. Replacing is performed before filtering.
+filter_percent_in_each_group <- 25 # Numeric. Missing value tolerance in each group which are compared.
+replace_NA <- F # F or "lld" or value to replace with. If not replaced NAs will be imputed. Replaceing is performed after filtering. Llq is calculated by lld in dataset/3.
+log_transform <- F # T or F
 
 ## SampleID
 filename_sampleID <- "filename.txt" #"filename.txt"* containing metadata with sampleID in the first column and containing one column with the groups to be compared and one column with secondaryID (for example gender) if stratification is desired. All subjectIDs has to be unique and ordered in the same way as in datamatrix.
@@ -32,6 +36,6 @@ p_pearson_of_pcorr_cutoff <- 0.05 # Numeric. P-value for p(corr) cutoff during v
 ## Running model settings
 setseedfirstmodel <- 1 #Numeric. Setseed of the first model. Second model will have setseedfirstmodel+1 etc.
 order_of_groups <- "correct" # # Character vector or numeric vector containing correct order of groups to compare or enter "correct" if order of levels in colname_groupID is already correct. Deseased first and controls last. This will define direction of scores as high in diseased.
-models_to_run <- "all" # numeric vector indicating models to run if all models are to be run enter "all"
+models_to_run <- "all" # numeric vector indicating which comparisons to run if all comparisons are to be run enter "all"
 
 

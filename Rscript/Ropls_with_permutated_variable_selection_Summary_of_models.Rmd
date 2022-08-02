@@ -18,10 +18,8 @@ params:
   filter_percent_in_each_group: 0
   groupsnumeric: "tomt"
   model_strategies_to_run: 0
-  max_no_of_ortho_pre_vs_in_Model2: 0
-  max_no_of_ortho_pre_vs_in_Model3_and_Model4: 0
-  max_no_of_ortho_post_vs_in_Model2: 0
-  max_no_of_ortho_post_vs_in_Model3_and_Model4: 0
+  max_no_of_ortho_pre_vs: 0
+  max_no_of_ortho_post_vs: 0
   prefered_pR2_and_pQ2_permutated_post_vs: 0
   reordered_levels_of_groups: 0
   pcorr_diff: 0
@@ -51,10 +49,8 @@ no_permutations_post_vs_selected_models<-params$no_permutations_post_vs_selected
 filter_percent_in_each_group<-params$filter_percent_in_each_group
 groupsnumeric<-params$groupsnumeric
 model_strategies_to_run <- params$model_strategies_to_run
-max_no_of_ortho_pre_vs_in_Model2 <- params$max_no_of_ortho_pre_vs_in_Model2
-max_no_of_ortho_pre_vs_in_Model3_and_Model4 <- params$max_no_of_ortho_pre_vs_in_Model3_and_Model4
-max_no_of_ortho_post_vs_in_Model2 <- params$max_no_of_ortho_post_vs_in_Model2
-max_no_of_ortho_post_vs_in_Model3_and_Model4 <- params$max_no_of_ortho_post_vs_in_Model3_and_Model4
+max_no_of_ortho_pre_vs <- params$max_no_of_ortho_pre_vs
+max_no_of_ortho_post_vs <- params$max_no_of_ortho_post_vs
 prefered_pR2_and_pQ2_permutated_post_vs <- params$prefered_pR2_and_pQ2_permutated_post_vs
 reordered_levels_of_groups <- params$reordered_levels_of_groups
 pcorr_diff <- params$pcorr_diff
@@ -101,13 +97,9 @@ Missing value tolerance in each group: `r filter_percent_in_each_group`
 
 order of groups with diseased first followed by controls: `r reordered_levels_of_groups`
 
-max number of orthogonal variables in model pre variable selection in Model 2: `r max_no_of_ortho_pre_vs_in_Model2`
+max number of orthogonal variables in model pre variable selection: `r max_no_of_ortho_pre_vs`
 
-max number of orthogonal variables in model pre variable selection in Model 3 and 4: `r max_no_of_ortho_pre_vs_in_Model3_and_Model4`
-
-max number of orthogonal variables in model post variable selection in model 2: `r max_no_of_ortho_post_vs_in_Model2`
-
-max number of orthogonal variables in model post variable selection in model 3 and 4: `r max_no_of_ortho_post_vs_in_Model3_and_Model4`
+max number of orthogonal variables in model post variable selection: `r max_no_of_ortho_post_vs`
 
 prefered pR2 and pQ2 during model selection permutated post variable selection: `r prefered_pR2_and_pQ2_permutated_post_vs`
 

@@ -30,12 +30,14 @@ if (!is.null(testvariable)){iterationsummary <- testvariable} else {
 iterationsummary<-
   iterationtable(
   subsetdatamatrix,
-  ortho_pre_vs=0,
-  ortho_post_vs=0,
+  ortho_pre_vs=NA,
+  ortho_post_vs=NA,
   class=classordered, 
   pcorrselectionsvector=c(seq(0.01,1,by=0.02)),
   no_permutations_post_vs=no_permutations_post_vs,
-  variable_selection_using_VIP=variable_selection_using_VIP
+  variable_selection_using_VIP=variable_selection_using_VIP,
+  max_no_of_ortho_pre_vs,
+  max_no_of_ortho_post_vs
 ) 
 }
 iterationtable <- iterationsummary[[1]]

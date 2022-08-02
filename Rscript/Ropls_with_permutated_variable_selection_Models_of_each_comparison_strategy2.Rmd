@@ -23,54 +23,25 @@ Selecting model with variable selection using p(corr) cutoff `r pcorr` correspon
 
 ## Optimizing model
 
-### Investigating amount of orthogonal variables in model pre variable selection
-
-#### Table of model pre variable selection with different amount of orthogonal variables in model pre variable selection
-
-```{R table model pre vs}
-testvariablename <- "table_different_amount_of_ortho_pre_vs_Model2"
-testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
-if (!is.null(testvariable)) {
-  table_different_amount_of_ortho_pre_vs_Model2 <- testvariable
-} else {
-  table_different_amount_of_ortho_pre_vs_Model2 <-
-    model_pre_vs_with_different_amount_of_ortho_pre_vs_table(
-      subsetdatamatrix,
-      no_of_orthogonal_in_model_pre_vs = 5,
-      class = classordered,
-      no_permutations_post_vs,
-      variable_selection_using_VIP
-    )
-}
-
-
-kable(table_different_amount_of_ortho_pre_vs_Model2, row.names = T) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
-
-no_orto_original_with_max_Q2 <-
-  subset(
-    table_different_amount_of_ortho_pre_vs_Model2,
-    table_different_amount_of_ortho_pre_vs_Model2$`Q2(cum)` == max(table_different_amount_of_ortho_pre_vs_Model2$`Q2(cum)`)
-  )
-
-no_orto_original_with_max_Q2 <- subset(no_orto_original_with_max_Q2, !duplicated(no_orto_original_with_max_Q2$`Q2(cum)`))
-```
-#### Plot of model pre variable selection with different amount of orthogonal variables in model pre variable selection showing differences between R2Y(cum) and Q2(cum) versus Q2(cum)
-```{R plot of model pre vs}
-
-plotof_model_pre_vs_with_different_amount_of_ortho_pre_vs(
-  table_different_amount_of_ortho_pre_vs_Model2
-)
-```
-
-`r no_orto_original_with_max_Q2$ort` orthogonal latent variables in model pre variable selection give model pre variable selection with highest Q2
-
 ### Selecting amount of orthogonal variables in model pre variable selection and in model post variable selection
 
 #### Table of model post variable selection with different amount of orthogonal variables in model pre variable selection and in model post variable selection 
 
 
 ```{R table of orthogonals model post vs Model2}
+result_Model2_test <-
+    opls_model_with_variable_selection_trycatch(
+      subsetdatamatrix,
+      ortho_pre_vs=NA,
+      ortho_post_vs=NA,
+      class = classordered,
+      pcorr, printoptmodel = "none",
+      plotoptmodel = "none",
+      no_permutations_post_vs = 0,
+      variable_selection_using_VIP,
+      max_no_of_ortho_pre_vs,
+      max_no_of_ortho_post_vs
+    )
 
 testvariablename <- "model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model2"
 testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
@@ -80,12 +51,14 @@ if (!is.null(testvariable)) {
   model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model2 <-
     model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs(
       subsetdatamatrix,
-      no_of_orthogonal_in_model_pre_vs = max_no_of_ortho_pre_vs_in_Model2,
-      no_of_orthogonal_in_model_post_vs = max_no_of_ortho_post_vs_in_Model2,
+      no_of_orthogonal_in_model_pre_vs = result_Model2_test$resultaftervs$`ortho pre v.s.`,
+      no_of_orthogonal_in_model_post_vs = result_Model2_test$resultaftervs$`ortho post v.s.`,
       class = classordered,
       pcorr = pcorr,
       no_permutations_post_vs = no_permutations_post_vs,
-      variable_selection_using_VIP
+      variable_selection_using_VIP,
+      max_no_of_ortho_pre_vs,
+      max_no_of_ortho_post_vs
     )
 }
 
@@ -141,7 +114,9 @@ if (!is.null(testvariable)) {
       pcorr, printoptmodel = "none",
       plotoptmodel = "none",
       no_permutations_post_vs = no_permutations_post_vs_selected_models,
-      variable_selection_using_VIP
+      variable_selection_using_VIP,
+      max_no_of_ortho_pre_vs,
+      max_no_of_ortho_post_vs
     )
 }
 ```
@@ -221,12 +196,14 @@ if (!is.null(testvariable)) {
       subsetsampleID,
       colname_groupID,
       subsetdatamatrix,
-      ortho_pre_vs,
-      ortho_post_vs,
+      ortho_pre_vs=NA,
+      ortho_post_vs=NA,
       class = classordered,
       pcorr,
       no_permutations_over_vs,
-      variable_selection_using_VIP
+      variable_selection_using_VIP,
+      max_no_of_ortho_pre_vs,
+      max_no_of_ortho_post_vs
     )
 }
 
@@ -270,7 +247,7 @@ kable(percentage_and_pvalue_perm_Model2, row.names = T) %>%
 
 ```{R  plot permutation over vs model2, fig.width = 10}
 
-plotpermutationswithoriginalmodelandreg(permutated_models_Model2, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP)
+plotpermutationswithoriginalmodelandreg(permutated_models_Model2, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP, max_no_of_ortho_pre_vs, max_no_of_ortho_post_vs)
 ```
 
 

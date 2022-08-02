@@ -25,7 +25,7 @@ Selecting model with variable selection using p(corr) cutoff which gives model w
 
 ### P(corr) table, investigating different p(corr) cutoff
 
-#### Table of models after variable selection using different p(corr) cutoff and using `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection.
+#### Table of models after variable selection using different p(corr) cutoff.
 
 ```{R table using different pcorr cutoff}
 pcorr_corresponging_to_pvalue <- calculatepcorrfrompvalue(selectpvalue = p_pearson_of_pcorr_cutoff, n = nrow(subsetsampleID))
@@ -37,12 +37,14 @@ if (!is.null(testvariable)) {
 } else {
   pcorr_table_of_model_post_vs <- pcorrtableofmodelsaftervs_withdiff(
     subsetdatamatrix,
-    ortho_pre_vs,
-    ortho_post_vs,
+    ortho_pre_vs=NA,
+    ortho_post_vs=NA,
     class = classordered,
     pcorrvector = c(seq(0.9, pcorr_corresponging_to_pvalue, by = -0.01), pcorr_corresponging_to_pvalue),
     no_permutations_post_vs = no_permutations_post_vs,
-    variable_selection_using_VIP
+    variable_selection_using_VIP, 
+      max_no_of_ortho_pre_vs, 
+      max_no_of_ortho_post_vs
   )
 }
 
@@ -87,12 +89,14 @@ if (!is.null(testvariable)) {
   model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model3 <-
     model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs(
       subsetdatamatrix,
-      no_of_orthogonal_in_model_pre_vs = max_no_of_ortho_pre_vs_in_Model3_and_Model4,
-      no_of_orthogonal_in_model_post_vs = max_no_of_ortho_post_vs_in_Model3_and_Model4,
+      no_of_orthogonal_in_model_pre_vs = max_pcorrtable_with_max_Q2_and_diff_less_than_02_many_variables$`ortho pre v.s.`,
+      no_of_orthogonal_in_model_post_vs = max_pcorrtable_with_max_Q2_and_diff_less_than_02_many_variables$`ortho post v.s.`,
       class = classordered,
       pcorr = pcorr,
       no_permutations_post_vs = no_permutations_post_vs,
-      variable_selection_using_VIP
+      variable_selection_using_VIP, 
+      max_no_of_ortho_pre_vs, 
+      max_no_of_ortho_post_vs
     )
 }
 
@@ -142,7 +146,9 @@ if (!is.null(testvariable)) {
       printoptmodel = "none",
       plotoptmodel = "none",
       no_permutations_post_vs = no_permutations_post_vs_selected_models,
-      variable_selection_using_VIP
+      variable_selection_using_VIP,
+      max_no_of_ortho_pre_vs,
+      max_no_of_ortho_post_vs
     )
 }
 ```
@@ -224,12 +230,14 @@ if (!is.null(testvariable)) {
       subsetsampleID,
       colname_groupID,
       subsetdatamatrix,
-      ortho_pre_vs,
-      ortho_post_vs,
+      ortho_pre_vs=NA,
+      ortho_post_vs=NA,
       class = classordered,
       pcorr,
       no_permutations_over_vs,
-      variable_selection_using_VIP
+      variable_selection_using_VIP,
+      max_no_of_ortho_pre_vs,
+      max_no_of_ortho_post_vs
     )
 }
 
@@ -274,7 +282,7 @@ kable(percentage_and_pvalue_perm_Model3, row.names = T) %>%
 
 ```{R plot permutation over vs model3, fig.width = 10}
 
-plotpermutationswithoriginalmodelandreg(permutated_models_Model3, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP)
+plotpermutationswithoriginalmodelandreg(permutated_models_Model3, subsetdatamatrix, ortho_pre_vs, ortho_post_vs, class = classordered, pcorr, variable_selection_using_VIP, max_no_of_ortho_pre_vs, max_no_of_ortho_post_vs)
 ```
 
 ### ROC curve

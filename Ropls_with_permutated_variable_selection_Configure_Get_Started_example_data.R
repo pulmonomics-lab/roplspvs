@@ -7,11 +7,15 @@
 
 ## Project settings
 projectname <- "testproj MTBLS136" # "projectname" will appear in filenames and header of reports with underscores removed.
-date_of_analysis <- 210330 # "yymmdd" numeric date of analysis will appear in filenames.
+date_of_analysis <- 220614 # "yymmdd" numeric date of analysis will appear in filenames.
 
 ## Data matrix
 filename_matrix <- "s_MTBLS136_datamatrix.txt" #"filename.txt"
 decimal_separator <- "dot" # "dot" or "comma"
+replace_0 <- "NA" # F or what to replace 0 values with. Replacing is performed before filtering.
+filter_percent_in_each_group <- 25 # Numeric. Missing value tolerance in each group which are compared.
+replace_NA <- "lld" # F or "lld" or value to replace with. If not replaced NAs will be imputed. Replaceing is performed after filtering. Llq is calculated by lld in dataset/3.
+log_transform <- T # T or F
 
 ## SampleID
 filename_sampleID <- "sampleID.txt" #filename.txt"

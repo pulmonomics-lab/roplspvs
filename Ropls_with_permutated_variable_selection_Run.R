@@ -25,9 +25,8 @@ Ropls_with_permutated_variable_selection(directory_of_Ropls_with_permutated_vari
                                              p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,
                                              foldername_Rmarkdownfiles,foldername_of_input_matrix_and_sampleID,foldername_output_reports,foldername_function_file,
                                              directory_input_matrix_sampleID,directory_output_reports,filename_Rmarkdownfile_each_model,filename_Rmarkdownfile_summary,
-                                             filename_function_file,filter_percent_in_each_group,pcorr_cutoff_Model1_joint_models,pcorr_cutoff_Model1_stratified_models,
+                                             filename_function_file,replace_0, filter_percent_in_each_group, replace_NA, log_transform,pcorr_cutoff_Model1_joint_models,pcorr_cutoff_Model1_stratified_models,
                                              variable_selection_using_VIP,no_of_ortho_pre_vs_Model1_joint_models,no_of_ortho_pre_vs_Model1_stratified_models,
-                                             no_of_ortho_post_vs_Model1_joint_models,no_of_ortho_post_vs_Model1_stratified_models,max_no_of_ortho_pre_vs_in_Model2,
-                                             max_no_of_ortho_pre_vs_in_Model3_and_Model4,max_no_of_ortho_post_vs_in_Model2,max_no_of_ortho_post_vs_in_Model3_and_Model4,
-                                             prefered_pR2_and_pQ2_permutated_post_vs,pcorr_diff,variable_names_length,variable_names_position,
+                                             no_of_ortho_post_vs_Model1_joint_models,no_of_ortho_post_vs_Model1_stratified_models,max_no_of_ortho_pre_vs,
+                                             max_no_of_ortho_post_vs, prefered_pR2_and_pQ2_permutated_post_vs,pcorr_diff,variable_names_length,variable_names_position,
                                              cluster,name_intermediate_dir,each_model_or_summary,model_strategies_to_run)

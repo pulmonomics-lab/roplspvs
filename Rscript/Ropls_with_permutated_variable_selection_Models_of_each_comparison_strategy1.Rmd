@@ -42,7 +42,9 @@ if (!is.null(testvariable)) {
       pcorr, printoptmodel = "none",
       plotoptmodel = "none",
       no_permutations_post_vs = no_permutations_post_vs_selected_models,
-      variable_selection_using_VIP
+      variable_selection_using_VIP,
+      max_no_of_ortho_pre_vs, 
+      max_no_of_ortho_post_vs
     )
 }
 ```
@@ -126,7 +128,9 @@ if (!is.null(testvariable)) {
       class = classordered,
       pcorr,
       no_permutations_over_vs,
-      variable_selection_using_VIP
+      variable_selection_using_VIP, 
+      max_no_of_ortho_pre_vs, 
+      max_no_of_ortho_post_vs
     )
 }
 

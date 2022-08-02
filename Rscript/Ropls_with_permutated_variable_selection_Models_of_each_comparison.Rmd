@@ -28,12 +28,13 @@ params:
   no_permutations_over_vs: 0
   colname_groupID: "tomt"
   colname_secID: "tomt"
+  replace_0: "tomt"
   filter_percent_in_each_group: 0
+  replace_NA: "tomt"
+  log_transform: "tomt"
   directory_and_filename_function_file: "tomt"
-  max_no_of_ortho_pre_vs_in_Model2: 0
-  max_no_of_ortho_pre_vs_in_Model3_and_Model4: 0
-  max_no_of_ortho_post_vs_in_Model2: 0
-  max_no_of_ortho_post_vs_in_Model3_and_Model4: 0
+  max_no_of_ortho_pre_vs: 0
+  max_no_of_ortho_post_vs: 0
   prefered_pR2_and_pQ2_permutated_post_vs: 0
   reordered_levels_of_groups: 0
   pcorr_diff: 0
@@ -99,12 +100,13 @@ no_permutations_post_vs_selected_models <- params$no_permutations_post_vs_select
 no_permutations_over_vs <- params$no_permutations_over_vs
 colname_groupID <- params$colname_groupID
 colname_secID <- params$colname_secID
+replace_0 <- params$replace_0
 filter_percent_in_each_group <- params$filter_percent_in_each_group
+replace_NA <- params$replace_NA
+log_transform <- params$log_transform
 directory_and_filename_function_file <- params$directory_and_filename_function_file
-max_no_of_ortho_pre_vs_in_Model2 <- params$max_no_of_ortho_pre_vs_in_Model2
-max_no_of_ortho_pre_vs_in_Model3_and_Model4 <- params$max_no_of_ortho_pre_vs_in_Model3_and_Model4
-max_no_of_ortho_post_vs_in_Model2 <- params$max_no_of_ortho_post_vs_in_Model2
-max_no_of_ortho_post_vs_in_Model3_and_Model4 <- params$max_no_of_ortho_post_vs_in_Model3_and_Model4
+max_no_of_ortho_pre_vs <- params$max_no_of_ortho_pre_vs
+max_no_of_ortho_post_vs <- params$max_no_of_ortho_post_vs
 prefered_pR2_and_pQ2_permutated_post_vs <- params$prefered_pR2_and_pQ2_permutated_post_vs
 reordered_levels_of_groups <- params$reordered_levels_of_groups
 pcorr_diff <- params$pcorr_diff
@@ -165,13 +167,9 @@ Missing value tolerance in each group: `r filter_percent_in_each_group`
 
 Model: group `r group1` vs group `r group2` for `r secID`
 
-max number of orthogonal variables in model pre variable selection in Model strategy 2: `r max_no_of_ortho_pre_vs_in_Model2`
+max number of orthogonal variables in model pre variable selection: `r max_no_of_ortho_pre_vs`
 
-max number of orthogonal variables in model pre variable selection in Model strategy 3 and 4: `r max_no_of_ortho_pre_vs_in_Model3_and_Model4`
-
-max number of orthogonal variables in model post variable selection in Model strategy 2: `r max_no_of_ortho_post_vs_in_Model2`
-
-max number of orthogonal variables in model post variable selection in Model strategy 3 and 4: `r max_no_of_ortho_post_vs_in_Model3_and_Model4`
+max number of orthogonal variables in model post variable selection: `r max_no_of_ortho_post_vs`
 
 prefered pR2 and pQ2 during model selection permutated post variable selection: `r prefered_pR2_and_pQ2_permutated_post_vs`
 
@@ -193,8 +191,12 @@ for (i in 1:length(class)) {
   classordered[i] <- class[i]
 }
 classordered <- droplevels(classordered)
-
+llq <- min(datamatrix[datamatrix!=0&!is.na(datamatrix)])
+lld <- llq/3
+if (replace_0!=F) {if (replace_0=="NA") {subsetdatamatrix[subsetdatamatrix==0]<-NA} else if (replace_0=="lld") {subsetdatamatrix[subsetdatamatrix==0]<-lld} else {subsetdatamatrix[subsetdatamatrix==0]<-replace_0}}
 subsetdatamatrixfiltered <- filterNAfunction(subsetsampleID, subsetdatamatrix, group1, group2, secID, filter_percent_in_each_group)
+if (replace_NA!=F) {if (replace_NA=="lld") {subsetdatamatrixfiltered[is.na(subsetdatamatrixfiltered)]<-lld} else {subsetdatamatrixfiltered[is.na(subsetdatamatrixfiltered)] <- replace_NA}}
+if (log_transform==T) {subsetdatamatrixfiltered <- log(subsetdatamatrixfiltered)}
 subsetdatamatrixfiltereddf <- as.data.frame(subsetdatamatrixfiltered)
 subsetdatamatrixdummies <- subsetdatamatrixfiltereddf
 tryCatch(
@@ -329,5 +331,5 @@ save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = e
 
 save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = environment())
 
-rm(list = setdiff(ls(envir = environment()), c("model_table_to_analyse", "filename_model_table_to_analyse", "directory_model_table_to_analyse", "projectname", "date_of_analysis", "directory_Rmarkdownfiles", "filename_Rmarkdownfile_each_model", "filename_Rmarkdownfile_summary", "directory_input_matrix_sampleID", "filename_matrix", "decimal_separator", "variable_names_length", "variable_names_position", "filename_sampleID", "colname_groupID", "colname_secID", "directory_output_reports", "directory_and_filename_function_file", "p_pearson_of_pcorr_cutoff", "no_permutations_post_vs", "no_permutations_post_vs_selected_models", "no_permutations_over_vs", "filter_percent_in_each_group", "directory_output_reports_and_projectname", "groupsnumeric", "max_no_of_ortho_pre_vs_in_Model2", "max_no_of_ortho_pre_vs_in_Model3_and_Model4", "max_no_of_ortho_post_vs_in_Model2", "max_no_of_ortho_post_vs_in_Model3_and_Model4", "each_model_or_summary", "prefered_pR2_and_pQ2_permutated_post_vs", "cluster", "reordered_levels_of_groups", "pcorr_diff", "variable_selection_using_VIP", "model_strategies_to_run")))
+rm(list = setdiff(ls(envir = environment()), c("model_table_to_analyse", "filename_model_table_to_analyse", "directory_model_table_to_analyse", "projectname", "date_of_analysis", "directory_Rmarkdownfiles", "filename_Rmarkdownfile_each_model", "filename_Rmarkdownfile_summary", "directory_input_matrix_sampleID", "filename_matrix", "decimal_separator", "variable_names_length", "variable_names_position", "filename_sampleID", "colname_groupID", "colname_secID", "directory_output_reports", "directory_and_filename_function_file", "p_pearson_of_pcorr_cutoff", "no_permutations_post_vs", "no_permutations_post_vs_selected_models", "no_permutations_over_vs", "replace_0",  "filter_percent_in_each_group", "replace_NA","log_transform", "directory_output_reports_and_projectname", "groupsnumeric", "max_no_of_ortho_pre_vs", "max_no_of_ortho_post_vs", "each_model_or_summary", "prefered_pR2_and_pQ2_permutated_post_vs", "cluster", "reordered_levels_of_groups", "pcorr_diff", "variable_selection_using_VIP", "model_strategies_to_run")))
 ```
