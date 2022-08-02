@@ -1,22 +1,22 @@
-# Ropls-with-permutated-variable-selection
-This script uses the Bioconductor package ropls by Etienne Thevenot to produce OPLS models. It performs variable selection using p(corr) and VIP. In addition to permutation post variable selection included in the ropls package also permutations pre variable selection with proceeding variable selection of every permutation resulting in p-values for R2 and Q2 including the variable selection procedure. It produces tables of all group comparisons including optional stratification by secondary ID.
-Input is one matrix, one file with sampleID including the groups to be compared and one Configure file with desired settings.
-The output is one html file per comparison of groups containing four selected models and one summary html file of all comparisons. Also tables with loadings are created.
+# roplspvs Ropls-with-permutated-variable-selection
+This script uses the Bioconductor package ropls  to produce OPLS models. It performs variable selection using p(corr) and optionally VIP. In addition to permutation post variable selection included in the ropls package also permutations pre variable selection with proceeding variable selection of every permutation resulting in p-values for R2 and Q2 including the variable selection procedure. It produces tables of all group comparisons including optional stratification by metadata.
+Input is one matrix, one metafile with sampleID including the groups to be compared and two Configure files with desired settings.
+The output is one html file per comparison of groups containing models using five different model startegies and one summary html file of all comparisons. Also tables with loadings are created.
 
 # Installation
 To be able to contribute to the repository install git by running the following code on command line. All other commands are in R.
  ```
  apt-get install git
- git clone https://github.com/MarikaStrom/Ropls-with-permutated-variable-selection.git
+ git clone https://github.com/MarikaStrom/roplspvs.git
  
 ```
-To run the package without contributing download it from https://github.com/MarikaStrom/Ropls-with-permutated-variable-selection.git
+To run the package without contributing download it from https://github.com/MarikaStrom/roplspvs.git
 
-to load the package to get help files and load the function run the following code (this is not necessary to run the workflow since all help is also in the configuration files)
+to load the package to get help files and load the function oplspvs run the following code (this is not necessary to run the workflow since all help is also in the configuration files)
 
 ```
 require(tools)
-devtools::load_all(<path to Ropls_with_permutated_variable_selection>)
+devtools::load_all(<path to roplspvs>)
 
 ```
 
@@ -24,16 +24,16 @@ This package is tested on R 3.6.2, 4.0.0, 4.0.3, 4.0.5 and 4.1.2
 Install needed packages BiocManager, Ropls, ggplot2, ggrepel, kableExtr, gridEstra, ggpubr, matrixStats, stringr, tryCatchLog, tools, devtools and DescTools. These are installed if running the file dependencies.R using the following code
  
 ```
-source("<path to Ropls_with_permutated_variable_selection>/dependencies.R")
+source("<path to roplspvs>/dependencies.R")
 
  ```
 
 # Run example data
-To run example-data download folders and files in Ropls-with-permutated-variable-selection. Set working directory to your project folder where the results will be stored. To start the analysis run the following code
+To run example-data download folders and files in roplspvs. Set working directory to your project folder where the results will be stored. To start the analysis run the following code
 
 ```
 setwd("<path to your project folder>")
-source("<path to Ropls_with_permutated_variable_selection>/Ropls_with_permutated_variable_selection_Run.R")
+source("<path to roplspvs>/Roplspvs_Run.R")
 
 ```
 
@@ -46,18 +46,18 @@ source("<path to Ropls_with_permutated_variable_selection>/Ropls_with_permutated
 4.	The datamatrix may contain numeric data, integers or categorical data as characters. Original categorical variable will be removed and replaced with dummy variables.
 5. A sampleID file with sampleID in the first column and containing one column with the groups to be compared and one column with secondaryID (for example gender) if stratification is desired. Also this file should not contain the symbols above and the samleID´s should agree with the subjectID´s in the datamatrix.
 6. Both datamatrix and sampleID files should be saved as Tab delimited ("*.txt") files. 
-7. Create a project folder for the analysis manually or use the Ropls-with-permutated-variable-selection-main folder. In this folder a subdirectory will be created called "outputR" where the results and the tables called model_table_to_analyse and the reordered_model_table_to_analyse describing which models are run will be stored. 
+7. Create a project folder for the analysis manually or use the roplspvs-main folder. In this folder a subdirectory will be created called "outputR" where the results and the tables called model_table_to_analyse and the reordered_model_table_to_analyse describing which models are run will be stored. 
 8. Create a folder and save your datamatrix and sampleID file here. Default name is "data_to_R_analysis" and is created by default in the project folder. You may also enter the path and foldername to your own input data folder.  
-9. Save the Ropls_with_permutated_variable_selection_Configure_Get_Started.R and if advanced parameters are to be changed Ropls_with_permutated_variable_selection_Configure_Advanced.R in your project folder. The names of the files may be changed to your choice "Any_name_Advanced.R" and "Any_name_Get_Started.R".
-10. Edit basic settings of parameters in file "Ropls_with_permutated_variable_selection_Configure_Get_Started.R" which contains the parameters that has to be entered including file names, folder names and column names describing the groups to be compared. Default settings and advanced parameters may be altered in file "Ropls_with_permutated_variable_selection_Configure_Advanced.R".
+9. Save the roplspvs_Configure_Get_Started.R and if advanced parameters are to be changed roplspvs_Configure_Advanced.R in your project folder. The names of the files may be changed to your choice "Any_name_Advanced.R" and "Any_name_Get_Started.R".
+10. Edit basic settings of parameters in file "roplspvs_Configure_Get_Started.R" which contains the parameters that has to be entered including file names, folder names and column names describing the groups to be compared. Default settings and advanced parameters may be altered in file "roplspvs_Configure_Advanced.R".
 
 ## Run analysis:
-When running Ropls_with_permutated_variable_selection_Run.R the data in Configure files are sent to file "Ropls_with_permutated_variable_selection_Models_of_each_comparison.Rmd" which renders one HTML file for each comparison containing score plots, loading plots, permutation pre and post variable selection plots and model statistics. When all comparisons have been performed "Ropls_with_permutated_variable_selection_Summary_of_models.Rmd" renders a summary HTML-file of all models containing tables of all selected models and all significant models.
+When running roplspvs_Run.R the data in Configure files are loaded and the function oplspvs is run which sends sent to file "roplspvs_Models_of_each_comparison.Rmd" which renders one HTML file for each comparison containing score plots, loading plots, permutation pre, post and over variable selection plots and model statistics. When all comparisons have been completed "roplspvs_Summary_of_models.Rmd" renders a summary HTML-file of all models containing tables of all selected models and all significant models.
 Set working directory to the location of your project folder where the results will be stored and run your analysis using the following code
 
 ```
 setwd("<path to your project folder>"")
-source("<path to Ropls_with_permutated_variable_selection>/Ropls_with_permutated_variable_selection_Run.R")
+source("<path to roplspvs>/roplspvs_Run.R")
 
 ```
 
@@ -92,8 +92,8 @@ Best performing models are defined as models that after variable selection give 
 R2 is derived from the ropls package and is a measure of the fitness of the model and shows how much of the variation is explained by the model with a maximum value of 1. Q2 is a measure of the predictability of the model determined by 7 fold cross-validation which is the default in the ropls package. The package gives R2 and Q2 pre and post variable selection.
 
 ### Permutations
-In addition to the p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] which is calculated by default by the ropls package this package also calculates p[R2_perm_ pre_vs] and p[Q2_perm_ pre_vs]. This includes randomization of subject respond labels followed by variable selection and fitting of model post variable selection to obtain R2 and Q2 for permutated models. The same amount of orthogonals is used in the permutated models as in the unpermutated model under investigation. R2 and Q2 for the permutated models are compared to R2 and Q2 for the unpermutated models to generate p[R2_perm_ pre_vs] and p[Q2_perm_ pre_vs]. The number of permutations performed is user-set by setting parameter no_permutations_post_vs, no_permutations_post_vs_selected_models and no_permutations_pre_vs with default 20.
+In addition to the p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] which is calculated by default by the ropls package this package also calculates p[R2_perm_ over_vs] and p[Q2_perm_ over_vs]. This includes randomization of subject respond labels followed by variable selection and fitting of model post variable selection to obtain R2 and Q2 for permutated models. The same amount of orthogonals is used in the permutated models as in the unpermutated model under investigation. R2 and Q2 for the permutated models are compared to R2 and Q2 for the unpermutated models to generate p[R2_perm_ over_vs] and p[Q2_perm_ over_vs]. The number of permutations performed is user-set by setting parameter no_permutations_post_vs, no_permutations_post_vs_selected_models and no_permutations_over_vs with default 20.
 
 ## RMSE
-RMSE is derived using ropls package and is a measure from the ropls package square root of the mean error between actual and predicted responses.
+RMSE is derived using ropls package and is the square root of the mean error between actual and predicted responses.
 

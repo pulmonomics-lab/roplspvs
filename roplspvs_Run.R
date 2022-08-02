@@ -1,25 +1,25 @@
 require(tools)
-directory_of_Ropls_with_permutated_variable_selection <- file_path_as_absolute(dirname(sys.frame(1)$ofile))
+directory_of_roplspvs <- file_path_as_absolute(dirname(sys.frame(1)$ofile))
 directory_of_analysis <- getwd()
 
 if (length(paste(list.files(directory_of_analysis, pattern = "Get_Started"), sep = "")) != 0) {
   source(paste(list.files(directory_of_analysis, pattern = "Get_Started"), sep = ""))
 } else {
-  source(paste(directory_of_Ropls_with_permutated_variable_selection,
-               "/Ropls_with_permutated_variable_selection_Configure_Get_Started_example_data.R", sep = ""))
+  source(paste(directory_of_roplspvs,
+               "/roplspvs_Configure_Get_Started_example_data.R", sep = ""))
 }
 
 if (length(paste(list.files(directory_of_analysis, pattern = "\\Advanced.R"), sep = "")) != 0) {
   source(paste(list.files(directory_of_analysis, pattern = "\\Advanced.R"), sep = ""))
 } else {
-  source(paste(directory_of_Ropls_with_permutated_variable_selection,
-               "/Ropls_with_permutated_variable_selection_Configure_Advanced.R", sep = ""))
+  source(paste(directory_of_roplspvs,
+               "/roplspvs_Configure_Advanced.R", sep = ""))
 }
 
-source(paste(directory_of_Ropls_with_permutated_variable_selection,
-             "/R/Ropls_with_permutated_variable_selection.R", sep = ""))
+source(paste(directory_of_roplspvs,
+             "/R/oplspvs.R", sep = ""))
 
-Ropls_with_permutated_variable_selection(directory_of_Ropls_with_permutated_variable_selection,directory_of_analysis,
+oplspvs(directory_of_roplspvs,directory_of_analysis,
                                          projectname,date_of_analysis,filename_matrix,decimal_separator,filename_sampleID,colname_groupID,groupsnumeric,
                                              colname_secID,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
                                              p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,

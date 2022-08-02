@@ -10,9 +10,9 @@ directory_input_matrix_sampleID <-  paste(directory_of_analysis,"/",foldername_o
 directory_output_reports <- paste(directory_of_analysis,"/",foldername_output_reports,"/",sep="")  #may be altered to other than directory_of_analysis
 
 ## File names
-filename_Rmarkdownfile_each_model <- "Ropls_with_permutated_variable_selection_Models_of_each_comparison.Rmd" # "filename.Rmd"
-filename_Rmarkdownfile_summary <- "Ropls_with_permutated_variable_selection_Summary_of_models.Rmd" # "filename.Rmd"
-filename_function_file <- "Ropls_with_permutated_variable_selection_Functions.R" # "filename.R" All functions used are saved in this file.
+filename_Rmarkdownfile_each_model <- "roplspvs_Models_of_each_comparison.Rmd" # "filename.Rmd"
+filename_Rmarkdownfile_summary <- "roplspvs_Summary_of_models.Rmd" # "filename.Rmd"
+filename_function_file <- "roplspvs_Functions.R" # "filename.R" All functions used are saved in this file.
 
 ##Variable selection
 pcorr_cutoff_Model1_joint_models <- "according to p-value" #P(corr) cutoff in model1 for joint models. Either enter a value with p(corr)cutoff for all joint comparisons or vector containing p(corr) cutoff for each comparison in model_table_to_analyse or enter "according to p-value" to generate p(corr) corresponding to selected pvalue entered in p_pearson_of_pcorr_cutoff

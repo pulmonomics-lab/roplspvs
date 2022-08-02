@@ -1,4 +1,5 @@
-#' Opls with permutationed variable selection version 0.15.0
+#' oplspvs version 0.15.0
+#' Opls with permutationed variable selection
 #'
 #' Pipeline for OPLS models, variable selection and permutation
 #'
@@ -8,7 +9,7 @@
 #' selection procedure. It produces tables of all group comparisons including optional stratification
 #' by secondary ID.
 #'
-#' @param directory_of_Ropls_with_permutated_variable_selection path to repository cloned from https://github.com/MarikaStrom/Ropls-with-permutated-variable-selection
+#' @param directory_of_roplspvs path to repository cloned from https://github.com/MarikaStrom/roplspvs
 #' @param directory_of_analysis path to folder where the outputR folder with results are created
 #' @param projectname "projectname" will appear in filenames and header of reports with underscores removed.
 #' @param date_of_analysis "yymmdd" Date of analysis will appear in filenames.
@@ -25,7 +26,7 @@
 #' @param setseedfirstmodel Numeric. Setseed of the first model. Second model will have setseedfirstmodel+1 etc.
 #' @param order_of_groups Character vector or numeric vector containing correct order of groups or enter "correct" if order of levels in colname_groupID is already correct. Deseased first and controls last. This will define dirction of scores as high in diseased.
 #' @param models_to_run Numeric vector indicating models to run if all models are to be run enter "all"
-#' @param foldername_Rmarkdownfiles "foldername" Folder where .R and .rmd files required by the script are stored. It is located in the Ropls-with-permutated-variable-selection folder.
+#' @param foldername_Rmarkdownfiles "foldername" Folder where .R and .rmd files required by the script are stored. It is located in the roplspvs folder.
 #' @param foldername_of_input_matrix_and_sampleID "foldername" Folder where datamatrix and sampleID files are stored.
 #' @param foldername_output_reports "foldername"  Folder where one .html file and one .Rdata for each group comparison and a summary .html and a .Rdata file of all comparisons will be created. Folder is automatically created if it does not excist.
 #' @param foldername_function_file "foldername" Folder where filename_function_file is stored.
@@ -58,7 +59,7 @@
 #' tables of all models of all comparisons. Also tables with loadings are created.
 #'
 #' @examples
-#' Ropls_with_permutated_variable_selection(directory_of_Ropls_with_permutated_variable_selection,directory_of_analysis,
+#' oplspvs(directory_of_roplspvs,directory_of_analysis,
 #' projectname,date_of_analysis,filename_matrix,decimal_separator,filename_sampleID,colname_groupID,groupsnumeric,
 #' colname_secID,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
 #' p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,model_strategies_to_run,
@@ -73,7 +74,7 @@
 #' ?, $, %, ^, &, *, (, ), -, #, ?, ,, <, >, /, |, , ], {, } and [
 #' Missing values should be indicated by "", "NA" or "Inf"
 #' @export
-Ropls_with_permutated_variable_selection <- function(directory_of_Ropls_with_permutated_variable_selection,directory_of_analysis,
+oplspvs <- function(directory_of_roplspvs,directory_of_analysis,
                                                          projectname,date_of_analysis,filename_matrix,decimal_separator,filename_sampleID,colname_groupID,groupsnumeric,
                                                          colname_secID,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
                                                          p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,
@@ -87,8 +88,8 @@ Ropls_with_permutated_variable_selection <- function(directory_of_Ropls_with_per
 
 #Read directories of Function files and Rmarkdown files
 
-directory_Rmarkdownfiles <- paste(directory_of_Ropls_with_permutated_variable_selection,"/",foldername_Rmarkdownfiles,"/",sep="") # "path of directory/filename"
-directory_function_file <- paste(directory_of_Ropls_with_permutated_variable_selection,"/",foldername_function_file,"/", sep="")
+directory_Rmarkdownfiles <- paste(directory_of_roplspvs,"/",foldername_Rmarkdownfiles,"/",sep="") # "path of directory/filename"
+directory_function_file <- paste(directory_of_roplspvs,"/",foldername_function_file,"/", sep="")
 foldername_model_table_to_analyse <- foldername_output_reports #model_table_to_analyse will be saved in this folder.
 directory_model_table_to_analyse <- paste(directory_of_analysis,"/",foldername_model_table_to_analyse,"/",sep="")
 
@@ -99,7 +100,7 @@ source(directory_and_filename_function_file)
 
 #Create directories.
 makeproject(directory_of_analysis, directory_output_reports)
-if (length(dir(directory_input_matrix_sampleID)) ==0) {directory_input_matrix_sampleID <- paste(directory_of_Ropls_with_permutated_variable_selection,"/inst/extdata",sep="")}
+if (length(dir(directory_input_matrix_sampleID)) ==0) {directory_input_matrix_sampleID <- paste(directory_of_roplspvs,"/inst/extdata",sep="")}
 #Reorder groups to have diseased first if necessary
 setwd(directory_input_matrix_sampleID)
 file_sampleID <- read.table(filename_sampleID,header=T, dec = ".", row.names=1, check.names = FALSE, na.strings=c("", "NA", "Inf",""), sep="\t")

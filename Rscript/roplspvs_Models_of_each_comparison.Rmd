@@ -49,7 +49,7 @@ title: |
     | Model of group `r group1` versus `r group2` for `r secID`
  
 author: |
-    | Ropls with permutated variable selection: Version 0.15.0
+    | roplspvs - Ropls with permutated variable selection: Version 0.15.0
     | Marika Strom
 date: `r Sys.Date()`
 ---
@@ -271,7 +271,7 @@ opls(subsetdatamatrix_group2, typeVc = "x-score", info.txtC = "none", crossvalI 
 ```
 
 
-```{r, child=if (1 %in% model_strategies_to_run) 'Ropls_with_permutated_variable_selection_Models_of_each_comparison_strategy1.Rmd'}
+```{r, child=if (1 %in% model_strategies_to_run) 'roplspvs_Models_of_each_comparison_strategy1.Rmd'}
 
 ```
 
@@ -286,7 +286,7 @@ save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = e
 
 
 
-```{r, child=if (2 %in% model_strategies_to_run) 'Ropls_with_permutated_variable_selection_Models_of_each_comparison_strategy2.Rmd'}
+```{r, child=if (2 %in% model_strategies_to_run) 'roplspvs_Models_of_each_comparison_strategy2.Rmd'}
 
 ```
 
@@ -299,7 +299,7 @@ save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = e
 ```
 
 
-```{r, child=if (3 %in% model_strategies_to_run) 'Ropls_with_permutated_variable_selection_Models_of_each_comparison_strategy3.Rmd'}
+```{r, child=if (3 %in% model_strategies_to_run) 'roplspvs_Models_of_each_comparison_strategy3.Rmd'}
 
 ```
 
@@ -311,7 +311,7 @@ save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = e
 
 ```
 
-```{r, child=if (4 %in% model_strategies_to_run) 'Ropls_with_permutated_variable_selection_Models_of_each_comparison_strategy4.Rmd'}
+```{r, child=if (4 %in% model_strategies_to_run) 'roplspvs_Models_of_each_comparison_strategy4.Rmd'}
 
 ```
 
@@ -323,7 +323,7 @@ save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = e
 
 ```
 
-```{r, child=if (5 %in% model_strategies_to_run) 'Ropls_with_permutated_variable_selection_Models_of_each_comparison_strategy5.Rmd'}
+```{r, child=if (5 %in% model_strategies_to_run) 'roplspvs_Models_of_each_comparison_strategy5.Rmd'}
 
 ```
 

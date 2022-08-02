@@ -13,7 +13,7 @@ title: |
     | Model summary each strategy
 
 author: |
-    | Ropls with permutated variable selection: Version 0.15.0
+    | roplspvs - Ropls with permutated variable selection: Version 0.15.0
     | Marika Strom
 ---
 
