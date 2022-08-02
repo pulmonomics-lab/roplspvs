@@ -1,4 +1,4 @@
-# roplspvs Ropls-with-permutated-variable-selection
+# roplspvs: R orthogonal projections of latent structures with permutation over variable selection
 This script uses the Bioconductor package ropls  to produce OPLS models. It performs variable selection using p(corr) and optionally VIP. In addition to permutation post variable selection included in the ropls package also permutations pre variable selection with proceeding variable selection of every permutation resulting in p-values for R2 and Q2 including the variable selection procedure. It produces tables of all group comparisons including optional stratification by metadata.
 Input is one matrix, one metafile with sampleID including the groups to be compared and two Configure files with desired settings.
 The output is one html file per comparison of groups containing models using five different model startegies and one summary html file of all comparisons. Also tables with loadings are created.

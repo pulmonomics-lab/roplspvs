@@ -49,7 +49,8 @@ title: |
     | Model of group `r group1` versus `r group2` for `r secID`
  
 author: |
-    | roplspvs - Ropls with permutated variable selection: Version 0.15.0
+    | roplspvs: Version 0.16.0
+    | R orthogonal projections of latent structures with permutation over variable selection
     | Marika Strom
 date: `r Sys.Date()`
 ---

@@ -1,5 +1,5 @@
-#' oplspvs version 0.15.0
-#' Opls with permutationed variable selection
+#' oplspvs version 0.16.0
+#' R orthogonal projections of latent structures with permutation over variable selection
 #'
 #' Pipeline for OPLS models, variable selection and permutation
 #'
