@@ -23,6 +23,7 @@ params:
   directory_output_reports: "tomt"
   projectname: "tomt"
   date_of_analysis: 0
+  no_permutations_sans_vs: 0
   no_permutations_post_vs: 0
   no_permutations_post_vs_selected_models: 0
   no_permutations_over_vs: 0
@@ -96,6 +97,7 @@ filename_sampleID <- params$filename_sampleID
 directory_output_reports <- params$directory_output_reports
 projectname <- params$projectname
 date_of_analysis <- params$date_of_analysis
+no_permutations_sans_vs <- params$no_permutations_sans_vs
 no_permutations_post_vs <- params$no_permutations_post_vs
 no_permutations_post_vs_selected_models <- params$no_permutations_post_vs_selected_models
 no_permutations_over_vs <- params$no_permutations_over_vs
@@ -157,6 +159,8 @@ Directory and file name function file: `r directory_and_filename_function_file`
 Directory output reports: `r directory_output_reports`
 
 File name rdata: `r filename_rdata`
+
+Permutations sans variable selection: `r no_permutations_sans_vs`
 
 Permutations including variable selection in selected models: `r no_permutations_over_vs`
 
@@ -271,6 +275,9 @@ if (nrow(subsetdatamatrix_group2 < 7)) {
 opls(subsetdatamatrix_group2, typeVc = "x-score", info.txtC = "none", crossvalI = set_crossvalI)
 ```
 
+```{r, child=if (0 %in% model_strategies_to_run) 'roplspvs_Models_of_each_comparison_pre_vs.Rmd'}
+
+```
 
 ```{r, child=if (1 %in% model_strategies_to_run) 'roplspvs_Models_of_each_comparison_strategy1.Rmd'}
 
@@ -332,5 +339,5 @@ save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = e
 
 save(list = ls(all.names = TRUE), file = directory_and_filename_rdata, envir = environment())
 
-rm(list = setdiff(ls(envir = environment()), c("model_table_to_analyse", "filename_model_table_to_analyse", "directory_model_table_to_analyse", "projectname", "date_of_analysis", "directory_Rmarkdownfiles", "filename_Rmarkdownfile_each_model", "filename_Rmarkdownfile_summary", "directory_input_matrix_sampleID", "filename_matrix", "decimal_separator", "variable_names_length", "variable_names_position", "filename_sampleID", "colname_groupID", "colname_secID", "directory_output_reports", "directory_and_filename_function_file", "p_pearson_of_pcorr_cutoff", "no_permutations_post_vs", "no_permutations_post_vs_selected_models", "no_permutations_over_vs", "replace_0",  "filter_percent_in_each_group", "replace_NA","log_transform", "directory_output_reports_and_projectname", "groupsnumeric", "max_no_of_ortho_pre_vs", "max_no_of_ortho_post_vs", "each_model_or_summary", "prefered_pR2_and_pQ2_permutated_post_vs", "cluster", "reordered_levels_of_groups", "pcorr_diff", "variable_selection_using_VIP", "model_strategies_to_run")))
+rm(list = setdiff(ls(envir = environment()), c("model_table_to_analyse", "filename_model_table_to_analyse", "directory_model_table_to_analyse", "projectname", "date_of_analysis", "directory_Rmarkdownfiles", "filename_Rmarkdownfile_each_model", "filename_Rmarkdownfile_summary", "directory_input_matrix_sampleID", "filename_matrix", "decimal_separator", "variable_names_length", "variable_names_position", "filename_sampleID", "colname_groupID", "colname_secID", "directory_output_reports", "directory_and_filename_function_file", "p_pearson_of_pcorr_cutoff", "no_permutations_sans_vs","no_permutations_post_vs", "no_permutations_post_vs_selected_models", "no_permutations_over_vs", "replace_0",  "filter_percent_in_each_group", "replace_NA","log_transform", "directory_output_reports_and_projectname", "groupsnumeric", "max_no_of_ortho_pre_vs", "max_no_of_ortho_post_vs", "each_model_or_summary", "prefered_pR2_and_pQ2_permutated_post_vs", "cluster", "reordered_levels_of_groups", "pcorr_diff", "variable_selection_using_VIP", "model_strategies_to_run")))
 ```

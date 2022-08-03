@@ -1,0 +1,55 @@
+---
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+mathjax: null
+
+---
+
+---
+title: |
+    | Model summary pre variable selection
+
+author: |
+    | roplspvs: Version 0.16.0
+    | R orthogonal projections of latent structures with permutation over variable selection
+    | Marika Strom
+---
+
+# Model strategy `r model_strategy`. `r model_description`
+
+
+```{r, echo=FALSE}
+summary_Model_sans_vs_table <- create_table_of_models_sans_vs(no_permutations_sans_vs, directory_output_reports,projectname,date_of_analysis,max_no_of_ortho_pre_vs)
+
+
+
+summary_Model_sans_vs_table$`significant` <- (summary_Model_sans_vs_table$`pQ2 perm. sans v.s.`<=0.05&summary_Model_sans_vs_table$`R2Y(cum) sans v.s.`>=0.5&summary_Model_sans_vs_table$`Q2(cum) sans v.s.`>=0.4)
+
+summary_Model_sans_vs_tabletokable <- summary_Model_sans_vs_table
+
+#summary_Model_sans_vs_tabletokable[,c(17,18,19,20,21)] <- format(summary_Model_sans_vs_table[,c(17,18,19,20,21)], digits=2)
+#summary_Model_sans_vs_tabletokable[,c(22,23)] <- format(summary_Model_sans_vs_table[,c(22,23)], scientific=TRUE, digits=2)
+  
+kable(summary_Model_sans_vs_tabletokable, row.names = FALSE) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+meanofR2 <- mean(summary_Model_sans_vs_table$`pR2Y perm. sans v.s.`)
+meanofQ2 <- mean(summary_Model_sans_vs_table$`pQ2 perm. sans v.s.`)
+meanofR2 <- format(meanofR2, digits = 2)
+meanofQ2 <- format(meanofQ2, digits = 2)
+
+```
+Average of pR2Y respectively pQ2 of models with permutations sans v.s.:
+pR2Y: `r meanofR2`
+pQ2: `r meanofQ2`
+
+```{r, echo=FALSE}
+
+percentofsignmodel <- sum(summary_Model_sans_vs_tabletokable$significant)/nrow(summary_Model_sans_vs_tabletokable)*100
+percentofsignmodel <- format(percentofsignmodel, digits=0)
+
+```
+`r percentofsignmodel`% of models were significant (p(Q2_perm_pre_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4).
+

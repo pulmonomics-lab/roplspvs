@@ -19,6 +19,7 @@
 #' @param colname_groupID "column name"* of groups to compare in sampleID file
 #' @param groupsnumeric  "yes" if you want tables in summary file to be sorted by numeric group belonging. "no" if not.
 #' @param colname_secID "column name"* column name of secondary id in sampleID file to stratify or write "joint" for no stratification
+#' @param no_permutations_sans_vs Numeric. Number of permutations sans variable selection.
 #' @param no_permutations_post_vs Numeric. Number of permutations post variable selection during model selection.
 #' @param no_permutations_post_vs_selected_models Numeric. Number of permutations post variable selection in selected models.
 #' @param no_permutations_over_vs Numeric. Number of permutations including variable selection in selected models.
@@ -61,7 +62,7 @@
 #' @examples
 #' oplspvs(directory_of_roplspvs,directory_of_analysis,
 #' projectname,date_of_analysis,filename_matrix,decimal_separator,filename_sampleID,colname_groupID,groupsnumeric,
-#' colname_secID,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
+#' colname_secID,no_permutations_sans_vs,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
 #' p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,model_strategies_to_run,
 #' foldername_Rmarkdownfiles,foldername_of_input_matrix_and_sampleID,foldername_output_reports,foldername_function_file,
 #' directory_input_matrix_sampleID,directory_output_reports,filename_Rmarkdownfile_each_model,filename_Rmarkdownfile_summary,
@@ -76,7 +77,7 @@
 #' @export
 oplspvs <- function(directory_of_roplspvs,directory_of_analysis,
                                                          projectname,date_of_analysis,filename_matrix,decimal_separator,filename_sampleID,colname_groupID,groupsnumeric,
-                                                         colname_secID,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
+                                                         colname_secID,no_permutations_sans_vs,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
                                                          p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,
                                                          foldername_Rmarkdownfiles,foldername_of_input_matrix_and_sampleID,foldername_output_reports,foldername_function_file,
                                                          directory_input_matrix_sampleID,directory_output_reports,filename_Rmarkdownfile_each_model,filename_Rmarkdownfile_summary,
@@ -153,6 +154,7 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                           directory_output_reports=directory_output_reports,
                           projectname=projectname,
                           date_of_analysis=date_of_analysis,
+                          no_permutations_sans_vs=no_permutations_sans_vs,
                           no_permutations_post_vs=no_permutations_post_vs,
                           no_permutations_post_vs_selected_models=no_permutations_post_vs_selected_models,
                           no_permutations_over_vs=no_permutations_over_vs,
@@ -194,6 +196,7 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                           directory_output_reports=directory_output_reports,
                           projectname=projectname,
                           date_of_analysis=date_of_analysis,
+                          no_permutations_sans_vs=no_permutations_sans_vs,
                           no_permutations_post_vs=no_permutations_post_vs,
                           no_permutations_post_vs_selected_models=no_permutations_post_vs_selected_models,
                           no_permutations_over_vs=no_permutations_over_vs,
@@ -231,6 +234,7 @@ if (each_model_or_summary=="summary"|(cluster=="no" & each_model_or_summary=="bo
                       directory_input_matrix_sampleID=directory_input_matrix_sampleID,
                       filename_matrix=filename_matrix,
                       filename_sampleID=filename_sampleID,
+                      no_permutations_sans_vs=no_permutations_sans_vs,
                       no_permutations_over_vs=no_permutations_over_vs,
                       no_permutations_post_vs_selected_models=no_permutations_post_vs_selected_models,
                       filter_percent_in_each_group=filter_percent_in_each_group,

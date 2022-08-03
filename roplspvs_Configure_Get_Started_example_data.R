@@ -27,6 +27,7 @@ colname_secID <-"Factor_Value_AgeAtBloodDraw" # "column name" column name of sec
 no_permutations_post_vs <- 20 # numeric. Number of permutations after variable selection during model selection.
 no_permutations_post_vs_selected_models <- 20 # Numeric. Number of permutations after variable selection in selected models.
 no_permutations_over_vs <- 20 # Numeric. Number of permutations including variable selection in selected models.
+no_permutations_sans_vs <- 20 # Numeric. Number of permutations sans variable selection
 
 ## Variable selection
 p_pearson_of_pcorr_cutoff <- 0.05 # P-value for p(corr) cutoff during variable selection

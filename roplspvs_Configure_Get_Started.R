@@ -29,6 +29,7 @@ colname_secID <-"column name" # "column name"* column name of secondary id in sa
 no_permutations_post_vs <- 20 # numeric. Number of permutations after variable selection during model selection.
 no_permutations_post_vs_selected_models <- 20 # Numeric. Number of permutations after variable selection in selected models.
 no_permutations_over_vs <- 20 # Numeric. Number of permutations including variable selection in selected models.
+no_permutations_sans_vs <- 20 # Numeric. Number of permutations sans variable selection
 
 ## Variable selection
 p_pearson_of_pcorr_cutoff <- 0.05 # Numeric. P-value for p(corr) cutoff during variable selection in model 2 and minimum cutoff in model 3 and 4. Optionally in model 1.

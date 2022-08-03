@@ -21,7 +21,7 @@ source(paste(directory_of_roplspvs,
 
 oplspvs(directory_of_roplspvs,directory_of_analysis,
                                          projectname,date_of_analysis,filename_matrix,decimal_separator,filename_sampleID,colname_groupID,groupsnumeric,
-                                             colname_secID,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
+                                             colname_secID,no_permutations_sans_vs,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
                                              p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,
                                              foldername_Rmarkdownfiles,foldername_of_input_matrix_and_sampleID,foldername_output_reports,foldername_function_file,
                                              directory_input_matrix_sampleID,directory_output_reports,filename_Rmarkdownfile_each_model,filename_Rmarkdownfile_summary,

@@ -13,6 +13,7 @@ params:
   directory_input_matrix_sampleID: "tomt"
   filename_matrix: "tomt"
   filename_sampleID: "tomt"
+  no_permutations_sans_vs: 0
   no_permutations_over_vs: 0
   no_permutations_post_vs_selected_models: 0
   filter_percent_in_each_group: 0
@@ -45,6 +46,7 @@ date_of_analysis<-params$date_of_analysis
 directory_input_matrix_sampleID<-params$directory_input_matrix_sampleID
 filename_matrix<-params$filename_matrix
 filename_sampleID<-params$filename_sampleID
+no_permutations_sans_vs<-params$no_permutations_sans_vs
 no_permutations_over_vs<-params$no_permutations_over_vs
 no_permutations_post_vs_selected_models<-params$no_permutations_post_vs_selected_models
 filter_percent_in_each_group<-params$filter_percent_in_each_group
@@ -90,6 +92,8 @@ Directory and file name function file: `r directory_and_filename_function_file`
 
 Directory rdata files: `r directory_output_reports`
 
+Permutations sans variable selection: `r no_permutations_sans_vs`
+
 Permutations over variable selection: `r no_permutations_over_vs`
 
 Permutations post variable selection in selected models: `r no_permutations_post_vs_selected_models`
@@ -107,6 +111,21 @@ prefered pR2 and pQ2 during model selection permutated post variable selection: 
 pcorr increase allowing Q2 to decrease 1% during model selection in Model4: `r pcorr_diff`
 
 variable selection method: `r if(variable_selection_using_VIP=="yes") {paste("Using p(corr) and VIP")} else {paste("Using p(corr)")}`
+
+
+```{r, model strategy 0}
+
+if (0 %in% model_strategies_to_run){
+  resultmodelname<-"result_Model_pre_vs"
+description_Model0 <- "Models pre variable selection and number of orthogonal variables using default ropls"
+model_description <- description_Model0
+model_strategy<-0}
+  
+```
+
+```{r, child=if (0 %in% model_strategies_to_run) paste(directory_Rmarkdownfiles,'/roplspvs_Summary_of_models_pre_vs.Rmd',sep="")}
+
+```
 
 ```{r, model strategy 1}
 

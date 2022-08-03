@@ -179,6 +179,25 @@ sinkout <- function() {
   }
 }
 
+opls_model_pre_variable_selection_trycatch <- function(subsetdatamatrix,ortho_pre_vs,classordered, printoptmodel="none",
+                                                       plotoptmodel="none", max_no_of_ortho_pre_vs, no_permutations_sans_vs){
+
+resultmodelprevs <- tryCatch({
+  beforevsdata.oplsda <- opls(subsetdatamatrix, classordered, predI = 1, orthoI = ortho_pre_vs, scaleC="standard",info.txtC="none",fig.pdfC="none", permI=0)
+  if (beforevsdata.oplsda@summaryDF$ort>max_no_of_ortho_pre_vs) {
+    beforevsdata.oplsda <- opls(subsetdatamatrix, classordered, predI = 1, orthoI = max_no_of_ortho_pre_vs, scaleC="standard",info.txtC="none",fig.pdfC="none", permI=no_permutations_sans_vs)
+  } else {
+    beforevsdata.oplsda <- opls(subsetdatamatrix, classordered, predI = 1, orthoI = ortho_pre_vs, scaleC="standard",info.txtC="none",fig.pdfC="none", permI=no_permutations_sans_vs)
+  }
+  beforevsdata.oplsda
+},
+error = function(e){
+  beforevsdata.oplsda <- opls(subsetdatamatrix, classordered, predI = 1, orthoI = 0, scaleC="standard",info.txtC="none",fig.pdfC="none", permI=no_permutations_sans_vs)
+  beforevsdata.oplsda
+}
+)
+resultmodelprevs
+}
 
   ##  ............................................................................
   ##  run original model with different amount of orthogal variables in original model
@@ -540,6 +559,205 @@ sinkout <- function() {
     pB7
   }
 
+  plotpcorr_pre_vs <- function(subsetdatamatrix, model, variable_names_length, variable_names_position){
+    Scoreofvariables <- getScoreMN(model)
+    pcorrofvariables <-data.frame(matrix(ncol=3))
+    for (i in 1:ncol(subsetdatamatrix)){
+      pcorrofvariableshtest <- cor.test(subsetdatamatrix[,i],Scoreofvariables,method="pearson")
+      pcorrofvariables[i,] <- c(pcorrofvariableshtest$estimate,pcorrofvariableshtest$conf.int[1],pcorrofvariableshtest$conf.int[2])
+    }
+    pcorrofvariables <- as.data.frame(pcorrofvariables)
+    colnames(pcorrofvariables) <- c("pcorrofvariables","conf.int.low","conf.int.high")
+    row.names(pcorrofvariables) <- colnames(subsetdatamatrix)
+    pcorrplot <- na.omit(pcorrofvariables)
+
+    rownames(pcorrplot) <- gsub("_", " ", rownames(pcorrplot))
+    rownames(pcorrplot) <- gsub("[.]", " ", rownames(pcorrplot))
+
+    pcorrplotdf <- tibble::rownames_to_column(pcorrplot, "VALUE")
+    pcorrplotdfordered <- pcorrplotdf[order(abs(pcorrplotdf[,2]),decreasing = TRUE),]
+
+    if (variable_names_position=="beginning") {
+      rownames(pcorrplot) <- substr(rownames(pcorrplot), 1, variable_names_length)}
+    if (variable_names_position=="end") {
+      for (novariables in 1:nrow(pcorrplot)) {
+        rownames(pcorrplot)[novariables] <- substr(rownames(pcorrplot)[novariables], nchar(rownames(pcorrplot)[novariables])-(variable_names_length-1), nchar(rownames(pcorrplot)[novariables]))
+        blankpos = StrPos(rownames(pcorrplot)[novariables], ' ', 1);
+        if (!is.na(blankpos)&nchar(rownames(pcorrplot)[novariables])>=variable_names_length) {
+          rownames(pcorrplot)[novariables] <- substr(rownames(pcorrplot)[novariables], blankpos+1, nchar(rownames(pcorrplot)[novariables]));
+        }}}
+    if (length(rownames(pcorrplot))>40) {
+      if(max(nchar(rownames(pcorrplot[1])))>=80) {
+        fontsize <- 4
+        widthsize <- 80
+        lineheight <- 0.7
+        message("more than 40 variales, overlap")
+      } else {
+        fontsize <- 6
+        widthsize <- 60
+        lineheight <- 0.7
+        message("more than 40 variables, no overlap")}} else {
+          if(length(rownames(pcorrplot))>30) {
+            if (max(nchar(rownames(pcorrplot[1])))>60) {
+              fontsize <- 6
+              widthsize <- 60
+              lineheight <- 0.7
+              message("30-40 variables, overlap")} else {
+                fontsize <- 8
+                widthsize <- 45
+                lineheight <- 0.7
+                message("30-40 variables, no overlap")}} else {
+                  if(length(rownames(pcorrplot))>20) {
+                    if (max(nchar(rownames(pcorrplot[1])))>45) {
+                      fontsize <- 8
+                      widthsize <- 45
+                      lineheight <- 0.7
+                      message("20-30 variables, overlap")} else {
+                        fontsize <- 10
+                        widthsize <- 30
+                        lineheight <- 1
+                        message("20-30 variables, no overlap")}} else {
+                          if(length(rownames(pcorrplot))>10) {
+                            if (max(nchar(rownames(pcorrplot[1])))>30) {
+                              fontsize <- 10
+                              widthsize <- 30
+                              lineheight <- 1
+                              message("10-20 variables, overlap")} else {
+                                fontsize <- 12
+                                widthsize <- 25
+                                lineheight <- 1
+                                message("10-20 variables, no overlap")
+                              }} else {
+                                if (max(nchar(rownames(pcorrplot[1])))>25) {
+                                  fontsize <- 12
+                                  widthsize <- 25
+                                  lineheight <- 1
+                                  message("<10 variables, overlap") } else {
+                                    fontsize <- 15
+                                    widthsize <- 20
+                                    lineheight <- 1
+                                    message("<10 variables, no overlap")
+                                  }
+                              }}}}
+
+
+
+    pB1 <- ggplot(pcorrplot, aes(x=reorder(row.names(pcorrplot),-pcorrofvariables),y=pcorrofvariables))
+    pB2 <- pB1 +geom_col()
+    pB3 <- pB2 + theme(axis.text.x = element_text(angle = 90, size=fontsize, lineheight=lineheight,hjust=1,vjust=0.5), text=element_text(size=15), axis.text=element_text(size=15))
+    pB4 <- pB3 + labs(y="p(corr)", x=element_blank(),title="P(corr) plot of 50 most contributing variables")
+    pB5 <- pB4 + scale_x_discrete(labels = function(x) str_wrap(x, width = widthsize))
+    pB6 <- pB5 + ylim(-1,1)
+    pB7<-pB6 +
+      geom_errorbar(
+        aes(x=reorder(row.names(pcorrplot),-pcorrofvariables),
+            ymin = conf.int.low,
+            ymax = conf.int.high),
+        color = "red")
+    pB7
+  }
+
+
+  plotpcorronly50variables_pre_vs <- function(subsetdatamatrix, model, variable_names_length, variable_names_position){
+    Scoreofvariables <- getScoreMN(model)
+    pcorrofvariables <-data.frame(matrix(ncol=3))
+    for (i in 1:ncol(subsetdatamatrix)){
+      pcorrofvariableshtest <- cor.test(subsetdatamatrix[,i],Scoreofvariables,method="pearson")
+      pcorrofvariables[i,] <- c(pcorrofvariableshtest$estimate,pcorrofvariableshtest$conf.int[1],pcorrofvariableshtest$conf.int[2])
+    }
+    pcorrofvariables <- as.data.frame(pcorrofvariables)
+    colnames(pcorrofvariables) <- c("pcorrofvariables","conf.int.low","conf.int.high")
+    row.names(pcorrofvariables) <- colnames(subsetdatamatrix)
+    pcorrplot <- na.omit(pcorrofvariables)
+
+    rownames(pcorrplot) <- gsub("_", " ", rownames(pcorrplot))
+    rownames(pcorrplot) <- gsub("[.]", " ", rownames(pcorrplot))
+
+    pcorrplotdf <- tibble::rownames_to_column(pcorrplot, "VALUE")
+    pcorrplotdfordered <- pcorrplotdf[order(abs(pcorrplotdf[,2]),decreasing = TRUE),]
+    pcorrplot <- subset(pcorrplot, abs(pcorrplot$pcorrofvariables)>=abs(pcorrplotdfordered[50,2]))
+
+    if (variable_names_position=="beginning") {
+      rownames(pcorrplot) <- substr(rownames(pcorrplot), 1, variable_names_length)}
+    if (variable_names_position=="end") {
+      for (novariables in 1:nrow(pcorrplot)) {
+        rownames(pcorrplot)[novariables] <- substr(rownames(pcorrplot)[novariables], nchar(rownames(pcorrplot)[novariables])-(variable_names_length-1), nchar(rownames(pcorrplot)[novariables]))
+        blankpos = StrPos(rownames(pcorrplot)[novariables], ' ', 1);
+        if (!is.na(blankpos)&nchar(rownames(pcorrplot)[novariables])>=variable_names_length) {
+          rownames(pcorrplot)[novariables] <- substr(rownames(pcorrplot)[novariables], blankpos+1, nchar(rownames(pcorrplot)[novariables]));
+        }}}
+    if (length(rownames(pcorrplot))>40) {
+      if(max(nchar(rownames(pcorrplot[1])))>=80) {
+        fontsize <- 4
+        widthsize <- 80
+        lineheight <- 0.7
+        message("more than 40 variales, overlap")
+      } else {
+        fontsize <- 6
+        widthsize <- 60
+        lineheight <- 0.7
+        message("more than 40 variables, no overlap")}} else {
+          if(length(rownames(pcorrplot))>30) {
+            if (max(nchar(rownames(pcorrplot[1])))>60) {
+              fontsize <- 6
+              widthsize <- 60
+              lineheight <- 0.7
+              message("30-40 variables, overlap")} else {
+                fontsize <- 8
+                widthsize <- 45
+                lineheight <- 0.7
+                message("30-40 variables, no overlap")}} else {
+                  if(length(rownames(pcorrplot))>20) {
+                    if (max(nchar(rownames(pcorrplot[1])))>45) {
+                      fontsize <- 8
+                      widthsize <- 45
+                      lineheight <- 0.7
+                      message("20-30 variables, overlap")} else {
+                        fontsize <- 10
+                        widthsize <- 30
+                        lineheight <- 1
+                        message("20-30 variables, no overlap")}} else {
+                          if(length(rownames(pcorrplot))>10) {
+                            if (max(nchar(rownames(pcorrplot[1])))>30) {
+                              fontsize <- 10
+                              widthsize <- 30
+                              lineheight <- 1
+                              message("10-20 variables, overlap")} else {
+                                fontsize <- 12
+                                widthsize <- 25
+                                lineheight <- 1
+                                message("10-20 variables, no overlap")
+                              }} else {
+                                if (max(nchar(rownames(pcorrplot[1])))>25) {
+                                  fontsize <- 12
+                                  widthsize <- 25
+                                  lineheight <- 1
+                                  message("<10 variables, overlap") } else {
+                                    fontsize <- 15
+                                    widthsize <- 20
+                                    lineheight <- 1
+                                    message("<10 variables, no overlap")
+                                  }
+                              }}}}
+
+
+
+    pB1 <- ggplot(pcorrplot, aes(x=reorder(row.names(pcorrplot),-pcorrofvariables),y=pcorrofvariables))
+    pB2 <- pB1 +geom_col()
+    pB3 <- pB2 + theme(axis.text.x = element_text(angle = 90, size=fontsize, lineheight=lineheight,hjust=1,vjust=0.5), text=element_text(size=15), axis.text=element_text(size=15))
+    pB4 <- pB3 + labs(y="p(corr)", x=element_blank(),title="P(corr) plot of 50 most contributing variables")
+    pB5 <- pB4 + scale_x_discrete(labels = function(x) str_wrap(x, width = widthsize))
+    pB6 <- pB5 + ylim(-1,1)
+    pB7<-pB6 +
+      geom_errorbar(
+        aes(x=reorder(row.names(pcorrplot),-pcorrofvariables),
+            ymin = conf.int.low,
+            ymax = conf.int.high),
+        color = "red")
+    pB7
+  }
+
+
   #library(bootstrap)
   #jackknifedloading <- jackknife(subsetdatamatrix[,row.names(loadingropls)[1]], getLoadingMN(aftervsdata.oplsda))
 
@@ -561,6 +779,24 @@ sinkout <- function() {
     pC7}
   }
 
+  plotscore_pre_vs <- function(model,classordered){
+    scoresropls <- as.data.frame(model@scoreMN)
+
+    fontsize <- 15/4 + 15*(15/nrow(scoresropls)*3/4)
+    if (fontsize>15) {fontsize <- 15}
+
+    pC1 <-  ggplot(scoresropls, aes(x=row.names(scoresropls),y=scoresropls$p1, color=classordered))
+    pC2 <- pC1 + geom_point()
+    pC3 <- pC2 + theme(axis.text.x = element_text(angle = 90, size=fontsize))
+    pC4 <- pC3 + labs(y="scores (t)", x="subject id",title="Predictive scores")
+    pC5 <- pC4 + theme(legend.title = element_blank(), legend.justification = "top", text=element_text(size=15), axis.text=element_text(size=15))
+    pC6 <- pC5 + scale_colour_manual(values=c("#0072B2","#D55E00"))
+    pC7 <- pC6 + guides(col = guide_legend(reverse = TRUE))
+    if (nrow(scoresropls)>60) {pC8 <- pC7 + theme(axis.text.x = element_blank())
+    pC8} else {
+      pC7}
+  }
+
   plotrawdata <- function(variablename, Rdataname, dirRdata){
     load(paste(dirRdata,"/",Rdataname, sep=""))
     fontsize <- 15/4 + 15*(15/nrow(subsetdatamatrix)*3/4)
@@ -579,6 +815,28 @@ sinkout <- function() {
 
   plotboxplot <- function(model,subsetsampleID,colname_groupID,classordered){
     scoresropls <- as.data.frame(model$scoreofvariablesaftervs)
+    df <- cbind((subsetsampleID[,paste(colname_groupID)]),as.data.frame(scoresropls$p1))
+    colnames(df) <- c("sampleID","scores")
+    df$sampleID <- as.character(df$sampleID)
+    pwc <- df %>% t_test(scores ~ sampleID)
+    pwc <- pwc %>% add_xy_position(x = "sampleID", step.increase = 0.2)
+    pwc <- pwc %>% add_y_position(step.increase = 0.2)
+    pwc$p<-formatC(signif(pwc$p,digits=1), digits=1,format="g")
+
+    fontsize <- 15
+
+    pC1 <- ggboxplot(df, x="sampleID" ,y="scores", fill="sampleID", order=levels(classordered))
+    pC2 <- pC1 + theme(axis.text.x = element_text(size=fontsize))
+    pC3 <- pC2 + labs(y="scores (t)", x=NULL,title="Predictive scores")
+    pC4 <- pC3 + theme(legend.position = "none",  text=element_text(size=15), axis.text=element_text(size=15))
+    pC5 <- pC4 + stat_pvalue_manual(pwc, label = "p = {p}", hide.ns = F, label.size = 4, bracket.size = 0.5)
+    pC6 <- pC5 + geom_jitter(aes(fill=subsetsampleID[,paste(colname_groupID)]),width=0.2,shape=21, color="black",size=2, alpha=0.9)
+    pC7 <- pC6 + scale_fill_manual(values=c("#0072B2","#D55E00"))
+    pC7
+  }
+
+  plotboxplot_pre_vs <- function(model,subsetsampleID,colname_groupID,classordered){
+    scoresropls <- as.data.frame(model@scoreMN)
     df <- cbind((subsetsampleID[,paste(colname_groupID)]),as.data.frame(scoresropls$p1))
     colnames(df) <- c("sampleID","scores")
     df$sampleID <- as.character(df$sampleID)
@@ -845,6 +1103,32 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
       summarymodeltable <- rbind(summarymodeltable,summarymodeltablei)
     }
     summarymodeltable$`diff R2Y(cum)-Q2(cum)` <-NULL
+    summarymodeltable
+  }
+
+  create_table_of_models_sans_vs <- function(no_permutations_sans_vs, directory_output_reports,projectname,date_of_analysis,max_no_of_ortho_pre_vs){
+    modelfilnames <- dir(directory_output_reports)
+    selectedRowsRdata <- modelfilnames[modelfilnames %like% "%.Rdata"]
+    selectedRows <- selectedRowsRdata[selectedRowsRdata %like% paste(paste(projectname,date_of_analysis,sep="_"),"%",sep="")]
+    summarymodeltable <- data.frame()
+
+
+    for (i in 1:length(selectedRows)) {
+      load(paste(directory_output_reports,"/",selectedRows[i],sep=""))
+
+      ortho_sans_vs <- NA
+
+
+      summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,result_Model_pre_vs@summaryDF)
+      summarymodeltable <- rbind(summarymodeltable,summarymodeltablei)
+    }
+    colnames(summarymodeltable)[c(6,7,8,9,10,11,12,13)] <- c("R2X(cum) sans v.s.", "R2Y(cum) sans v.s.", "Q2(cum) sans v.s.", "RMSE sans v.s.", "pred sans v.s.", "ortho sans v.s.", "pR2Y perm. sans v.s.", "pQ2 perm. sans v.s.")
+
+    order_of_models <- 0
+    if (groupsnumeric == "yes"){
+      order_of_models <- order(as.numeric(as.character(summarymodeltable$group1)),as.numeric(as.character(summarymodeltable$group2)))
+      summarymodeltable <- summarymodeltable[order_of_models,]
+    }
     summarymodeltable
   }
 
