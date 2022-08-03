@@ -30,8 +30,8 @@ summary_Model_sans_vs_table$`significant` <- (summary_Model_sans_vs_table$`pQ2 p
 
 summary_Model_sans_vs_tabletokable <- summary_Model_sans_vs_table
 
-#summary_Model_sans_vs_tabletokable[,c(17,18,19,20,21)] <- format(summary_Model_sans_vs_table[,c(17,18,19,20,21)], digits=2)
-#summary_Model_sans_vs_tabletokable[,c(22,23)] <- format(summary_Model_sans_vs_table[,c(22,23)], scientific=TRUE, digits=2)
+summary_Model_sans_vs_tabletokable[,c(6,7,8,9,12,13)] <- format(round(summary_Model_sans_vs_table[,c(6,7,8,9,12,13)],3))
+#summary_Model_sans_vs_tabletokable[,c(12,13)] <- format(summary_Model_sans_vs_table[,c(12,13)], scientific=TRUE, digits=2)
   
 kable(summary_Model_sans_vs_tabletokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
