@@ -1091,7 +1091,7 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
       model_with_diff_less_than_02_and_pvalue_less_than_given_value_and_max_Q2 <-
         subset(
           modeltable_with_diff_less_than_02_and_pvalue_less_than_given_value,
-          modeltable_with_diff_less_than_02_and_pvalue_less_than_given_value$`Q2(cum)`>(maxQ2-0.01*maxQ2)
+          modeltable_with_diff_less_than_02_and_pvalue_less_than_given_value$`Q2(cum)`>(maxQ2-0.01*abs(maxQ2))
         )
 
       model_with_diff_less_than_02_and_pvalue_less_than_given_value_and_max_Q2 <-
