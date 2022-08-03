@@ -1001,7 +1001,7 @@ resultmodelprevs
     pforpermutationtable[5] <- pcorrtestpermutation$Q2$p.value
 
 
-    names(pforpermutationtable) <-c("intercept of permutation","Correlation between R2Y for permutations over variable selection and correlation between permutated and unpermutated","Correlation between Q2 for permutations over variable selection. and correlation between permutated and unpermutated","P-value for correlation between R2Y for permutations over variable selection and correlation between permutated and unpermutated","P-value for correlation between Q2 for permutations over variable selection and correlation between permutated and unpermutated")
+    names(pforpermutationtable) <-c("intercept of permutation","Corr perm. coeff R2Y","Corr perm. coeff Q2","Corr perm. p value R2Y","Corr perm. p value Q2")
     t(pforpermutationtable)
     }
 
@@ -1087,7 +1087,7 @@ pforpermutation <- calculatepforpermutation(permutated_models, unpermutatedmodel
 summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated)/100,t(pforpermutation))
       summarymodeltable <- rbind(summarymodeltable,summarymodeltablei)
     }
-    colnames(summarymodeltable)[c(6,7,8,14,15,16)] <- c("pcorr cutoff","ortho pre v.s.","no. variables","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
+    colnames(summarymodeltable)[c(6,7,8,9,10,11,12,14,15,16)] <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum) post v.s.","R2Y(cum) post v.s.","Q2(cum) post v.s.","RMSEE post v.s.","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
     summarymodeltable
   }
 
