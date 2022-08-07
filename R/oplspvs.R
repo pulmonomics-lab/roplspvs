@@ -1,13 +1,14 @@
-#' oplspvs version 0.16.0
 #' R orthogonal projections of latent structures with permutation over variable selection
 #'
-#' Pipeline for OPLS models, variable selection and permutation
+#' Pipeline for OPLS models, variable selection and permutations pre, post and over variable selection
 #'
-#' Performs variable selection using p(corr) and optionally VIP. In addition to permutation post variable
+#' Performs opls models comparing all groups to eachother, performs variable selection using 5 strategies
+#' all based on p(corr) and optionally VIP. Produces scores plots, loading plots, rock curves and significant
+#' testing. In addition to permutation pre and post variable
 #' selection included in the ropls package also permutations over variable selection with proceeding
 #' variable selection of every permutation resulting in p-values for R2 and Q2 including the variable
 #' selection procedure. It produces tables of all group comparisons including optional stratification
-#' by secondary ID.
+#' by metadata.
 #'
 #' @param directory_of_roplspvs path to repository cloned from https://github.com/MarikaStrom/roplspvs
 #' @param directory_of_analysis path to folder where the outputR folder with results are created
@@ -30,13 +31,15 @@
 #' @param foldername_Rmarkdownfiles "foldername" Folder where .R and .rmd files required by the script are stored. It is located in the roplspvs folder.
 #' @param foldername_of_input_matrix_and_sampleID "foldername" Folder where datamatrix and sampleID files are stored.
 #' @param foldername_output_reports "foldername"  Folder where one .html file and one .Rdata for each group comparison and a summary .html and a .Rdata file of all comparisons will be created. Folder is automatically created if it does not excist.
-#' @param foldername_function_file "foldername" Folder where filename_function_file is stored.
 #' @param directory_input_matrix_sampleID "path" Path to where "filename_matrix" and "filename_sampleID" files are stored.
 #' @param directory_output_reports "path" Path to where "output_reports" are created in foldername_output_reports.
 #' @param filename_Rmarkdownfile_each_model "filename.Rmd" rendered by function once per comparison to produce html report and .Rdata file for each comparison
 #' @param filename_Rmarkdownfile_summary "filename.Rmd" rendered by function if "each_model_or_summary" is set to "both" or "summary" after all comparisons have been performed to produce a summary tables of all models.
 #' @param filename_function_file "filename.R" All functions required are saved in this file.
+#' @param replace_0 F or "lld" or a value to replace 0 values with. Replacing is performed before filtering. Lld (lower limit of detection) is calculated by llq/3 with llq (lower limit of quantification) is the lowest value in the dataset.
 #' @param filter_percent_in_each_group Numeric. Missing value tolerance in each group which are compared.
+#' @param replace_NA F or "lld" or a value to replace NA with. If not replaced NAs will be imputed using NIPAL by ropls package. Replaceing is performed after filtering. Lld (lower limit of detection) is calculated by llq/3 with llq (lower limit of quantification) is the lowest value in the dataset.
+#' @param log_transform T or F if datamatrix is transformed by natural logarithm
 #' @param pcorr_cutoff_Model1_joint_models P(corr) cutoff in model1 for joint models. Either enter a value with p(corr)cutoff for all joint comparisons or vector containing p(corr) cutoff for each comparison in model_table_to_analyse or enter "according to p-value" to generate p(corr) corresponding to selected pvalue entered in p_pearson_of_pcorr_cutoff.
 #' @param pcorr_cutoff_Model1_stratified_models P(corr) cutoff in model1 for stratified models. Either enter a value with p(corr)cutoff for all stratified comparisons or vector containing p(corr) cutoff for each comparison in model_table_to_analyse or enter "according to p-value" to generate p(corr) corresponding to selected pvalue entered in p_pearson_of_pcorr_cutoff
 #' @param variable_selection_using_VIP "yes" if VIP is used during variable selection and "no" if only p(corr) is used.
@@ -55,42 +58,52 @@
 #' @param each_model_or_summary "summary" if only summary should be run and "each" if only models of each comparison should be run. "both" if first running each comparison followed by summary. "both" is not possible if cluster is "yes". "summary" requires that .Rdata files from "each" exists in outputR folder.
 #' @param model_strategies_to_run Numeric vector indicating which model strategies to run. Model strategy 3 requires that 2 is run. Model strategy 4 requires that 3 and 2 is run.
 #'
-#' @return Outputs in a folder called OutputR in your analysis folder. one .html file and one .Rdata file
+#' @return Outputs in a folder called outputR in your analysis folder. one .html file and one .Rdata file
 #' per group comparison  containing five models and one summary html file containing
-#' tables of all models of all comparisons. Also tables with loadings are created.
+#' tables of all models of all comparisons. Also .txt files containing tables with loadings are created.
 #'
 #' @examples
+#'
+#' ## The function may be run using the workflow setting the parameters in the files
+#' ## roplspvs_Configure_Get_Started.R and roplspvs_Configure_Advanced.R. These files are
+#' ## saved in your project folder where also a folder namned data containing your datamatrix
+#' ## and metadata matrix is saved. This is where your result folder outputR is generated. To run example data:
+#'
+#' setwd("<path to your project folder>")
+#' source("<path to roplspvs>/Roplspvs_Run.R")
+#'
+#' ## The workflow runs the following function:
 #' oplspvs(directory_of_roplspvs,directory_of_analysis,
-#' projectname,date_of_analysis,filename_matrix,decimal_separator,filename_sampleID,colname_groupID,groupsnumeric,
-#' colname_secID,no_permutations_sans_vs,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
-#' p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,model_strategies_to_run,
-#' foldername_Rmarkdownfiles,foldername_of_input_matrix_and_sampleID,foldername_output_reports,foldername_function_file,
-#' directory_input_matrix_sampleID,directory_output_reports,filename_Rmarkdownfile_each_model,filename_Rmarkdownfile_summary,
-#' filename_function_file,filter_percent_in_each_group,pcorr_cutoff_Model1_joint_models,pcorr_cutoff_Model1_stratified_models,
-#' variable_selection_using_VIP,no_of_ortho_pre_vs_Model1_joint_models,no_of_ortho_pre_vs_Model1_stratified_models,
-#' no_of_ortho_post_vs_Model1_joint_models,no_of_ortho_post_vs_Model1_stratified_models, max_no_of_ortho_pre_vs, max_no_of_ortho_post_vs,
-#' prefered_pR2_and_pQ2_permutated_post_vs,pcorr_diff,variable_names_length,variable_names_position,
-#' cluster,name_intermediate_dir,each_model_or_summary,model_strategies_to_run)
+#' projectname, date_of_analysis, filename_matrix, decimal_separator, filename_sampleID, colname_groupID, groupsnumeric,
+#' colname_secID, no_permutations_sans_vs, no_permutations_post_vs, no_permutations_post_vs_selected_models, no_permutations_over_vs,
+#' p_pearson_of_pcorr_cutoff, setseedfirstmodel, order_of_groups, models_to_run, model_strategies_to_run,
+#' foldername_Rmarkdownfiles, foldername_of_input_matrix_and_sampleID, foldername_output_reports,
+#' directory_input_matrix_sampleID, directory_output_reports, filename_Rmarkdownfile_each_model, filename_Rmarkdownfile_summary,
+#' filename_function_file, replace_0, filter_percent_in_each_group, replace_NA, log_transform, pcorr_cutoff_Model1_joint_models, pcorr_cutoff_Model1_stratified_models,
+#' variable_selection_using_VIP, no_of_ortho_pre_vs_Model1_joint_models, no_of_ortho_pre_vs_Model1_stratified_models,
+#' no_of_ortho_post_vs_Model1_joint_models, no_of_ortho_post_vs_Model1_stratified_models, max_no_of_ortho_pre_vs, max_no_of_ortho_post_vs,
+#' prefered_pR2_and_pQ2_permutated_post_vs, pcorr_diff, variable_names_length, variable_names_position,
+#' cluster, name_intermediate_dir, each_model_or_summary, model_strategies_to_run)
 #' @details In filename_sampleID and in filename_matrix do not use the following symbols in sampleID or variable names;
-#' ?, $, %, ^, &, *, (, ), -, #, ?, ,, <, >, /, |, , ], {, } and [
+#' ?, %, ^, &, *, (, ), -, #, ?, ,, <, >, /, |, , ], {, }, [, and $
 #' Missing values should be indicated by "", "NA" or "Inf"
 #' @export
-oplspvs <- function(directory_of_roplspvs,directory_of_analysis,
-                                                         projectname,date_of_analysis,filename_matrix,decimal_separator,filename_sampleID,colname_groupID,groupsnumeric,
-                                                         colname_secID,no_permutations_sans_vs,no_permutations_post_vs,no_permutations_post_vs_selected_models,no_permutations_over_vs,
-                                                         p_pearson_of_pcorr_cutoff,setseedfirstmodel,order_of_groups,models_to_run,
-                                                         foldername_Rmarkdownfiles,foldername_of_input_matrix_and_sampleID,foldername_output_reports,foldername_function_file,
-                                                         directory_input_matrix_sampleID,directory_output_reports,filename_Rmarkdownfile_each_model,filename_Rmarkdownfile_summary,
-                                                         filename_function_file,replace_0, filter_percent_in_each_group, replace_NA, log_transform,pcorr_cutoff_Model1_joint_models,pcorr_cutoff_Model1_stratified_models,
-                                                         variable_selection_using_VIP,no_of_ortho_pre_vs_Model1_joint_models,no_of_ortho_pre_vs_Model1_stratified_models,
-                                                         no_of_ortho_post_vs_Model1_joint_models,no_of_ortho_post_vs_Model1_stratified_models,max_no_of_ortho_pre_vs, max_no_of_ortho_post_vs,
-                                                         prefered_pR2_and_pQ2_permutated_post_vs,pcorr_diff,variable_names_length,variable_names_position,
-                                                         cluster,name_intermediate_dir,each_model_or_summary,model_strategies_to_run) {
+oplspvs <- function(directory_of_roplspvs, directory_of_analysis,
+           projectname, date_of_analysis, filename_matrix, decimal_separator, filename_sampleID, colname_groupID, groupsnumeric,
+           colname_secID, no_permutations_sans_vs, no_permutations_post_vs, no_permutations_post_vs_selected_models, no_permutations_over_vs,
+           p_pearson_of_pcorr_cutoff, setseedfirstmodel, order_of_groups, models_to_run,
+           foldername_Rmarkdownfiles, foldername_of_input_matrix_and_sampleID, foldername_output_reports,
+           directory_input_matrix_sampleID, directory_output_reports, filename_Rmarkdownfile_each_model, filename_Rmarkdownfile_summary,
+           filename_function_file, replace_0,  filter_percent_in_each_group,  replace_NA, log_transform, pcorr_cutoff_Model1_joint_models, pcorr_cutoff_Model1_stratified_models,
+           variable_selection_using_VIP, no_of_ortho_pre_vs_Model1_joint_models, no_of_ortho_pre_vs_Model1_stratified_models,
+           no_of_ortho_post_vs_Model1_joint_models, no_of_ortho_post_vs_Model1_stratified_models, max_no_of_ortho_pre_vs,  max_no_of_ortho_post_vs,
+           prefered_pR2_and_pQ2_permutated_post_vs, pcorr_diff, variable_names_length, variable_names_position,
+           cluster, name_intermediate_dir, each_model_or_summary, model_strategies_to_run) {
 
 #Read directories of Function files and Rmarkdown files
 
 directory_Rmarkdownfiles <- paste(directory_of_roplspvs,"/",foldername_Rmarkdownfiles,"/",sep="") # "path of directory/filename"
-directory_function_file <- paste(directory_of_roplspvs,"/",foldername_function_file,"/", sep="")
+directory_function_file <- paste(directory_of_roplspvs,"/R", sep="")
 foldername_model_table_to_analyse <- foldername_output_reports #model_table_to_analyse will be saved in this folder.
 directory_model_table_to_analyse <- paste(directory_of_analysis,"/",foldername_model_table_to_analyse,"/",sep="")
 

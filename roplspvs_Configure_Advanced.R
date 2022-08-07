@@ -4,7 +4,6 @@
 foldername_Rmarkdownfiles <- "Rscript" #"foldername". This is the folder for the scripts .R and .rmd files.
 foldername_of_input_matrix_and_sampleID <- "data" #"foldername" Folder is automatically created if it does not excist. This is the folder for datamatrix and sampleID files
 foldername_output_reports <- "outputR" # "foldername"  Folder is automatically created if it does not excist. In this folder one html file for each group comparison and a summary html file of all comparisons will be created.
-foldername_function_file <- foldername_Rmarkdownfiles # foldername_Rmarkdownfiles or "foldername". This is the folder for the .R and .Rmd files.
 
 directory_input_matrix_sampleID <-  paste(directory_of_analysis,"/",foldername_of_input_matrix_and_sampleID,"/",sep="")#may be altered to other than directory_of_analysis
 directory_output_reports <- paste(directory_of_analysis,"/",foldername_output_reports,"/",sep="")  #may be altered to other than directory_of_analysis

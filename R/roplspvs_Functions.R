@@ -135,7 +135,7 @@ opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_p
         colnames(pcorrlistaftervs) <- c("pcorrlistaftervs","conf.int.low","conf.int.high")
         row.names(pcorrlistaftervs) <- colnames(aftervariableselectionsubsetdatamatrix)
 
-        if ("pR2Y" %in% colnames(resultaftervs)) {colnames(resultaftervs) <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")} else {
+        if ("pR2Y" %in% colnames(resultaftervs)) {colnames(resultaftervs) <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.","pR2Y perm. post v.s.","pQ2 perm. post v.s.")} else {
           colnames(resultaftervs) <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.")
           }
         rownames(resultaftervs) <- "model"
@@ -143,7 +143,7 @@ opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_p
         resultoplsmodelwithvariableselection
       } else {
         resultaftervs <- data.frame(matrix(NA,nrow=1, ncol=11))
-        colnames(resultaftervs)<-c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
+        colnames(resultaftervs)<-c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.","pR2Y perm. post v.s.","pQ2 perm. post v.s.")
         row.names(resultaftervs)<-c("Total")
         resultoplsmodelwithvariableselection <- list(resultaftervs=resultaftervs)
         resultoplsmodelwithvariableselection
@@ -152,7 +152,7 @@ opls_model_with_variable_selection_trycatch <- function(subsetdatamatrix,ortho_p
     },
     error = function(e){
       resultaftervs <- data.frame(matrix(NA,nrow=1, ncol=11))
-      colnames(resultaftervs)<-c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
+      colnames(resultaftervs)<-c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum)","R2Y(cum)","Q2(cum)","RMSEE","pred. post v.s.","ortho post v.s.","pR2Y perm. post v.s.","pQ2 perm. post v.s.")
       row.names(resultaftervs)<-c("Total")
       resultoplsmodelwithvariableselection <- list(resultaftervs=resultaftervs)
       resultoplsmodelwithvariableselection
@@ -908,8 +908,8 @@ resultmodelprevs
 
     corrcoff <- cor(as.numeric(as.factor(randomgroup)),as.numeric(as.factor(subsetsampleID[,paste(colname_groupID)])), method="pearson")
     resultpermutation <- cbind(resultpermutation$resultaftervs,corrcoff)
-    if ("pR2Y permutated post v.s." %in% names(resultpermutation)) {resultpermutation$"pR2Y permutated post v.s." <- NULL}
-    if ("pQ2 permutated post v.s." %in% names(resultpermutation)) {resultpermutation$"pQ2 permutated post v.s." <- NULL}
+    if ("pR2Y perm. post v.s." %in% names(resultpermutation)) {resultpermutation$"pR2Y perm. post v.s." <- NULL}
+    if ("pQ2 perm. post v.s." %in% names(resultpermutation)) {resultpermutation$"pQ2 perm. post v.s." <- NULL}
     resultpermutation
 
   }
@@ -975,8 +975,8 @@ resultmodelprevs
   calculatepforpermutation <- function(permutated_models, unpermutatedmodel){
     corrcoff <- 1
     resultunpermutatedmodel <- cbind(unpermutatedmodel$resultaftervs,corrcoff)
-    resultunpermutatedmodel$"pR2Y permutated post v.s." <- NULL
-    resultunpermutatedmodel$"pQ2 permutated post v.s." <- NULL
+    resultunpermutatedmodel$"pR2Y perm. post v.s." <- NULL
+    resultunpermutatedmodel$"pQ2 perm. post v.s." <- NULL
     permutated_modelsplusunpermutated <-  rbind(resultunpermutatedmodel , permutated_models)
 
     permutated_modelsplusunpermutated$corrcoff <- abs(permutated_modelsplusunpermutated$corrcoff)
@@ -1087,7 +1087,7 @@ pforpermutation <- calculatepforpermutation(permutated_models, unpermutatedmodel
 summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated)/100,t(pforpermutation))
       summarymodeltable <- rbind(summarymodeltable,summarymodeltablei)
     }
-    colnames(summarymodeltable)[c(6,7,8,9,10,11,12,14,15,16)] <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum) post v.s.","R2Y(cum) post v.s.","Q2(cum) post v.s.","RMSEE post v.s.","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
+    colnames(summarymodeltable)[c(6,7,8,9,10,11,12,14,15,16)] <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum) post v.s.","R2Y(cum) post v.s.","Q2(cum) post v.s.","RMSEE post v.s.","ortho post v.s.","pR2Y perm. post v.s.","pQ2 perm. post v.s.")
     summarymodeltable
   }
 
@@ -1156,7 +1156,7 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
   pforpermutation <- calculatepforpermutation(permutated_models, unpermutatedmodel = resultmodel)
 
   modelresult_with_perm <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated)/100,t(pforpermutation))
-   colnames(modelresult_with_perm)[c(6,7,8,14,15,16)] <- c("pcorr cutoff","ortho pre v.s.","no. variables","ortho post v.s.","pR2Y permutated post v.s.","pQ2 permutated post v.s.")
+   colnames(modelresult_with_perm)[c(6,7,8,14,15,16)] <- c("pcorr cutoff","ortho pre v.s.","no. variables","ortho post v.s.","pR2Y perm. post v.s.","pQ2 perm. post v.s.")
   modelresult_with_perm
   }
 
@@ -1365,8 +1365,8 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
       modeltable_with_diff_less_than_02_and_pvalue_less_than_given_value <-
         subset(
           modeltable,
-          modeltable$"pR2Y permutated post v.s."<=pvalueR2andQ2 &
-            modeltable$"pQ2 permutated post v.s."<=pvalueR2andQ2 &
+          modeltable$"pR2Y perm. post v.s."<=pvalueR2andQ2 &
+            modeltable$"pQ2 perm. post v.s."<=pvalueR2andQ2 &
             modeltable$"diff R2Y(cum)-Q2(cum)"<=diffR2Q2)
       nrowmodeltable <- nrow(modeltable_with_diff_less_than_02_and_pvalue_less_than_given_value)
     }
@@ -1401,8 +1401,8 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
       modeltable_selected <-
         subset(
           modeltable,
-          modeltable$"pR2Y permutated post v.s."<=pvalueR2andQ2 &
-            modeltable$"pQ2 permutated post v.s."<=pvalueR2andQ2 &
+          modeltable$"pR2Y perm. post v.s."<=pvalueR2andQ2 &
+            modeltable$"pQ2 perm. post v.s."<=pvalueR2andQ2 &
             modeltable$"diff R2Y(cum)-Q2(cum)"<=diffR2Q2)
       nrowmodeltable <- nrow(modeltable_selected)
     }
@@ -1454,8 +1454,8 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
       modeltable_selected <-
         subset(
           modeltable,
-          modeltable$"pR2Y permutated post v.s."<=pvalueR2andQ2 &
-            modeltable$"pQ2 permutated post v.s."<=pvalueR2andQ2 &
+          modeltable$"pR2Y perm. post v.s."<=pvalueR2andQ2 &
+            modeltable$"pQ2 perm. post v.s."<=pvalueR2andQ2 &
             modeltable$"diff R2Y(cum)-Q2(cum)"<=diffR2Q2)
 
       maxQ2 <- max(modeltable_selected$`Q2(cum)`)
@@ -1488,77 +1488,6 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
 
 
 
-  selecting_model_with_diff_less_than_02_max_Q2_low_pperm_and_few_orthogonals_old <- function(modeltable, prefered_pR2_and_pQ2_permutated_post_vs) {
-
-
-  nrowmodeltable <- 0
-  pvalueR2andQ2 <- 0
-  diffR2Q2 <- 0.1
-  while (nrowmodeltable==0 & (diffR2Q2<1 | pvalueR2andQ2<1)) {
-    pvalueR2andQ2 <- pvalueR2andQ2+prefered_pR2_and_pQ2_permutated_post_vs
-    diffR2Q2 <- diffR2Q2+0.1
-  modeltable_selected <-
-    subset(
-      modeltable,
-      modeltable$"pR2Y permutated post v.s."<=pvalueR2andQ2 &
-        modeltable$"pQ2 permutated post v.s."<=pvalueR2andQ2 &
-        modeltable$"diff R2Y(cum)-Q2(cum)"<=diffR2Q2)
-
-  maxQ2 <- max(modeltable_selected$`Q2(cum)`)
-  model_selected_and_max_Q2 <- modeltable_selected
-  maxQ2_at_min_tot_no_ortho <- 0
-  while (maxQ2_at_min_tot_no_ortho!=maxQ2) {
-    maxQ2 <- max(model_selected_and_max_Q2$`Q2(cum)`)
-  model_selected_and_max_Q2 <-
-    subset(
-      modeltable_selected,
-      modeltable_selected$`Q2(cum)`>(maxQ2-0.01)
-    )
-  totalnoortho_in_modeltable_selected <- model_selected_and_max_Q2$`ortho pre v.s.`+ model_selected_and_max_Q2$`ortho post v.s.`
-  model_selected_and_max_Q2 <-
-    subset(
-      model_selected_and_max_Q2,
-      totalnoortho_in_modeltable_selected==min(totalnoortho_in_modeltable_selected)
-    )
-
-  model_selected_and_max_Q2 <-
-    subset(
-      model_selected_and_max_Q2,
-      model_selected_and_max_Q2$`ortho post v.s.`==min(model_selected_and_max_Q2$`ortho post v.s.`)
-    )
-  maxQ2_at_min_tot_no_ortho <- max(model_selected_and_max_Q2$`Q2(cum)`)
-  }
-
-
-  totalnoortho <- modeltable_selected$`ortho pre v.s.`+
-    modeltable_selected$`ortho post v.s.`
-
-  maxQ2diff <- (min(totalnoortho_in_modeltable_selected) - totalnoortho)*0.01
-
-    model_selected_and_max_Q2 <-
-    subset(
-      modeltable_selected,
-      modeltable_selected$`Q2(cum)`>=(maxQ2-maxQ2diff)
-  )
-   totalnoortho <- model_selected_and_max_Q2$`ortho pre v.s.`+
-      model_selected_and_max_Q2$`ortho post v.s.`
-    model_selected_and_max_Q2 <-
-      subset(
-        model_selected_and_max_Q2,
-        totalnoortho==min(totalnoortho)
-      )
-
-    model_selected_and_max_Q2 <-
-    subset(
-      model_selected_and_max_Q2,
-      model_selected_and_max_Q2$`ortho post v.s.`==min(model_selected_and_max_Q2$`ortho post v.s.`)
-    )
-    model_selected_and_max_Q2 <- model_selected_and_max_Q2[1,]
-  nrowmodeltable <- nrow(model_selected_and_max_Q2)
-  }
-  model_selected_and_max_Q2
-  }
-
   selecting_model_with_diff_less_than_02_max_Q2_low_pperm_and_few_orthogonals <- function(modeltable, prefered_pR2_and_pQ2_permutated_post_vs) {
 
     nrowmodeltable <- 0
@@ -1570,8 +1499,8 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
       modeltable_selected <-
         subset(
           modeltable,
-          modeltable$"pR2Y permutated post v.s."<=pvalueR2andQ2 &
-            modeltable$"pQ2 permutated post v.s."<=pvalueR2andQ2 &
+          modeltable$"pR2Y perm. post v.s."<=pvalueR2andQ2 &
+            modeltable$"pQ2 perm. post v.s."<=pvalueR2andQ2 &
             modeltable$"diff R2Y(cum)-Q2(cum)"<=diffR2Q2)
       nrowmodeltable <- nrow(modeltable_selected)
     }
@@ -2234,7 +2163,7 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
 
  loadRData <- function(directory_output_reports, projectname, date_of_analysis, firstgroup, secondgroup, secID, variablename) {
    #loads an RData file, and returns it
-   load(paste(paste(directory_output_reports, projectname, sep=""), date_of_analysis, firstgroup, "vs", secondgroup, secID,".Rdata", sep="_"))
+   load(paste(paste(directory_output_reports,"/", projectname, sep=""), date_of_analysis, firstgroup, "vs", secondgroup, secID,".Rdata", sep="_"))
    get(variablename)
  }
 
@@ -2273,11 +2202,7 @@ summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resu
    pC8
  }
 
- loadRData <- function(directory_output_reports, projectname, date_of_analysis, firstgroup, secondgroup, secID, variablename) {
-   #loads an RData file, and returns it
-   load(paste(paste(directory_output_reports, projectname, sep=""), date_of_analysis, firstgroup, "vs", secondgroup, secID,".Rdata", sep="_"))
-   get(variablename)
- }
+
  make_combinations <- function(x) {
 
    l <- length(x)

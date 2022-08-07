@@ -1,7 +1,7 @@
 # roplspvs: R orthogonal projections of latent structures with permutation over variable selection
 This script uses the Bioconductor package ropls  to produce OPLS models. It performs variable selection using p(corr) and optionally VIP. In addition to permutation post variable selection included in the ropls package also permutations pre variable selection with proceeding variable selection of every permutation resulting in p-values for R2 and Q2 including the variable selection procedure. It produces tables of all group comparisons including optional stratification by metadata.
 Input is one matrix, one metafile with sampleID including the groups to be compared and two Configure files with desired settings.
-The output is one html file per comparison of groups containing models using five different model startegies and one summary html file of all comparisons. Also tables with loadings are created.
+The output is one html file per comparison of groups containing models using five different model startegies and one summary html file and .Rdata files of all comparisons. Also .txt files with tables with loadings showing p(corr) are created.
 
 # Installation
 To be able to contribute to the repository install git by running the following code on command line. All other commands are in R.
@@ -46,8 +46,8 @@ source("<path to roplspvs>/Roplspvs_Run.R")
 4.	The datamatrix may contain numeric data, integers or categorical data as characters. Original categorical variable will be removed and replaced with dummy variables.
 5. A sampleID file with sampleID in the first column and containing one column with the groups to be compared and one column with secondaryID (for example gender) if stratification is desired. Also this file should not contain the symbols above and the samleID´s should agree with the subjectID´s in the datamatrix.
 6. Both datamatrix and sampleID files should be saved as Tab delimited ("*.txt") files. 
-7. Create a project folder for the analysis manually or use the roplspvs-main folder. In this folder a subdirectory will be created called "outputR" where the results and the tables called model_table_to_analyse and the reordered_model_table_to_analyse describing which models are run will be stored. 
-8. Create a folder and save your datamatrix and sampleID file here. Default name is "data_to_R_analysis" and is created by default in the project folder. You may also enter the path and foldername to your own input data folder.  
+7. Create a project folder for the analysis manually. In this folder a subdirectory will be created called "outputR" where the results and the tables called model_table_to_analyse and the reordered_model_table_to_analyse describing which models are run will be stored. 
+8. Create a folder and save your datamatrix and sampleID file here. Default name is "data" and is created by default in the project folder. You may also enter the path and foldername to your own input data folder.  
 9. Save the roplspvs_Configure_Get_Started.R and if advanced parameters are to be changed roplspvs_Configure_Advanced.R in your project folder. The names of the files may be changed to your choice "Any_name_Advanced.R" and "Any_name_Get_Started.R".
 10. Edit basic settings of parameters in file "roplspvs_Configure_Get_Started.R" which contains the parameters that has to be entered including file names, folder names and column names describing the groups to be compared. Default settings and advanced parameters may be altered in file "roplspvs_Configure_Advanced.R".
 
@@ -64,35 +64,37 @@ source("<path to roplspvs>/roplspvs_Run.R")
 ## Features
 The script generates five models using different strategies: 
 Model strategy 1 uses p(corr) cutoff which is userset either to numeric value or corresponding to userset p[Pearson_pcorr_cutoff] and userset number of orthogonals with default 0. 
-Model strategy 2 uses p(corr) cutoff corresponding to userset p[Pearson_pcorr_cutoff] and number of orthogonals resulting in best performing model after variable selection. 
-Model strategy 3 uses both p(corr) cutoff and number of orthogonals resulting in best performing model after variable selection. Only pcorr cutoff higher than p[Pearson_pcorr_cutoff] is used.
+Model strategy 2 uses p(corr) cutoff corresponding to userset p[Pearson_pcorr_cutoff] resulting in best performing model after variable selection. 
+Model strategy 3 uses both p(corr) cutoff resulting in best performing model after variable selection. Only pcorr cutoff higher than p[Pearson_pcorr_cutoff] is used.
 Model strategy 4 sets p(corr) cutoff and number of orthogonals creating in best performing model after variable selection while keeping the amount of variables to a minimum. They are limited by only adding variables if a decrease in p(corr) cutoff less than userset delta-p(corr) cutoff results in an increase in Q2 of more than 1%. The minimum p(corr) cutoff for model strategy 3 and 4 is set by variable p[Pearson_pcorr_cutoff]. 
-Model strategy 5 is an iteration model using increasing p(corr) cutoff stepwise as long as Q2 of the model post variable selection is increased more than 1%. The amount of orthogonals is set using ropls default method adding orthogonals as long as Q2 post vs is increased by 1 %.
+Model strategy 5 is an iteration model using increasing p(corr) cutoff stepwise as long as Q2 of the model post variable selection is increased more than 1%. 
 
 ### Best performing model during selection of amount of orthogonal variables and p(corr) cutoff
 Best performing models are defined as models that after variable selection give high Q2, low difference between R2 and Q2 and also low p[Q2_perm_ post_vs] and low p[R2_perm_ post_vs]. The weight between low difference and low p[Q2_perm_ post_vs] is given by user-set preferred_pR2_and_pQ2_permutated_post_vs with lower preferred_pR2_and_pQ2_permutated_post_vs giving more weight to p[Q2_perm_ post_vs] compared to high Q2 and low difference between R2 and Q2.
 
 ### Detailed descripting of method for selecting amount of orthogonal variables 
 1)	Maximum number of orthogonals are user-set by variable max_no_of_ortho with default setting 5 for Model2-4 and by setting no_of_ortho with default 0 for Model1.
-2)	Selects models with p[R2_perm_ post_vs] and p[Q2_perm_ post_vs]< preferred_pR2_and_pQ2_permutated_post_vs and diff between R2 and Q2 < 0.2
-3)	Selects models with max Q2 as long as adding an orthogonal increases Q2 more than 1%.
-4)	If no model is found p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] limit is increased by preferred_pR2_and_pQ2_permutated_post_vs and diff between R2 and Q2 is increased by 0.1 and selection is rerun.
-5)	If there is more than one model with the same amount of orthogonals and the same Q2, the model with lowest amount of orthogonals after variable selection is chosen.
+2)	The number of orthogonals is set using ropls default method adding orthogonals as long as Q2 is increased by 1 %.
+3)  It is checked if there is a model with higher Q2 using fewer orthogonals using the following proceedure
+  3.1)	Selects models with p[R2_perm_ post_vs] and p[Q2_perm_ post_vs]< preferred_pR2_and_pQ2_permutated_post_vs and diff between R2 and Q2 < 0.2
+  3.2)	Selects models with max Q2 as long as adding an orthogonal increases Q2 more than 1%.
+  3.3)	If no model is found p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] limit is increased by preferred_pR2_and_pQ2_permutated_post_vs and diff between R2 and Q2 is increased by 0.1 and selection is rerun.
+  3.4)	If there is more than one model with the same number of orthogonals and the same Q2, the model with lowest number of orthogonals after variable selection is chosen.
 
 ### Detailed descripting of method for selecting p(corr) cutoff
 1)	From the start, all variables with |p(corr)|< p[Pearson_pcorr_cutoff] are removed.
-2)	Amount of orthogonals selected when using pcorr cutoff set at p[Pearson_pcorr_cutoff] from Model2.
-3)	Selects pcorr resulting in models with p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] < preferred_pR2_and_pQ2_permutated_post_vs and diff between R2 and Q2 < 0.2
-4)	Model strategy 3: Selects pcorr resulting in models with max Q2 allowing for a decrease in Q2 by 1% if amount of variables are decreased.
-5)	Model strategy 4: Selects pcorr resulting in models with max Q2 as long as adding variables by decreasing pcorr cutoff more than user-set pcorr_diff increases Q2 more than 1%.
-6)	If no model is found p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] limit is increased by preferred_pR2_and_pQ2_permutated_post_vs and diff between R2 and Q2 is increased by 0.1 and selection is rerun. 
+2)	Model stratgy 2: pcorr cutoff set to correspond to p[Pearson_pcorr_cutoff] set by user.
+3)	Model strategy 3 and 4: Selects p(corr) cutoff resulting in models with p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] < preferred_pR2_and_pQ2_permutated_post_vs, difference between R2 and Q2 < 0.2 and max Q2
+4)	Model strategy 3: Decreases Q2 by maximum 1% if fewer features or fewer orthogonals may be used.
+5)	Model strategy 4: Decreases Q2 as long as increasing p(corr) cutoff more than user-set pcorr_diff increases Q2 more than 1% for each pcorr_diff step resulting in fewer variables.
+6)	If no model is found p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] limit is increased by preferred_pR2_and_pQ2_permutated_post_vs and diff between R2 and Q2 is increased by 0.1 searching again for model with highest Q2.
 
 ## Model statistics
 ### R2 and Q2
 R2 is derived from the ropls package and is a measure of the fitness of the model and shows how much of the variation is explained by the model with a maximum value of 1. Q2 is a measure of the predictability of the model determined by 7 fold cross-validation which is the default in the ropls package. The package gives R2 and Q2 pre and post variable selection.
 
 ### Permutations
-In addition to the p[R2_perm_ post_vs] and p[Q2_perm_ post_vs] which is calculated by default by the ropls package this package also calculates p[R2_perm_ over_vs] and p[Q2_perm_ over_vs]. This includes randomization of subject respond labels followed by variable selection and fitting of model post variable selection to obtain R2 and Q2 for permutated models. The same amount of orthogonals is used in the permutated models as in the unpermutated model under investigation. R2 and Q2 for the permutated models are compared to R2 and Q2 for the unpermutated models to generate p[R2_perm_ over_vs] and p[Q2_perm_ over_vs]. The number of permutations performed is user-set by setting parameter no_permutations_post_vs, no_permutations_post_vs_selected_models and no_permutations_over_vs with default 20.
+In addition to the permutations before and after variable selection which is calculated by default by the ropls package resulting in  p[R2_perm_ sans_vs], p[Q2_perm_ sans_vs], p[R2_perm_ post_vs] and p[Q2_perm_ post_vs]  this package also calculates p-values for permutations over variable selection p[R2_perm_ over_vs] and p[Q2_perm_ over_vs]. Permutations over variable selection is performed by  randomization of subject labels followed by variable selection and fitting of model post variable selection to obtain R2 and Q2 for permutated models. R2 and Q2 for the permutated models are compared to R2 and Q2 for the unpermutated models to generate p[R2_perm_ over_vs] and p[Q2_perm_ over_vs]. The number of orthogonals is set by ropls default for permutated models as well as in the unpermutated model under investigation.  The number of permutations performed is user-set by setting parameter no_permutations_sans_vs, no_permutations_post_vs, no_permutations_post_vs_selected_models and no_permutations_over_vs with default 20.
 
 ## RMSE
 RMSE is derived using ropls package and is the square root of the mean error between actual and predicted responses.
