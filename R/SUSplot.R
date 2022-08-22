@@ -179,7 +179,7 @@ if(is.logical(change_name_list)){if(change_name_list==F) susplotnames <- SUSplot
 } else {pC4 <- pC3}
   pC5 <- pC4 + theme(text=element_text(size=size), axis.text=element_text(size=size), title = element_text(size=size))
   pC6 <- pC5 + geom_text_repel(label=rownames(susplotnames))
-  pC7 <- pC6 + theme(legend.title = element_blank())
+  pC7 <- pC6 + theme(legend.position = "top",legend.title = element_blank())
   pC8 <- pC7 + scale_color_manual(values=colors_manual)
   pC9 <- pC8 + scale_y_continuous(breaks = c(seq(-1, 1, by=0.5)), minor_breaks = c(seq(-1, 1, by=0.1)),limits = c(-1, 1))
   pC10 <- pC9 + scale_x_continuous(breaks = c(seq(-1, 1, by=0.5)), minor_breaks = c(seq(-1, 1, by=0.1)),limits = c(-1, 1))

@@ -65,7 +65,13 @@ kable(best_performing_iteration_model_few_variables, row.names = T) %>%
 
 iterationpcorrlist <- iterationsummary[[2]][[as.numeric(gsub("model ","",row.names(best_performing_iteration_model_few_variables)))]]
 
+testvariablename <- "iterationmodel"
+testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
+if (!is.null(testvariable)){iterationmodel <- testvariable} else {
+  
 iterationmodel <- opls(subsetdatamatrix[,rownames(iterationpcorrlist)], y=classordered, predI = 1, orthoI = best_performing_iteration_model_few_variables$`ortho post v.s.`, scaleC="standard",info.txtC="none",fig.pdfC="none",permI=no_permutations_post_vs_selected_models)
+}
+
 result_iterationmodel <- list()
 result_iterationmodel$pcorrlistaftervs <- iterationpcorrlist
 result_iterationmodel$aftervsdata.oplsda <- iterationmodel

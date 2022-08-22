@@ -32,6 +32,26 @@ Model with variable selection using p(corr) corresponding to p-value less than `
 ```{R pcorr table model4}
 pcorr_corresponging_to_pvalue <- calculatepcorrfrompvalue(selectpvalue = p_pearson_of_pcorr_cutoff, n = nrow(subsetsampleID))
 
+testvariablename <- "pcorr_table_of_model_post_vs"
+testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
+if (!is.null(testvariable)) {
+  pcorr_table_of_model_post_vs <- testvariable
+} else {
+  pcorr_table_of_model_post_vs <- pcorrtableofmodelsaftervs_withdiff(
+    subsetdatamatrix,
+    ortho_pre_vs=NA,
+    ortho_post_vs=NA,
+    class = classordered,
+    pcorrvector = c(seq(0.9, pcorr_corresponging_to_pvalue, by = -0.01), pcorr_corresponging_to_pvalue),
+    no_permutations_post_vs = no_permutations_post_vs,
+    variable_selection_using_VIP, 
+      max_no_of_ortho_pre_vs, 
+      max_no_of_ortho_post_vs
+  )
+}
+
+short_pcorr_table_of_model_post_vs <- subset(pcorr_table_of_model_post_vs, !duplicated(pcorr_table_of_model_post_vs$"no. variables") & !is.na(pcorr_table_of_model_post_vs$"no. variables"))
+
 kable(short_pcorr_table_of_model_post_vs, row.names = T) %>%
   kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 
@@ -62,7 +82,9 @@ plot_pcorrtable_amount_of_variables_with_pcorr_labels(
 
 
 ```{R table of orthogonals Model 4}
-if (pcorr == result_Model3$resultaftervs$`pcorr cutoff`) {
+exist_result_Model3 <- exists("result_Model3")
+if(exist_result_Model3){if (pcorr == result_Model3$resultaftervs$`pcorr cutoff`) {Model3_equalto_Model4<-T} else {Model3_equalto_Model4<-F}} else {Model3_equalto_Model4<-F}
+if (exist_result_Model3==T & Model3_equalto_Model4==T) {
   model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4 <- model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model3
 } else {
   testvariablename <- "model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs_Model4"
@@ -115,7 +137,9 @@ plotof_model_post_vs_table_with_different_amount_of_ortho_pre_and_post_vs(
 #### Best performing model with variable selection using p(corr) cutoff `r pcorr` with highest Q2  using minimal amount of variables after variable selection resulted in `r ortho_pre_vs` orthogonal in model pre variable selection and `r ortho_post_vs` orthogonal in model post variable selection
 
 ```{R Best performing Model 4, fig.fullwidth=TRUE}
-
+if (exist_result_Model3==T & Model3_equalto_Model4==T) {
+  result_Model4 <- result_Model3
+} else {
 testvariablename <- "result_Model4"
 testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
 if (!is.null(testvariable)) {
@@ -135,6 +159,7 @@ if (!is.null(testvariable)) {
       max_no_of_ortho_pre_vs,
       max_no_of_ortho_post_vs
     )
+}
 }
 ```
 ### Model pre variable selection
@@ -205,7 +230,9 @@ Subjects were permutated and variable selection performed using p(corr) cutoff `
 
 ```{R permutation pre vs of Model 4}
 
-if (result_Model4$resultaftervs$`pcorr cutoff` != result_Model3$resultaftervs$`pcorr cutoff`) {
+if (exist_result_Model3==T & Model3_equalto_Model4==T) {
+  permutated_models_Model4 <- permutated_models_Model3
+} else {
   testvariablename <- "permutated_models_Model4"
   testvariable <- exist_in_rdata(testvariablename, filename_rdata, directory_output_reports, directory_and_filename_rdata)
   if (!is.null(testvariable)) {
@@ -226,8 +253,6 @@ if (result_Model4$resultaftervs$`pcorr cutoff` != result_Model3$resultaftervs$`p
       max_no_of_ortho_post_vs
       )
   }
-} else {
-  permutated_models_Model4 <- permutated_models_Model3
 }
 
 for (l in 1:nrow(permutated_models_Model4)) {

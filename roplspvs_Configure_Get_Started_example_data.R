@@ -36,6 +36,6 @@ p_pearson_of_pcorr_cutoff <- 0.05 # P-value for p(corr) cutoff during variable s
 
 ## Running models
 setseedfirstmodel <- 200 #Numeric. Setseed of the first model. Second model will have setseedfirstmodel+1 etc.
-order_of_groups <- c("E+P","E-only","Nonuser") # Character vector or numeric vector containing correct order of groups to compare or enter "correct" if order of levels in colname_groupID is already correct. Deseased first and controls last. This will define direction of scores as high in diseased.
-models_to_run <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,23) # numeric vector indicating which comparisons to run as numbered in the file "model_table_to_analyse". If all comparisons are to be run enter "all". model_table_to_analyse is created when starting the script. Edited model_table_to_analyse manually or indicate which comparisons to run.
+order_of_groups <- c("E+P","E-only","Nonuser") # Character vector of group names or numeric vector of correct order of groups to compare or enter "correct" if order of levels in colname_groupID is already correct. Deseased first and controls last. This will define direction of scores as high in diseased.
+comparisons_to_run <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,23) # numeric vector indicating which comparisons to run as numbered in the file "model_table_to_analyse". If all comparisons are to be run enter "all". model_table_to_analyse is created when starting the script. Edited model_table_to_analyse manually or indicate which comparisons to run.
 

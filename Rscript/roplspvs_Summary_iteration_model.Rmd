@@ -45,7 +45,7 @@ Note that iteration models have not been permutated over variable selection
 
 ```{r, echo=FALSE}
 
-summary_Model5_tablesignificant <- subset(summary_Model5_table,summary_Model5_table$`pQ2 permutated post v.s.`<=0.05 & summary_Model5_table$`R2Y(cum)`>=0.5 & summary_Model5_table$`Q2(cum)`>=0.4)
+summary_Model5_tablesignificant <- subset(summary_Model5_table,summary_Model5_table$`pQ2 perm. post v.s.`<=0.05 & summary_Model5_table$`R2Y(cum)`>=0.5 & summary_Model5_table$`Q2(cum)`>=0.4)
 summary_Model5_tablesignificanttokable <- summary_Model5_tablesignificant
 
 summary_Model5_tablesignificanttokable[,c(9,10,11,12)] <- format(round(summary_Model5_tablesignificanttokable[,c(9,10,11,12)],3))

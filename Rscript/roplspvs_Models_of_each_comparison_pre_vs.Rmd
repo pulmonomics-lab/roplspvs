@@ -32,7 +32,7 @@ if (!is.null(testvariable)) {
 } else {
 result_Model_pre_vs <- opls_model_pre_variable_selection_trycatch(subsetdatamatrix,ortho_pre_vs,classordered, printoptmodel="none",plotoptmodel="none", max_no_of_ortho_pre_vs, no_permutations_sans_vs)
 }
-ortho_pre_vs <- result_Model_pre_vs@summaryDF@ort
+ortho_pre_vs <- result_Model_pre_vs@summaryDF$ort
 ```
 ### Model statistics pre variable selection
 
