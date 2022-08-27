@@ -1085,13 +1085,13 @@ percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated <- get(percent_R2_an
 rownames(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated) <- c("pR2Y perm. over v.s.", "pQ2 perm. over v.s.")
 percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated[percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated==0] <-100/no_permutations_over_vs
 pforpermutation <- calculatepforpermutation(permutated_models, unpermutatedmodel = resultmodel)
-mean.perm.Q2.post.vs <- mean(subset(permutated_models,!is.na(permutated_models$`pcorr cutoff`))$`Q2(cum)`) #remove models that do not have any variables with higher pcorr than pcorr cutoff
+mean.perm.Q2.over.vs <- mean(subset(permutated_models,!is.na(permutated_models$`pcorr cutoff`))$`Q2(cum)`) #remove models that do not have any variables with higher pcorr than pcorr cutoff
 mean.perm.Q2.pre.vs <- mean(as.data.frame(result_Model_pre_vs@suppLs$permMN)$`Q2(cum)`)
-overfit <- mean.perm.Q2.post.vs - mean.perm.Q2.pre.vs
-summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated)/100,t(pforpermutation),mean.perm.Q2.post.vs,overfit)
+overfit <- mean.perm.Q2.over.vs - mean.perm.Q2.pre.vs
+summarymodeltablei <- cbind(group1,ngroup1,group2,ngroup2,secID,resultmodel$resultaftervs,t(percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated)/100,t(pforpermutation),mean.perm.Q2.over.vs,overfit)
       summarymodeltable <- rbind(summarymodeltable,summarymodeltablei)
     }
-    colnames(summarymodeltable)[c(6,7,8,9,10,11,12,14,15,16,24,25)] <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum) post v.s.","R2Y(cum) post v.s.","Q2(cum) post v.s.","RMSEE post v.s.","ortho post v.s.","pR2Y perm. post v.s.","pQ2 perm. post v.s.","mean perm. Q2 post v.s.","overfit perm. Q2")
+    colnames(summarymodeltable)[c(6,7,8,9,10,11,12,14,15,16,24,25)] <- c("pcorr cutoff","ortho pre v.s.","no. variables","R2X(cum) post v.s.","R2Y(cum) post v.s.","Q2(cum) post v.s.","RMSEE post v.s.","ortho post v.s.","pR2Y perm. post v.s.","pQ2 perm. post v.s.","mean perm. Q2 over v.s.","overfit perm. Q2")
     summarymodeltable$`Q2(cum) post v.s. - overfit perm. Q2` <- summarymodeltable$`Q2(cum) post v.s.` - summarymodeltable$`overfit perm. Q2`
     summarymodeltable
   }
