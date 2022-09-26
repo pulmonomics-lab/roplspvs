@@ -831,7 +831,7 @@ resultmodelprevs
     pC2 <- pC1 + theme(axis.text.x = element_text(size=fontsize))
     pC3 <- pC2 + labs(y="scores (t)", x=NULL,title="Predictive scores")
     pC4 <- pC3 + theme(legend.position = "none",  text=element_text(size=15), axis.text=element_text(size=15))
-    pC5 <- pC4 + stat_pvalue_manual(pwc, label = "p = {p}", hide.ns = F, label.size = 4, bracket.size = 0.5)
+    pC5 <- pC4 #+ stat_pvalue_manual(pwc, label = "p = {p}", hide.ns = F, label.size = 4, bracket.size = 0.5)
     pC6 <- pC5 + geom_jitter(aes(fill=subsetsampleID[,paste(colname_groupID)]),width=0.2,shape=21, color="black",size=2, alpha=0.9)
     pC7 <- pC6 + scale_fill_manual(values=c("#0072B2","#D55E00"))
     pC7
