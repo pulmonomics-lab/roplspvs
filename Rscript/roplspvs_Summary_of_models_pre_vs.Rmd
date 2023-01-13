@@ -22,20 +22,37 @@ author: |
 
 
 ```{r, echo=FALSE}
-summary_Model_sans_vs_table <- create_table_of_models_sans_vs(no_permutations_sans_vs, directory_output_reports,projectname,date_of_analysis,max_no_of_ortho_pre_vs)
+summary_Model_sans_vs_table <-
+  create_table_of_models_sans_vs(
+    no_permutations_sans_vs,
+    directory_output_reports,
+    projectname,
+    date_of_analysis,
+    max_no_of_ortho_pre_vs
+  )
 
-
-
-summary_Model_sans_vs_table$`significant` <- (summary_Model_sans_vs_table$`pQ2 perm. sans v.s.`<=0.05&summary_Model_sans_vs_table$`R2Y(cum) sans v.s.`>=0.5&summary_Model_sans_vs_table$`Q2(cum) sans v.s.`>=0.4)
+summary_Model_sans_vs_table$`significant` <-
+  (
+    summary_Model_sans_vs_table$`pQ2 perm. sans v.s.` <= 0.05 &
+      summary_Model_sans_vs_table$`R2Y(cum) sans v.s.` >= 0.5 &
+      summary_Model_sans_vs_table$`Q2(cum) sans v.s.` >= 0.4
+  )
 
 summary_Model_sans_vs_tabletokable <- summary_Model_sans_vs_table
-if (groupsnumeric == "yes"){
-  order_of_models <- order(as.numeric(as.character(summary_Model_sans_vs_tabletokable$group1)),as.numeric(as.character(summary_Model_sans_vs_tabletokable$group2)))
- summary_Model_sans_vs_tabletokable <- summary_Model_sans_vs_tabletokable[order_of_models,]
+if (groupsnumeric == "yes") {
+  order_of_models <-
+    order(as.numeric(as.character(
+      summary_Model_sans_vs_tabletokable$group1
+    )), as.numeric(as.character(
+      summary_Model_sans_vs_tabletokable$group2
+    )))
+  summary_Model_sans_vs_tabletokable <-
+    summary_Model_sans_vs_tabletokable[order_of_models, ]
 }
-summary_Model_sans_vs_tabletokable[,c(6,7,8,9,12,13,14)] <- format(round(summary_Model_sans_vs_table[,c(6,7,8,9,12,13,14)],3))
+summary_Model_sans_vs_tabletokable[, c(6, 7, 8, 9, 12, 13, 14)] <-
+  format(round(summary_Model_sans_vs_table[, c(6, 7, 8, 9, 12, 13, 14)], 3))
 #summary_Model_sans_vs_tabletokable[,c(12,13)] <- format(summary_Model_sans_vs_table[,c(12,13)], scientific=TRUE, digits=2)
-  
+
 kable(summary_Model_sans_vs_tabletokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 meanofR2 <- mean(summary_Model_sans_vs_table$`pR2Y perm. sans v.s.`)

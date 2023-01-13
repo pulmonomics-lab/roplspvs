@@ -115,11 +115,13 @@ variable selection method: `r if(variable_selection_using_VIP=="yes") {paste("Us
 
 ```{r, model strategy 0}
 
-if (0 %in% model_strategies_to_run){
-  resultmodelname<-"result_Model_pre_vs"
-description_Model0 <- "Models pre variable selection and number of orthogonal variables using default ropls"
-model_description <- description_Model0
-model_strategy<-0}
+if (0 %in% model_strategies_to_run) {
+  resultmodelname <- "result_Model_pre_vs"
+  description_Model0 <-
+    "Models pre variable selection and number of orthogonal variables using default ropls"
+  model_description <- description_Model0
+  model_strategy <- 0
+}
   
 ```
 
@@ -129,13 +131,16 @@ model_strategy<-0}
 
 ```{r, model strategy 1}
 
-if (1 %in% model_strategies_to_run){
-  resultmodelname<-"result_Model1"
-  permutated_modelsname<-"permutated_models_Model1"
-  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name<- "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1"
-description_Model1 <- "Models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection"
-model_description <- description_Model1
-model_strategy<-1}
+if (1 %in% model_strategies_to_run) {
+  resultmodelname <- "result_Model1"
+  permutated_modelsname <- "permutated_models_Model1"
+  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name <-
+    "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1"
+  description_Model1 <-
+    "Models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection"
+  model_description <- description_Model1
+  model_strategy <- 1
+}
   
 ```
 
@@ -143,13 +148,16 @@ model_strategy<-1}
 
 ```
 ```{r, model strategy 2}
-if (2 %in% model_strategies_to_run){
-  resultmodelname<-"result_Model2"
-  permutated_modelsname<-"permutated_models_Model2"
-  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name<- "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2"
-description_Model2 <- "Model with p(corr) cutoff corresponding to userset pvalue cutoff for correlation"
-model_description  <- description_Model2
-model_strategy<-2}
+if (2 %in% model_strategies_to_run) {
+  resultmodelname <- "result_Model2"
+  permutated_modelsname <- "permutated_models_Model2"
+  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name <-
+    "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2"
+  description_Model2 <-
+    "Model with p(corr) cutoff corresponding to userset pvalue cutoff for correlation"
+  model_description  <- description_Model2
+  model_strategy <- 2
+}
   
 ```
 
@@ -157,13 +165,16 @@ model_strategy<-2}
 
 ```
 ```{r, model strategy 3}
-if (3 %in% model_strategies_to_run){
-  resultmodelname<-"result_Model3"
-  permutated_modelsname<-"permutated_models_Model3"
-  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name<- "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3"
-description_Model3 <- "Model with variable using p(corr) cutoff resulting in best performing model post variable selection"
-model_description  <- description_Model3
-model_strategy<-3}
+if (3 %in% model_strategies_to_run) {
+  resultmodelname <- "result_Model3"
+  permutated_modelsname <- "permutated_models_Model3"
+  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name <-
+    "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3"
+  description_Model3 <-
+    "Model with variable using p(corr) cutoff resulting in best performing model post variable selection"
+  model_description  <- description_Model3
+  model_strategy <- 3
+}
   
 ```
 
@@ -172,13 +183,16 @@ model_strategy<-3}
 ```
 
 ```{r, model strategy 4}
-if (4 %in% model_strategies_to_run){
-  resultmodelname<-"result_Model4"
-  permutated_modelsname<-"permutated_models_Model4"
-  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name<- "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4"
-description_Model4 <- "Model with variable using p(corr) cutoff resulting in best performing model with userset max p(pearson)  and using minimal amount of variables"
-model_description  <- description_Model4
-model_strategy<-4}
+if (4 %in% model_strategies_to_run) {
+  resultmodelname <- "result_Model4"
+  permutated_modelsname <- "permutated_models_Model4"
+  percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name <-
+    "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4"
+  description_Model4 <-
+    "Model with variable using p(corr) cutoff resulting in best performing model with userset max p(pearson)  and using minimal amount of variables"
+  model_description  <- description_Model4
+  model_strategy <- 4
+}
   
 ```
 
@@ -187,11 +201,13 @@ model_strategy<-4}
 ```
 
 ```{r, model strategy 5}
-if (5 %in% model_strategies_to_run){
-  resultmodelname<-"result_iterationmodel"
-description_Model5<- "Iteration models removing variables with lowest p(corr) iteratively"
-model_description <- description_Model5
-model_strategy<-5}
+if (5 %in% model_strategies_to_run) {
+  resultmodelname <- "result_iterationmodel"
+  description_Model5 <-
+    "Iteration models removing variables with lowest p(corr) iteratively"
+  model_description <- description_Model5
+  model_strategy <- 5
+}
   
 ```
 
@@ -200,10 +216,11 @@ model_strategy<-5}
 ```
 
 ```{r, pcorr tables model strategy 2}
-if (2 %in% model_strategies_to_run){
-  resultmodelname<-"result_Model2"
- model_description <- description_Model2
-model_strategy<-2}
+if (2 %in% model_strategies_to_run) {
+  resultmodelname <- "result_Model2"
+  model_description <- description_Model2
+  model_strategy <- 2
+}
   
 ```
 
@@ -212,10 +229,11 @@ model_strategy<-2}
 ```
 
 ```{r, pcorr tables model strategy 3}
-if (3 %in% model_strategies_to_run){
-  resultmodelname<-"result_Model3"
- model_description <- description_Model3
-model_strategy<-3}
+if (3 %in% model_strategies_to_run) {
+  resultmodelname <- "result_Model3"
+  model_description <- description_Model3
+  model_strategy <- 3
+}
   
 ```
 
@@ -224,10 +242,11 @@ model_strategy<-3}
 ```
 
 ```{r, pcorr tables model strategy 4}
-if (4 %in% model_strategies_to_run){
-  resultmodelname<-"result_Model4"
- model_description <- description_Model4
-model_strategy<-4}
+if (4 %in% model_strategies_to_run) {
+  resultmodelname <- "result_Model4"
+  model_description <- description_Model4
+  model_strategy <- 4
+}
   
 ```
 
@@ -236,10 +255,11 @@ model_strategy<-4}
 ```
 
 ```{r, pcorr tables model strategy 5}
-if (5 %in% model_strategies_to_run){
-  resultmodelname<-"result_iterationmodel"
- model_description <- description_Model5
-model_strategy<-5}
+if (5 %in% model_strategies_to_run) {
+  resultmodelname <- "result_iterationmodel"
+  model_description <- description_Model5
+  model_strategy <- 5
+}
   
 ```
 

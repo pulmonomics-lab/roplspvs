@@ -186,8 +186,10 @@ variable selection method: `r if(variable_selection_using_VIP=="yes") {paste("Us
 
 # subset sampleID and matrix
 
-subsetdatamatrix <- subsetmatrixfunction(sampleID, datamatrix, group1, group2, secID)
-subsetsampleID <- subsetsampleIDfunction(sampleID, group1, group2, secID)
+subsetdatamatrix <-
+  subsetmatrixfunction(sampleID, datamatrix, group1, group2, secID)
+subsetsampleID <-
+  subsetsampleIDfunction(sampleID, group1, group2, secID)
 class <- as.factor(subsetsampleID[, paste(colname_groupID)])
 classordered <- class
 inv_reordered_levels_of_groups <- rev(reordered_levels_of_groups)
@@ -196,23 +198,62 @@ for (i in 1:length(class)) {
   classordered[i] <- class[i]
 }
 classordered <- droplevels(classordered)
-llq <- min(datamatrix[datamatrix!=0&!is.na(datamatrix)])
-lld <- llq/3
-if (replace_0!=F) {if (replace_0=="NA") {subsetdatamatrix[subsetdatamatrix==0]<-NA} else if (replace_0=="lld") {subsetdatamatrix[subsetdatamatrix==0]<-lld} else {subsetdatamatrix[subsetdatamatrix==0]<-replace_0}}
-subsetdatamatrixfiltered <- filterNAfunction(subsetsampleID, subsetdatamatrix, group1, group2, secID, filter_percent_in_each_group)
-if (replace_NA!=F) {if (replace_NA=="lld") {subsetdatamatrixfiltered[is.na(subsetdatamatrixfiltered)]<-lld} else {subsetdatamatrixfiltered[is.na(subsetdatamatrixfiltered)] <- replace_NA}}
-if (log_transform==T) {subsetdatamatrixfiltered <- log(subsetdatamatrixfiltered)}
-subsetdatamatrixfiltereddf <- as.data.frame(subsetdatamatrixfiltered)
-subsetdatamatrixdummies <- subsetdatamatrixfiltereddf
-tryCatch(
-  {
-    subsetdatamatrixdummies <- fastDummies::dummy_cols(subsetdatamatrixfiltereddf, remove_selected_columns = TRUE, ignore_na = TRUE)
-    rownames(subsetdatamatrixdummies) <- rownames(subsetdatamatrixfiltereddf)
-  },
-  error = function(e) {
-    rownames(subsetdatamatrixdummies) <- rownames(subsetdatamatrixfiltereddf)
+
+#Preprocess
+llq <- min(datamatrix[datamatrix != 0 & !is.na(datamatrix)])
+lld <- llq / 3
+if (replace_0 != F) {
+  if (replace_0 == "NA") {
+    subsetdatamatrix[subsetdatamatrix == 0] <-
+      NA
+  } else if (replace_0 == "lld") {
+    subsetdatamatrix[subsetdatamatrix == 0] <-
+      lld
+  } else {
+    subsetdatamatrix[subsetdatamatrix == 0] <- replace_0
   }
-)
+}
+subsetdatamatrixfiltered <-
+  filterNAfunction(
+    subsetsampleID,
+    subsetdatamatrix,
+    group1,
+    group2,
+    secID,
+    filter_percent_in_each_group
+  )
+if (replace_NA != F) {
+  if (replace_NA == "lld") {
+    subsetdatamatrixfiltered[is.na(subsetdatamatrixfiltered)] <-
+      lld
+  } else {
+    subsetdatamatrixfiltered[is.na(subsetdatamatrixfiltered)] <-
+      replace_NA
+  }
+}
+if (log_transform == T) {
+  subsetdatamatrixfiltered <- log(subsetdatamatrixfiltered)
+}
+
+subsetdatamatrixfiltereddf <-
+  as.data.frame(subsetdatamatrixfiltered)
+
+#convert character variables into dummy variables
+subsetdatamatrixdummies <- subsetdatamatrixfiltereddf
+tryCatch({
+  subsetdatamatrixdummies <-
+    fastDummies::dummy_cols(
+      subsetdatamatrixfiltereddf,
+      remove_selected_columns = TRUE,
+      ignore_na = TRUE
+    )
+  rownames(subsetdatamatrixdummies) <-
+    rownames(subsetdatamatrixfiltereddf)
+},
+error = function(e) {
+  rownames(subsetdatamatrixdummies) <-
+    rownames(subsetdatamatrixfiltereddf)
+})
 
 subsetdatamatrix <- subsetdatamatrixdummies
 for (i in 1:ncol(subsetdatamatrix)) {
@@ -254,25 +295,37 @@ plot(opls(subsetdatamatrix, typeVc = "x-score", info.txtC = "none", fig.pdfC = "
 ### Subjects in `r group1`
 
 ```{R PCA group1}
-subsetdatamatrix_group1 <- subset(subsetdatamatrix, subsetsampleID[, paste(colname_groupID)] == group1)
+subsetdatamatrix_group1 <-
+  subset(subsetdatamatrix, subsetsampleID[, paste(colname_groupID)] == group1)
 if (nrow(subsetdatamatrix_group1 < 7)) {
   set_crossvalI <- nrow(subsetdatamatrix_group1)
 } else {
   set_crossvalI <- 7
 }
-opls(subsetdatamatrix_group1, typeVc = "x-score", info.txtC = "none", crossvalI = set_crossvalI)
+opls(
+  subsetdatamatrix_group1,
+  typeVc = "x-score",
+  info.txtC = "none",
+  crossvalI = set_crossvalI
+)
 ```
 
 ### Subjects in `r group2`
 
 ```{R PCA group2}
-subsetdatamatrix_group2 <- subset(subsetdatamatrix, subsetsampleID[, paste(colname_groupID)] == group2)
+subsetdatamatrix_group2 <-
+  subset(subsetdatamatrix, subsetsampleID[, paste(colname_groupID)] == group2)
 if (nrow(subsetdatamatrix_group2 < 7)) {
   set_crossvalI <- nrow(subsetdatamatrix_group2)
 } else {
   set_crossvalI <- 7
 }
-opls(subsetdatamatrix_group2, typeVc = "x-score", info.txtC = "none", crossvalI = set_crossvalI)
+opls(
+  subsetdatamatrix_group2,
+  typeVc = "x-score",
+  info.txtC = "none",
+  crossvalI = set_crossvalI
+)
 ```
 
 ```{r, child=if (0 %in% model_strategies_to_run) 'roplspvs_Models_of_each_comparison_pre_vs.Rmd'}

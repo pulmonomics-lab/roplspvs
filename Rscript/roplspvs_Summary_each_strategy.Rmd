@@ -23,19 +23,28 @@ author: |
 
 ```{r, echo=FALSE}
 
-summary_Model_table <- create_table_of_models(resultmodelname=resultmodelname, permutated_modelsname=permutated_modelsname, percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name = percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name,directory_output_reports,projectname,date_of_analysis)
+summary_Model_table <-
+  create_table_of_models(
+    resultmodelname = resultmodelname,
+    permutated_modelsname = permutated_modelsname,
+    percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name = percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name,
+    directory_output_reports,
+    projectname,
+    date_of_analysis
+  )
 order_of_models <- 0
-if (groupsnumeric == "yes"){
-  order_of_models <- order(as.numeric(as.character(summary_Model_table$group1)),as.numeric(as.character(summary_Model_table$group2)))
- summary_Model_table <- summary_Model_table[order_of_models,]
+if (groupsnumeric == "yes") {
+  order_of_models <-
+    order(as.numeric(as.character(summary_Model_table$group1)), as.numeric(as.character(summary_Model_table$group2)))
+  summary_Model_table <- summary_Model_table[order_of_models, ]
 }
 summary_Model_tabletokable <- summary_Model_table
-summary_Model_tabletokable[,c(9,10,11,12,24,25,26)] <- 
-  format(round(summary_Model_tabletokable[,c(9,10,11,12,24,25,26)], digits=3),nsmall=3)
-summary_Model_tabletokable[,c(19,20,21)] <- 
-  format(round(summary_Model_tabletokable[,c(19,20,21)], digits=2),nsmall=2)
-summary_Model_tabletokable[,c(22,23)] <- 
-  format(summary_Model_tabletokable[,c(22,23)], scientific=TRUE, digits=2)
+summary_Model_tabletokable[, c(9, 10, 11, 12, 24, 25, 26)] <-
+  format(round(summary_Model_tabletokable[, c(9, 10, 11, 12, 24, 25, 26)], digits = 3), nsmall = 3)
+summary_Model_tabletokable[, c(19, 20, 21)] <-
+  format(round(summary_Model_tabletokable[, c(19, 20, 21)], digits = 2), nsmall = 2)
+summary_Model_tabletokable[, c(22, 23)] <-
+  format(summary_Model_tabletokable[, c(22, 23)], scientific = TRUE, digits = 2)
 kable(summary_Model_tabletokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 meanofR2 <- mean(summary_Model_table$`pR2Y perm. over v.s.`)
@@ -60,11 +69,27 @@ Showing significant models (p(Q2_perm_over_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 
 
 ```{r, echo=FALSE}
 
-  summary_Model_tablesignificant <- subset(summary_Model_table,summary_Model_table$`pQ2 perm. over v.s.`<=0.05 & summary_Model_table$`R2Y(cum) post v.s.`>=0.5 & summary_Model_table$`Q2(cum) post v.s.`>=0.4 & as.numeric(summary_Model_table$`Corr perm. coeff Q2`)>=0.1&as.numeric(summary_Model_table$`Corr perm. p value Q2`)<=0.05)
-summary_Model_tablesignificanttokable <- summary_Model_tablesignificant
-summary_Model_tablesignificanttokable[,c(9,10,11,12,24,25,26)] <- format(round(summary_Model_tablesignificanttokable[,c(9,10,11,12,24,25,26)],3),nsmall=3)
-summary_Model_tablesignificanttokable[,c(19,20,21)] <- format(round(summary_Model_tablesignificanttokable[,c(19,20,21)],2),nsmall=2)
-summary_Model_tablesignificanttokable[,c(22,23)] <- format(summary_Model_tablesignificanttokable[,c(22,23)], scientific=TRUE, digits=2)
+summary_Model_tablesignificant <-
+  subset(
+    summary_Model_table,
+    summary_Model_table$`pQ2 perm. over v.s.` <= 0.05 &
+      summary_Model_table$`R2Y(cum) post v.s.` >= 0.5 &
+      summary_Model_table$`Q2(cum) post v.s.` >= 0.4 &
+      as.numeric(summary_Model_table$`Corr perm. coeff Q2`) >= 0.1 &
+      as.numeric(summary_Model_table$`Corr perm. p value Q2`) <= 0.05
+  )
+summary_Model_tablesignificanttokable <-
+  summary_Model_tablesignificant
+summary_Model_tablesignificanttokable[, c(9, 10, 11, 12, 24, 25, 26)] <-
+  format(round(summary_Model_tablesignificanttokable[, c(9, 10, 11, 12, 24, 25, 26)], 3), nsmall =
+           3)
+summary_Model_tablesignificanttokable[, c(19, 20, 21)] <-
+  format(round(summary_Model_tablesignificanttokable[, c(19, 20, 21)], 2), nsmall =
+           2)
+summary_Model_tablesignificanttokable[, c(22, 23)] <-
+  format(summary_Model_tablesignificanttokable[, c(22, 23)],
+         scientific = TRUE,
+         digits = 2)
 kable(summary_Model_tablesignificanttokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 

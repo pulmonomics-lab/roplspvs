@@ -23,8 +23,30 @@ author: |
 
 ```{r}
 setwd(directory_output_reports)
-summarypcorrlist <- create_table_of_loadings_with_pcorr(resultmodelname=resultmodelname, directory_output_reports=directory_output_reports, projectname, date_of_analysis,groupsnumeric, order_of_models)
-write.table(summarypcorrlist,paste("Summary", projectname, date_of_analysis,"pcorr_list_Model_strategy", model_strategy, ".txt",sep="_"),row.names=F,quote=F,sep="\t")
+summarypcorrlist <-
+  create_table_of_loadings_with_pcorr(
+    resultmodelname = resultmodelname,
+    directory_output_reports = directory_output_reports,
+    projectname,
+    date_of_analysis,
+    groupsnumeric,
+    order_of_models
+  )
+write.table(
+  summarypcorrlist,
+  paste(
+    "Summary",
+    projectname,
+    date_of_analysis,
+    "pcorr_list_Model_strategy",
+    model_strategy,
+    ".txt",
+    sep = "_"
+  ),
+  row.names = F,
+  quote = F,
+  sep = "\t"
+)
 
 
 ```

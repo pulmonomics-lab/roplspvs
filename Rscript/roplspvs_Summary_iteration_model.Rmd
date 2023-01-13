@@ -24,40 +24,46 @@ author: |
 
 ```{r, echo=FALSE}
 
-summary_Model5_table <- create_table_of_models_iterations(directory_output_reports,projectname,date_of_analysis)
-if (groupsnumeric == "yes"){
- summary_Model5_table <- summary_Model5_table[order_of_models,]
+
+summary_Model5_table <-
+  create_table_of_models_iterations(directory_output_reports, projectname, date_of_analysis)
+if (groupsnumeric == "yes") {
+  summary_Model5_table <- summary_Model5_table[order_of_models, ]
 }
 summary_Model5_tabletokable <- summary_Model5_table
-summary_Model5_tabletokable[,c(9,10,11,12)] <- format(round(summary_Model5_tabletokable[,c(9,10,11,12)],3))
+summary_Model5_tabletokable[, c(9, 10, 11, 12)] <-
+  format(round(summary_Model5_tabletokable[, c(9, 10, 11, 12)], 3))
 
 kable(summary_Model5_tabletokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
 ```
 
-
-
 # Significant model strategy `r model_strategy`.  `r model_description` 
 Showing significant models (p(Q2_perm_post_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4)
 Note that iteration models have not been permutated over variable selection
 
-
 ```{r, echo=FALSE}
 
-summary_Model5_tablesignificant <- subset(summary_Model5_table,summary_Model5_table$`pQ2 perm. post v.s.`<=0.05 & summary_Model5_table$`R2Y(cum)`>=0.5 & summary_Model5_table$`Q2(cum)`>=0.4)
-summary_Model5_tablesignificanttokable <- summary_Model5_tablesignificant
+summary_Model5_tablesignificant <-
+  subset(
+    summary_Model5_table,
+    summary_Model5_table$`pQ2 perm. post v.s.` <= 0.05 &
+      summary_Model5_table$`R2Y(cum)` >= 0.5 &
+      summary_Model5_table$`Q2(cum)` >= 0.4
+  )
+summary_Model5_tablesignificanttokable <-
+  summary_Model5_tablesignificant
 
-summary_Model5_tablesignificanttokable[,c(9,10,11,12)] <- format(round(summary_Model5_tablesignificanttokable[,c(9,10,11,12)],3))
+summary_Model5_tablesignificanttokable[, c(9, 10, 11, 12)] <-
+  format(round(summary_Model5_tablesignificanttokable[, c(9, 10, 11, 12)], 3))
 
 kable(summary_Model5_tablesignificanttokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
-percentofsignmodel <- nrow(summary_Model5_tablesignificant)/nrow(summary_Model5_table)*100
-percentofsignmodel <- format(percentofsignmodel, digits=0)
-
-
+percentofsignmodel <-
+  nrow(summary_Model5_tablesignificant) / nrow(summary_Model5_table) * 100
+percentofsignmodel <- format(percentofsignmodel, digits = 0)
 
 ```
 `r percentofsignmodel`% of models were significant.
-
