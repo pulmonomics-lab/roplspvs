@@ -200,8 +200,11 @@ for (i in 1:length(class)) {
 classordered <- droplevels(classordered)
 
 #Preprocess
-llq <- min(datamatrix[datamatrix != 0 & !is.na(datamatrix)])
-lld <- llq / 3
+if (replace_0 == "lld"|replace_NA == "lld") {
+  llq <- min(datamatrix[datamatrix != 0 & !is.na(datamatrix)])
+  lld <- llq / 3
+}
+
 if (replace_0 != F) {
   if (replace_0 == "NA") {
     subsetdatamatrix[subsetdatamatrix == 0] <-
