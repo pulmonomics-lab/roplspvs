@@ -292,7 +292,7 @@ if (pcorr_Model1 == "according to p-value") {
 ### All subjects included in comparison
 ```{R PCA}
 
-plot(opls(subsetdatamatrix, typeVc = "x-score", info.txtC = "none", fig.pdfC = "none"), parAsColFcVn = classordered)
+plot(opls(subsetdatamatrix, info.txtC = "none"), parAsColFcVn = classordered, typeVc = "x-score")
 ```
 
 ### Subjects in `r group1`
@@ -305,12 +305,11 @@ if (nrow(subsetdatamatrix_group1 < 7)) {
 } else {
   set_crossvalI <- 7
 }
-opls(
+plot(opls(
   subsetdatamatrix_group1,
-  typeVc = "x-score",
   info.txtC = "none",
   crossvalI = set_crossvalI
-)
+), typeVc = "x-score")
 ```
 
 ### Subjects in `r group2`
@@ -323,12 +322,11 @@ if (nrow(subsetdatamatrix_group2 < 7)) {
 } else {
   set_crossvalI <- 7
 }
-opls(
+plot(opls(
   subsetdatamatrix_group2,
-  typeVc = "x-score",
   info.txtC = "none",
   crossvalI = set_crossvalI
-)
+),  typeVc = "x-score")
 ```
 
 ```{r, child=if (0 %in% model_strategies_to_run) 'roplspvs_Models_of_each_comparison_pre_vs.Rmd'}
