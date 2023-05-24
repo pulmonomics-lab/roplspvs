@@ -2,7 +2,7 @@
 #'
 #' Compares two models from roplspvs package using p(corr) of the variables
 #'
-#' After the workflow using the function oplspvs has been run. THe resulting models may be compared using this function
+#' Compares selected models created by the function oplspvs.
 #' A new model is fitted using the variables from both models. P(corr) from the original model is used for variables that were alo in the original models
 #' and the refitted p(corr) is used for the variables that were uniquely in the other model. P(corr) is the correlation
 #' between the scores of the model and the raw data.
@@ -27,21 +27,18 @@
 #' @param variable_names_length Number of characters of variablenames shown in loadingplot or "all"
 #' @param variable_names_position part of variablenames shown "beginning", "end" or "all"
 #' @param title_length "long"  to write group comparison in title, "short" to write no comparison in title or FALSE to have no title
-#' @param change_name_list_df list for changing names of variables in susplot in format c(c(change from,change to)), "edit" to change " " and "_" to "." or FALSE to not change
+#' @param change_name_list list for changing names of variables in susplot in format c(c(change from,change to)), "edit" to change " " and "_" to "." or FALSE to not change
+#' @param show_all_lables TRUE show all labels and FALSE excludes text labels that overlap too much
 #'
 #' @return Outputs a SUSplot figure
 #'
 #' @examples
 #'
 #' ## To compare two models from oplspvs:
-#' SUSplot(directory_output_reports_modelX, projectname_modelX, projectname_in_plot_modelX,
-#' date_of_analysis_modelX, group1_modelX, group2_modelX, secID_modelX, result_modelX_name,
-#' directory_output_reports_modelY, projectname_modelY, projectname_in_plot_modelY,
-#' date_of_analysis_modelY, group1_modelY, group2_modelY, secID_modelY, result_modelY_name,
-#' variable_names_position, variable_names_length, title_length,change_name_list_df)
+#' SUSplot(directory_output_reports_modelX, projectname_modelX, projectname_in_plot_modelX, date_of_analysis_modelX, group1_modelX, group2_modelX, secID_modelX, result_modelX_name, directory_output_reports_modelY, projectname_modelY, projectname_in_plot_modelY, date_of_analysis_modelY, group1_modelY, group2_modelY, secID_modelY, result_modelY_name, variable_names_position, variable_names_length, title_length, change_name_list, show_all_lables)
 #' @export
 SUSplot <- function(directory_output_reports_modelX, projectname_modelX, projectname_in_plot_modelX, date_of_analysis_modelX, group1_modelX, group2_modelX, secID_modelX, result_modelX_name,
-                    directory_output_reports_modelY, projectname_modelY, projectname_in_plot_modelY, date_of_analysis_modelY, group1_modelY, group2_modelY, secID_modelY, result_modelY_name, variable_names_position, variable_names_length, title_length,change_name_list_df){
+                    directory_output_reports_modelY, projectname_modelY, projectname_in_plot_modelY, date_of_analysis_modelY, group1_modelY, group2_modelY, secID_modelY, result_modelY_name, variable_names_position, variable_names_length, title_length,change_name_list, show_all_lables){
   library(ropls)
   library(ggplot2)
   library("ggrepel")
@@ -139,7 +136,7 @@ SUSplot <- function(directory_output_reports_modelX, projectname_modelX, project
   size <- 18
   colorinplot <- cbind(rownames(SUSplot) %in% setdiff(rownames(variablelist1),rownames(variablelist2)),rownames(SUSplot) %in% setdiff(rownames(variablelist2),rownames(variablelist1)),rownames(SUSplot) %in% intersect(rownames(variablelist1),rownames(variablelist2)))
   colorinplotvector <- vector()
-  for (j in 1:nrow(colorinplot)) {colorinplotvector[j] <- if (colorinplot[j,1]) {paste(group1_modelX," vs ",group2_modelX,secID_modelX)} else if(colorinplot[j,2]) {paste(group1_modelY," vs ",group2_modelY,secID_modelY)} else {"shared by models"}}
+  for (j in 1:nrow(colorinplot)) {colorinplotvector[j] <- if (colorinplot[j,1]) {paste(group1_modelX," vs ",group2_modelX,secID_modelX)} else if(colorinplot[j,2]) {paste(group1_modelY," vs ",group2_modelY,secID_modelY)} else {"shared"}}
   susplotnames <- SUSplot
   rownames(susplotnames) <- gsub("_",".",rownames(susplotnames))
   rownames(susplotnames) <- gsub(" ",".",rownames(susplotnames))
@@ -178,7 +175,9 @@ if(is.logical(change_name_list)){if(change_name_list==F) susplotnames <- SUSplot
   if (title_length==FALSE) {pC4 <- pC3 + theme(plot.title = element_blank())
 } else {pC4 <- pC3}
   pC5 <- pC4 + theme(text=element_text(size=size), axis.text=element_text(size=size), title = element_text(size=size))
-  pC6 <- pC5 + geom_text_repel(label=rownames(susplotnames))
+  if (show_all_lables==TRUE) {
+  pC6 <- pC5 + geom_text_repel(label=rownames(susplotnames), max.overlaps = Inf)
+  } else {pC6 <- pC5 + geom_text_repel(label=rownames(susplotnames))}
   pC7 <- pC6 + theme(legend.position = "top",legend.title = element_blank())
   pC8 <- pC7 + scale_color_manual(values=colors_manual)
   pC9 <- pC8 + scale_y_continuous(breaks = c(seq(-1, 1, by=0.5)), minor_breaks = c(seq(-1, 1, by=0.1)),limits = c(-1, 1))

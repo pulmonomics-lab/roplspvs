@@ -22,11 +22,10 @@ oplspvs(
   p_pearson_of_pcorr_cutoff,
   setseedfirstmodel,
   order_of_groups,
-  models_to_run,
+  comparisons_to_run,
   foldername_Rmarkdownfiles,
   foldername_of_input_matrix_and_sampleID,
   foldername_output_reports,
-  foldername_function_file,
   directory_input_matrix_sampleID,
   directory_output_reports,
   filename_Rmarkdownfile_each_model,
@@ -90,15 +89,13 @@ oplspvs(
 
 \item{order_of_groups}{Character vector or numeric vector containing correct order of groups or enter "correct" if order of levels in colname_groupID is already correct. Deseased first and controls last. This will define dirction of scores as high in diseased.}
 
-\item{models_to_run}{Numeric vector indicating models to run if all models are to be run enter "all"}
+\item{comparisons_to_run}{Numeric vector indicating models to run if all models are to be run enter "all"}
 
 \item{foldername_Rmarkdownfiles}{"foldername" Folder where .R and .rmd files required by the script are stored. It is located in the roplspvs folder.}
 
 \item{foldername_of_input_matrix_and_sampleID}{"foldername" Folder where datamatrix and sampleID files are stored.}
 
 \item{foldername_output_reports}{"foldername"  Folder where one .html file and one .Rdata for each group comparison and a summary .html and a .Rdata file of all comparisons will be created. Folder is automatically created if it does not excist.}
-
-\item{foldername_function_file}{"foldername" Folder where filename_function_file is stored.}
 
 \item{directory_input_matrix_sampleID}{"path" Path to where "filename_matrix" and "filename_sampleID" files are stored.}
 
@@ -187,8 +184,8 @@ source("<path to roplspvs>/Roplspvs_Run.R")
 oplspvs(directory_of_roplspvs,directory_of_analysis,
 projectname, date_of_analysis, filename_matrix, decimal_separator, filename_sampleID, colname_groupID, groupsnumeric,
 colname_secID, no_permutations_sans_vs, no_permutations_post_vs, no_permutations_post_vs_selected_models, no_permutations_over_vs,
-p_pearson_of_pcorr_cutoff, setseedfirstmodel, order_of_groups, models_to_run, model_strategies_to_run,
-foldername_Rmarkdownfiles, foldername_of_input_matrix_and_sampleID, foldername_output_reports, foldername_function_file,
+p_pearson_of_pcorr_cutoff, setseedfirstmodel, order_of_groups, comparisons_to_run, model_strategies_to_run,
+foldername_Rmarkdownfiles, foldername_of_input_matrix_and_sampleID, foldername_output_reports,
 directory_input_matrix_sampleID, directory_output_reports, filename_Rmarkdownfile_each_model, filename_Rmarkdownfile_summary,
 filename_function_file, replace_0, filter_percent_in_each_group, replace_NA, log_transform, pcorr_cutoff_Model1_joint_models, pcorr_cutoff_Model1_stratified_models,
 variable_selection_using_VIP, no_of_ortho_pre_vs_Model1_joint_models, no_of_ortho_pre_vs_Model1_stratified_models,

@@ -20,7 +20,11 @@ SUSplot(
   group1_modelY,
   group2_modelY,
   secID_modelY,
-  result_modelY_name
+  result_modelY_name,
+  variable_names_position,
+  variable_names_length,
+  title_length,
+  change_name_list_df
 )
 }
 \arguments{
@@ -55,6 +59,14 @@ SUSplot(
 \item{secID_modelY}{stratification group of model Y. If no stratification write "joint"}
 
 \item{result_modelY_name}{Name of model to be compared for model Y. Either "result_Model1", "result_Model2", "result_Model3", "result_Model4" or "result_iterationmodel"}
+
+\item{variable_names_position}{part of variablenames shown "beginning", "end" or "all"}
+
+\item{variable_names_length}{Number of characters of variablenames shown in loadingplot or "all"}
+
+\item{title_length}{"long"  to write group comparison in title, "short" to write no comparison in title or FALSE to have no title}
+
+\item{change_name_list_df}{list for changing names of variables in susplot in format c(c(change from,change to)), "edit" to change " " and "_" to "." or FALSE to not change}
 }
 \value{
 Outputs a SUSplot figure
@@ -74,5 +86,6 @@ between the scores of the model and the raw data.
 SUSplot(directory_output_reports_modelX, projectname_modelX, projectname_in_plot_modelX,
 date_of_analysis_modelX, group1_modelX, group2_modelX, secID_modelX, result_modelX_name,
 directory_output_reports_modelY, projectname_modelY, projectname_in_plot_modelY,
-date_of_analysis_modelY, group1_modelY, group2_modelY, secID_modelY, result_modelY_name)
+date_of_analysis_modelY, group1_modelY, group2_modelY, secID_modelY, result_modelY_name,
+variable_names_position, variable_names_length, title_length,change_name_list_df)
 }
