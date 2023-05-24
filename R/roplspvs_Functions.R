@@ -4932,7 +4932,7 @@ create_or_load_Model_table_to_analyze <-
       )
       model_table_to_analyse <- model_table_to_analyse_reordered
 
-      if (comparisons_to_run != "all") {
+      if (!"all" %in% comparisons_to_run) {
         model_table_to_analyse <-
           select_models_to_run(model_table_to_analyse, comparisons_to_run)
         write.table(
@@ -4999,7 +4999,7 @@ plotloadingpredO1 <- function(resultmodel) {
 ##  ............................................................................
 reorder_levels_of_groups <-
   function(order_of_groups, levels_of_groups) {
-    if (order_of_groups == "correct") {
+    if ("correct" %in% order_of_groups) {
       reordered_levels_of_groups <- levels_of_groups
     } else {
       if (is.numeric(order_of_groups)) {
@@ -5016,7 +5016,7 @@ reorder_levels_of_groups <-
 select_models_to_run <-
   function(model_table_to_analyse,
            comparisons_to_run) {
-    if (comparisons_to_run != "all") {
+    if (!"all" %in% comparisons_to_run) {
       model_table_to_analyse <-
         model_table_to_analyse[paste(comparisons_to_run),]
     }
