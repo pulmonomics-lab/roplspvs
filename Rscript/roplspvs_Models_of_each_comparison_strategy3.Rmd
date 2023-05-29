@@ -294,6 +294,12 @@ Confidence intervals through 2000 stratified bootstrap replicates
 pROC_Model3 <- roc(classordered, result_Model3$scoreofvariablesaftervs[, 1],
   smoothed = TRUE,
   ci = TRUE, stratified = T,
+  plot = FALSE, auc.polygon = TRUE, max.auc.polygon = TRUE, grid = TRUE,
+  print.auc = TRUE, show.thres = T
+)
+roc(classordered, result_Model3$scoreofvariablesaftervs[, 1],
+  smoothed = TRUE,
+  ci = TRUE, stratified = T,
   plot = TRUE, auc.polygon = TRUE, max.auc.polygon = TRUE, grid = TRUE,
   print.auc = TRUE, show.thres = T
 )

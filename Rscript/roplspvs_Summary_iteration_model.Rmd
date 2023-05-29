@@ -63,7 +63,7 @@ kable(summary_Model5_tablesignificanttokable, row.names = FALSE) %>%
 
 percentofsignmodel <-
   nrow(summary_Model5_tablesignificant) / nrow(summary_Model5_table) * 100
-percentofsignmodel <- format(percentofsignmodel, digits = 0)
+percentofsignmodel <- format(percentofsignmodel, digits = 2)
 
 ```
 `r percentofsignmodel`% of models were significant.

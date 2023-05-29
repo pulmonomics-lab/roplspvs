@@ -196,7 +196,6 @@ opls_model_with_variable_selection_trycatch <-
             info.txtC = printoptmodel,
             fig.pdfC = plotoptmodel,
             permI = 0,
-            .sinkC = NULL
           )
 
           if (aftervsdata.oplsda@summaryDF$ort > max_no_of_ortho_post_vs) {
@@ -208,8 +207,7 @@ opls_model_with_variable_selection_trycatch <-
               scaleC = "standard",
               info.txtC = printoptmodel,
               fig.pdfC = plotoptmodel,
-              permI = no_permutations_post_vs,
-              .sinkC = NULL
+              permI = no_permutations_post_vs
             )
 
           } else {
@@ -221,8 +219,7 @@ opls_model_with_variable_selection_trycatch <-
               scaleC = "standard",
               info.txtC = printoptmodel,
               fig.pdfC = plotoptmodel,
-              permI = no_permutations_post_vs,
-              .sinkC = NULL
+              permI = no_permutations_post_vs
             )
           }
           aftervsdata.oplsda
@@ -236,8 +233,7 @@ opls_model_with_variable_selection_trycatch <-
             scaleC = "standard",
             info.txtC = printoptmodel,
             fig.pdfC = plotoptmodel,
-            permI = no_permutations_post_vs,
-            .sinkC = NULL
+            permI = no_permutations_post_vs
           )
           aftervsdata.oplsda
         })

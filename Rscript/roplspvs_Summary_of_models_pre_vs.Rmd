@@ -68,7 +68,7 @@ pQ2: `r meanofQ2`
 ```{r, echo=FALSE}
 
 percentofsignmodel <- sum(summary_Model_sans_vs_tabletokable$significant)/nrow(summary_Model_sans_vs_tabletokable)*100
-percentofsignmodel <- format(percentofsignmodel, digits=0)
+percentofsignmodel <- format(percentofsignmodel, digits=2)
 
 ```
 `r percentofsignmodel`% of models were significant (p(Q2_perm_pre_vs) <= 0.05 and R2Y >= 0.5 and Q2 >= 0.4).

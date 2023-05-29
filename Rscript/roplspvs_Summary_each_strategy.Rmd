@@ -94,7 +94,7 @@ kable(summary_Model_tablesignificanttokable, row.names = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
 percentofsignmodel <- nrow(summary_Model_tablesignificant)/nrow(summary_Model_table)*100
-percentofsignmodel <- format(percentofsignmodel, digits=0)
+percentofsignmodel <- format(percentofsignmodel, digits=2)
 
 assign(paste("summary_Model",model_strategy,"_table",sep=""),summary_Model_table)
 assign(paste("summary_Model",model_strategy,"_tabletokable",sep=""),summary_Model_tabletokable)
