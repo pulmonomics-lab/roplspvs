@@ -18,7 +18,7 @@ author: |
     | Marika Strom
 ---
 
-# Model strategy 3. Model with variable using p(corr) cutoff giving best performing model
+# Model strategy 3. Model post variable selection with p(corr) cutoff during variable selection resulting in best performing model
 
 Selecting model with variable selection using p(corr) cutoff which gives model with high Q2, low difference between R2 and Q2, low p-value for Q2 and corresponding to p-value for pearson correlation less than `r p_pearson_of_pcorr_cutoff`
 
@@ -298,10 +298,9 @@ pROC_Model3 <- roc(classordered, result_Model3$scoreofvariablesaftervs[, 1],
   print.auc = TRUE, show.thres = T
 )
 roc(classordered, result_Model3$scoreofvariablesaftervs[, 1],
-  smoothed = TRUE,
-  ci = TRUE, stratified = T,
+  ci = TRUE, 
   plot = TRUE, auc.polygon = TRUE, max.auc.polygon = TRUE, grid = TRUE,
-  print.auc = TRUE, show.thres = T
+  print.auc = TRUE
 )
 sens.ci <- ci.se(pROC_Model3)
 plot(sens.ci, type = "shape", col = "lightblue")

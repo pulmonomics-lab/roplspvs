@@ -18,7 +18,7 @@ author: |
     | Marika Strom
 ---
 
-# Model strategy 2. Model with p(corr) cutoff corresponding to a p-value cutoff set by user
+# Model strategy 2. Model post variable selection with p(corr) cutoff during variable selection corresponding to userset pearson p-value cutoff for correlation
 
 Selecting model with variable selection using p(corr) cutoff `r pcorr` corresponding to p-value `r p_pearson_of_pcorr_cutoff`
 
@@ -264,10 +264,9 @@ pROC_Model2 <- roc(classordered, result_Model2$scoreofvariablesaftervs[, 1],
   print.auc = TRUE, show.thres = T
 )
 roc(classordered, result_Model2$scoreofvariablesaftervs[, 1],
-  smoothed = TRUE,
-  ci = TRUE, stratified = T,
+  ci = TRUE, 
   plot = TRUE, auc.polygon = TRUE, max.auc.polygon = TRUE, grid = TRUE,
-  print.auc = TRUE, show.thres = T
+  print.auc = TRUE
 )
 sens.ci <- ci.se(pROC_Model2)
 plot(sens.ci, type = "shape", col = "lightblue")

@@ -18,7 +18,7 @@ author: |
     | Marika Strom
 ---
 
-# Model strategy 1. Models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection
+# Model strategy 1. Model post variable selection with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection
 
 ### Model descripton
 Model post variable selection using p(corr) cutoff `r paste(pcorr); if(pcorr_Model1=="according to p-value"){paste(" which correspond to p-value ", p_pearson_of_pcorr_cutoff)}` and has `r ortho_pre_vs_Model1` orthogonals in model pre variable selection and `r ortho_post_vs_Model1` orthogonals in model post variable selection

@@ -1557,13 +1557,13 @@ plotboxplot_pre_vs <-
         text = element_text(size = 15),
         axis.text = element_text(size = 15)
       )
-    pC5 <- pC4 + stat_pvalue_manual(
-        pwc,
-        label = "p = {p}",
-        hide.ns = F,
-        label.size = 4,
-        bracket.size = 0.5
-      )
+    pC5 <- pC4 # + stat_pvalue_manual(
+       # pwc,
+       # label = "p = {p}",
+       # hide.ns = F,
+       # label.size = 4,
+       # bracket.size = 0.5
+       #)
     pC6 <- pC5 + geom_jitter(
         aes(fill = subsetsampleID[, paste(colname_groupID)]),
         width = 0.2,
@@ -4860,10 +4860,9 @@ create_or_load_Model_table_to_analyze <-
            pcorr_cutoff_Model1_stratified_models,
            no_of_ortho_pre_vs_Model1_stratified_models,
            no_of_ortho_post_vs_Model1_stratified_models) {
-    setwd(directory_input_matrix_sampleID)
     file_sampleID <-
       read.table(
-        filename_sampleID,
+        paste(directory_input_matrix_sampleID,"/",filename_sampleID, sep=""),
         header = T,
         dec = ".",
         row.names = 1,
@@ -4871,12 +4870,12 @@ create_or_load_Model_table_to_analyze <-
         na.strings = c("", "NA", "Inf"),
         sep = "\t"
       )
-    setwd(directory_model_table_to_analyse)
+
     if (filename_model_table_to_analyse %in% dir(directory_model_table_to_analyse)) {
       model_table_to_analyse <-
         as.data.frame(
           read.table(
-            filename_model_table_to_analyse,
+            paste(directory_model_table_to_analyse,"/",filename_model_table_to_analyse, sep=""),
             header = T,
             dec = ".",
             row.names = 1,
@@ -4900,7 +4899,7 @@ create_or_load_Model_table_to_analyze <-
         )
       write.table(
         model_table_to_analyse,
-        paste("first_created", filename_model_table_to_analyse, sep = ""),
+        paste(directory_model_table_to_analyse,"/","first_created", filename_model_table_to_analyse, sep = ""),
         row.names = T,
         quote = F,
         sep = "\t"
@@ -4921,7 +4920,7 @@ create_or_load_Model_table_to_analyze <-
         )
       write.table(
         model_table_to_analyse_reordered,
-        paste("reordered", filename_model_table_to_analyse, sep = "_"),
+        paste(directory_model_table_to_analyse,"/","reordered_", filename_model_table_to_analyse, sep = ""),
         row.names = T,
         quote = F,
         sep = "\t"
@@ -4933,7 +4932,7 @@ create_or_load_Model_table_to_analyze <-
           select_models_to_run(model_table_to_analyse, comparisons_to_run)
         write.table(
           model_table_to_analyse,
-          paste("selected", filename_model_table_to_analyse, sep = "_"),
+          paste(directory_model_table_to_analyse,"/","selected_", filename_model_table_to_analyse, sep = ""),
           row.names = T,
           quote = F,
           sep = "\t"
@@ -4941,7 +4940,7 @@ create_or_load_Model_table_to_analyze <-
       }
       write.table(
         model_table_to_analyse,
-        filename_model_table_to_analyse,
+        paste(directory_model_table_to_analyse,"/",filename_model_table_to_analyse, sep=""),
         row.names = T,
         quote = F,
         sep = "\t"
@@ -4957,12 +4956,9 @@ makeproject <-
     if (dir.exists(directory_output_reports)) {
       message("Not performed. The output report folder already exists.")
     } else {
-      # main dir
 
-      setwd(directory_of_analysis)
-      # sub dir
-      l.subdir <- c(directory_output_reports)
-      sapply(l.subdir, dir.create)
+      l.dir <- c(directory_output_reports)
+      sapply(l.dir, dir.create)
     }
   }
 

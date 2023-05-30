@@ -137,11 +137,11 @@ if (1 %in% model_strategies_to_run) {
   percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name <-
     "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model1"
   description_Model1 <-
-    "Models with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection"
+    "Models post variable selection with userset p(corr) cutoff during variable selection and userset number of orthogonal variables pre and post variable selection"
   model_description <- description_Model1
   model_strategy <- 1
 }
-  
+
 ```
 
 ```{r, child=if (1 %in% model_strategies_to_run) paste(directory_Rmarkdownfiles,'/roplspvs_Summary_each_strategy.Rmd',sep="")}
@@ -154,7 +154,7 @@ if (2 %in% model_strategies_to_run) {
   percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name <-
     "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model2"
   description_Model2 <-
-    "Model with p(corr) cutoff corresponding to userset pvalue cutoff for correlation"
+    "Models post variable selection with p(corr) cutoff during variable selection corresponding to userset pearson p-value cutoff for correlation"
   model_description  <- description_Model2
   model_strategy <- 2
 }
@@ -171,7 +171,7 @@ if (3 %in% model_strategies_to_run) {
   percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name <-
     "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model3"
   description_Model3 <-
-    "Model with variable using p(corr) cutoff resulting in best performing model post variable selection"
+    "Models post variable selection with p(corr) cutoff during variable selection resulting in best performing model"
   model_description  <- description_Model3
   model_strategy <- 3
 }
@@ -189,7 +189,7 @@ if (4 %in% model_strategies_to_run) {
   percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_name <-
     "percent_R2_and_Q2_in_permutated_larger_than_in_unpermutated_Model4"
   description_Model4 <-
-    "Model with variable using p(corr) cutoff resulting in best performing model with userset max p(pearson)  and using minimal amount of variables"
+    "Models post variable selection with p(corr) cutoff during variable selection resulting in best performing model using minimal amount of variables"
   model_description  <- description_Model4
   model_strategy <- 4
 }
@@ -204,7 +204,7 @@ if (4 %in% model_strategies_to_run) {
 if (5 %in% model_strategies_to_run) {
   resultmodelname <- "result_iterationmodel"
   description_Model5 <-
-    "Iteration models removing variables with lowest p(corr) iteratively"
+    "Iteration models. Variables with lowest p(corr) are removed iteratively"
   model_description <- description_Model5
   model_strategy <- 5
 }
@@ -270,6 +270,15 @@ if (5 %in% model_strategies_to_run) {
 ```{R}
 
 save(list = ls(all.names = TRUE), file = paste(directory_output_reports,"/", "Summary_",projectname, "_",date_of_analysis,".Rdata", sep=""), envir = environment())
+
+session_info(
+    pkgs = c("loaded")[1],
+    include_base = FALSE,
+    info = c("all"),
+    dependencies = NA,
+    to_file = paste(directory_output_reports,"/", "session-info_summary_",projectname,
+    "_",date_of_analysis,"_created_",Sys.Date(),".txt", sep="")
+)
 
 ```
 

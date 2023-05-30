@@ -18,10 +18,9 @@ author: |
     | Marika Strom
 ---
 
-## Table of loadings Model strategy `r model_strategy`. `r model_description`
-
 
 ```{r}
+## Table of loadings Model strategy `r model_strategy`. `r model_description`
 setwd(directory_output_reports)
 summarypcorrlist <-
   create_table_of_loadings_with_pcorr(

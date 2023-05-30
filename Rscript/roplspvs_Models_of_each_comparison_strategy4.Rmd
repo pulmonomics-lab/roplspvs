@@ -18,7 +18,7 @@ author: |
     | Marika Strom
 ---
 
-# Model strategy 4. Model with p(corr) cutoff giving best performing model and using lower amount of variables
+# Model strategy 4. Model post variable selection with p(corr) cutoff during variable selection resulting in best performing model using minimal amount of variables
 
 Model with variable selection using p(corr) corresponding to p-value less than `r p_pearson_of_pcorr_cutoff` which gives model with high Q2, low difference between R2 and Q2, low pQ2 post variable selection and using lower amount of variables
 
@@ -312,10 +312,9 @@ pROC_Model4 <- roc(classordered, result_Model4$scoreofvariablesaftervs[, 1],
   print.auc = TRUE, show.thres = T
 )
 roc(classordered, result_Model4$scoreofvariablesaftervs[, 1],
-  smoothed = TRUE,
-  ci = TRUE, stratified = T,
+  ci = TRUE,
   plot = TRUE, auc.polygon = TRUE, max.auc.polygon = TRUE, grid = TRUE,
-  print.auc = TRUE, show.thres = T
+  print.auc = TRUE
 )
 sens.ci <- ci.se(pROC_Model4)
 plot(sens.ci, type = "shape", col = "lightblue")

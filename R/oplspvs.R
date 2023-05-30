@@ -116,8 +116,8 @@ source(directory_and_filename_function_file)
 makeproject(directory_of_analysis, directory_output_reports)
 if (length(dir(directory_input_matrix_sampleID)) ==0) {directory_input_matrix_sampleID <- paste(directory_of_roplspvs,"/inst/extdata",sep="")}
 #Reorder groups to have diseased first if necessary
-setwd(directory_input_matrix_sampleID)
-file_sampleID <- read.table(filename_sampleID,header=T, dec = ".", row.names=1, check.names = FALSE, na.strings=c("", "NA", "Inf",""), sep="\t")
+
+file_sampleID <- read.table(paste(directory_input_matrix_sampleID,"/",filename_sampleID, sep=""),header=T, dec = ".", row.names=1, check.names = FALSE, na.strings=c("", "NA", "Inf",""), sep="\t")
 levels_of_groups <- levels(as.factor(file_sampleID[,paste(colname_groupID)]))
 levels_of_groups # Check if order of the groups are correct with diseased first and controls last
 reordered_levels_of_groups <- reorder_levels_of_groups(order_of_groups,levels_of_groups) # Note that it has to be run even if order is "correct"
@@ -130,10 +130,8 @@ model_table_to_analyse <- create_or_load_Model_table_to_analyze(directory_input_
 
 #Send data to Rmarkdown file to create html files and lists of loadings
 
-setwd(directory_output_reports)
 if (each_model_or_summary=="each"| each_model_or_summary=="both") {
   #Send data to Rmarkdown file to create html for each comparison
-  setwd(directory_output_reports)
   if (cluster=="yes") {args = commandArgs(trailingOnly=TRUE);model_number_to_run<-args;first_model_number_to_run<-model_number_to_run; last_model_number_to_run<-model_number_to_run} else {first_model_number_to_run<-1; last_model_number_to_run<-nrow(model_table_to_analyse)}
   for (i in first_model_number_to_run:last_model_number_to_run) {
     group1 <- paste(model_table_to_analyse$group1[i])

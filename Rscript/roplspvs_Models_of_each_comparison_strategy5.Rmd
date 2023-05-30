@@ -20,8 +20,8 @@ author: |
 
 
 
-# Iteration Model
-## Create iteration table continuously increasing p(corr) during variable selection and adding orthogonals only if it increases Q2 1% in the model
+# Iteration Model. Variables with lowest p(corr) are removed iteratively.
+## Create iteration table continuously increasing p(corr) during variable selection and adding orthogonals if it increases Q2 1% in the model
 
 ```{R iteration table}
 testvariablename <- "iterationsummary"
