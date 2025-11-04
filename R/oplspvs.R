@@ -182,6 +182,18 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                           variable_selection_using_VIP=variable_selection_using_VIP,
                           model_strategies_to_run=model_strategies_to_run
                         ))
+      unlink(
+        paste(
+          paste(directory_output_reports, "/", projectname, sep = ""),
+          date_of_analysis,
+          group1,
+          "vs",
+          group2,
+          secID,
+          "files", sep = "_"
+        ),
+        recursive = TRUE
+      )
     }
 
     if (cluster=="no" & (each_model_or_summary=="each" | each_model_or_summary=="both")) {
@@ -225,7 +237,18 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                           model_strategies_to_run=model_strategies_to_run
 
                         ))
-
+      unlink(
+        paste(
+          paste(directory_output_reports, "/", projectname, sep = ""),
+          date_of_analysis,
+          group1,
+          "vs",
+          group2,
+          secID,
+          "files", sep = "_"
+        ),
+        recursive = TRUE
+      )
 
     }
 
@@ -257,6 +280,18 @@ if (each_model_or_summary=="summary"|(cluster=="no" & each_model_or_summary=="bo
                       reordered_levels_of_groups=reordered_levels_of_groups,
                       pcorr_diff=pcorr_diff,
                       variable_selection_using_VIP=variable_selection_using_VIP))
+  unlink(
+    paste(
+      directory_output_reports,
+      "/",
+      "Summary_",
+      projectname,
+      "_",
+      date_of_analysis,
+      sep = ""
+    ),
+    recursive = TRUE
+  )
 }
 }
 

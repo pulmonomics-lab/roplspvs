@@ -1474,6 +1474,52 @@ plotrawdata <- function(variablename, Rdataname, dirRdata) {
   pC7
 }
 
+plotrawdataboxplot <- function(variablename, Rdataname, dirRdata) {
+    load(paste(dirRdata, "/", Rdataname, sep = ""))
+    fontsize <- 15 / 4 + 15 * (15 / nrow(subsetdatamatrix) * 3 / 4)
+    if (fontsize > 15) {
+      fontsize <- 15
+    }
+    df <- cbind((subsetsampleID[, paste(colname_groupID)]), as.data.frame(subsetdatamatrix[, variablename]))
+    colnames(df) <- c("groupID", "variablename")
+    df$groupID <- as.character(df$groupID)
+    pwc <- df %>% t_test(variablename ~ groupID)
+    pwc <- pwc %>% add_xy_position(x = "groupID", step.increase = 0.2)
+    pwc <- pwc %>% add_y_position(step.increase = 0.2)
+    pwc$p <- formatC(signif(pwc$p, digits = 1),
+                     digits = 1,
+                     format = "g")
+
+    fontsize <- 15
+
+    pC1 <-
+      ggboxplot(
+        df,
+        x = "groupID" ,
+        y = "variablename",
+        fill = "groupID",
+        order = levels(classordered)
+      )
+    pC2 <- pC1 + theme(axis.text.x = element_text(size = fontsize))
+    pC3 <- pC2 + labs(y = variablename, x = NULL, title = paste("Raw data box plot for", secID, sep=" "))
+    pC4 <- pC3 + theme(
+      legend.position = "none",
+      text = element_text(size = 15),
+      axis.text = element_text(size = 15)
+    )
+    pC5 <- pC4 + stat_pvalue_manual(pwc, label = "p = {p}", hide.ns = F, label.size = 4, bracket.size = 0.5)
+    pC6 <- pC5 + geom_jitter(
+      aes(fill = subsetsampleID[, paste(colname_groupID)]),
+      width = 0.2,
+      shape = 21,
+      color = "black",
+      size = 2,
+      alpha = 0.9
+    )
+    pC7 <- pC6 + scale_fill_manual(values = c("#0072B2", "#D55E00"))
+    pC7
+  }
+
 ##  ............................................................................
 plotboxplot <-
   function(model,
@@ -5014,3 +5060,4 @@ select_models_to_run <-
     }
     model_table_to_analyse
   }
+

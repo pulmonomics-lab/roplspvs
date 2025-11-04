@@ -8,11 +8,11 @@ Description: Performs opls models comparing all groups to eachother, performs va
 License: CCO
 Encoding: UTF-8
 LazyData: false
-Depends: 
+Depends:
     R (>= 3.6.2)
-Suggests: 
+Suggests:
     rmarkdown,
     knitr
 VignetteBuilder: knitr
 Imports:
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
