@@ -142,8 +142,9 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
     ortho_pre_vs_Model1 <- model_table_to_analyse$ortho_pre_vs[i]
     ortho_post_vs_Model1 <-   model_table_to_analyse$ortho_post_vs[i]
     if (cluster=="yes" & (each_model_or_summary=="each" | each_model_or_summary=="both")) {
+      output_file <- paste(paste(directory_output_reports,"/",projectname, sep=""), date_of_analysis, group1, "vs", group2, secID, sep="_")
       rmarkdown::render(paste(directory_Rmarkdownfiles,"/",filename_Rmarkdownfile_each_model, sep =""),
-                        output_file = paste(paste(directory_output_reports,"/",projectname, sep=""), date_of_analysis, group1, "vs", group2, secID, sep="_"),
+                        output_file = output_file,
                         intermediates_dir = Sys.getenv(paste(name_intermediate_dir)),
                         params=list(
                           colname_groupID = colname_groupID,
@@ -184,21 +185,19 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                         ))
       unlink(
         paste(
-          paste(directory_output_reports, "/", projectname, sep = ""),
-          date_of_analysis,
-          group1,
-          "vs",
-          group2,
-          secID,
-          "files", sep = "_"
+          output_file,
+          "_files",
+          sep = ""
         ),
-        recursive = TRUE
+        recursive = TRUE,
+        force=TRUE
       )
     }
 
     if (cluster=="no" & (each_model_or_summary=="each" | each_model_or_summary=="both")) {
+      output_file <- paste(paste(directory_output_reports,"/",projectname, sep=""), date_of_analysis, group1, "vs", group2, secID, sep="_")
       rmarkdown::render(paste(directory_Rmarkdownfiles,"/",filename_Rmarkdownfile_each_model, sep =""),
-                        output_file = paste(paste(directory_output_reports,"/",projectname, sep=""), date_of_analysis, group1, "vs", group2, secID, sep="_"),
+                        output_file = output_file,
                         params=list(
                           colname_groupID = colname_groupID,
                           colname_secID = colname_secID,
@@ -239,15 +238,12 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
                         ))
       unlink(
         paste(
-          paste(directory_output_reports, "/", projectname, sep = ""),
-          date_of_analysis,
-          group1,
-          "vs",
-          group2,
-          secID,
-          "files", sep = "_"
+          output_file,
+          "_files",
+          sep = ""
         ),
-        recursive = TRUE
+        recursive = TRUE,
+        force=TRUE
       )
 
     }
@@ -256,10 +252,11 @@ if (each_model_or_summary=="each"| each_model_or_summary=="both") {
 }
 
 if (each_model_or_summary=="summary"|(cluster=="no" & each_model_or_summary=="both")) {
+  output_file <- paste(directory_output_reports,"/", "Summary_",projectname, "_",date_of_analysis, sep="")
   #Send data to Rmarkdown file to create html for summary of models
   rmarkdown::render(paste(directory_Rmarkdownfiles,"/",filename_Rmarkdownfile_summary, sep =""),
                     output_dir = paste(directory_output_reports,"/",sep=""),
-                    output_file = paste(directory_output_reports,"/", "Summary_",projectname, "_",date_of_analysis, sep=""),
+                    output_file = output_file,
                     params=list(
                       directory_output_reports=directory_output_reports,
                       directory_and_filename_function_file=directory_and_filename_function_file,
@@ -282,15 +279,12 @@ if (each_model_or_summary=="summary"|(cluster=="no" & each_model_or_summary=="bo
                       variable_selection_using_VIP=variable_selection_using_VIP))
   unlink(
     paste(
-      directory_output_reports,
-      "/",
-      "Summary_",
-      projectname,
-      "_",
-      date_of_analysis,
+      output_file,
+      "_files",
       sep = ""
     ),
-    recursive = TRUE
+    recursive = TRUE,
+    force=TRUE
   )
 }
 }
