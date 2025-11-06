@@ -1,3 +1,6 @@
+# Run file used in roplspvs Version 0.17.0
+# R orthogonal projections of latent structures with permutation over variable selection
+
 require(tools)
 directory_of_roplspvs <- file_path_as_absolute(dirname(sys.frame(1)$ofile))
 directory_of_analysis <- getwd()

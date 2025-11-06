@@ -1,5 +1,5 @@
-#Function file used in roplspvs Version 0.16.0
-#R orthogonal projections of latent structures with permutation over variable selection
+# Function file used in roplspvs Version 0.17.0
+# R orthogonal projections of latent structures with permutation over variable selection
 
 subsetmatrixfunction <-
   function(sampleID,

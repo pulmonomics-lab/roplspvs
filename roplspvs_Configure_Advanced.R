@@ -1,3 +1,5 @@
+# Configure Advanced file used in roplspvs Version 0.17.0
+# R orthogonal projections of latent structures with permutation over variable selection
 
 # Set Advanced parameter settings
 ## Foldernames
@@ -13,12 +15,12 @@ filename_Rmarkdownfile_each_model <- "roplspvs_Models_of_each_comparison.Rmd" # 
 filename_Rmarkdownfile_summary <- "roplspvs_Summary_of_models.Rmd" # "filename.Rmd"
 filename_function_file <- "roplspvs_Functions.R" # "filename.R" All functions used are saved in this file.
 
-##Variable selection
+## Variable selection
 pcorr_cutoff_Model1_joint_models <- "according to p-value" #P(corr) cutoff in model1 for joint models. Either enter a value with p(corr)cutoff for all joint comparisons or vector containing p(corr) cutoff for each comparison in model_table_to_analyse or enter "according to p-value" to generate p(corr) corresponding to selected pvalue entered in p_pearson_of_pcorr_cutoff
 pcorr_cutoff_Model1_stratified_models <- "according to p-value" #P(corr) cutoff in model1 for stratified models. Either enter a value with p(corr)cutoff for all stratified comparisons or vector containing p(corr) cutoff for each comparison in model_table_to_analyse or enter "according to p-value" to generate p(corr) corresponding to selected pvalue entered in p_pearson_of_pcorr_cutoff
 variable_selection_using_VIP <- "no" # Enter "yes" if VIP is used during variable selection and "no" if only p(corr) is used.
 
-#Amount of orthogonals
+# Amount of orthogonals
 no_of_ortho_pre_vs_Model1_joint_models <- 0 #Number of orthogonal variables in model pre variable selection of Model1 for joint models. Either enter a value for nonstratified comparisons or a vector containing the number of orthogonal variables investigated in model pre variable selection for each model in model_table_to_analyse.
 no_of_ortho_pre_vs_Model1_stratified_models <- 0 #Number of orthogonal variables in model pre variable selection of Model1 for stratified models. Either enter a value for stratified comparisons or vector containing the amount of orthogonal variables investigated in model pre variable selection for each model in model_table_to_analyse.
 no_of_ortho_post_vs_Model1_joint_models <- 0 #Number of orthogonal variables in model post variable selection of Model1 for joint models. Either enter a value for joint comparisons or vector containing the amount of orthogonal variables investigated in model post variable selection for each model in model_table_to_analyse.

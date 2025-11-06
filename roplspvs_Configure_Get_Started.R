@@ -1,16 +1,19 @@
-#Preparations
-##1. Download roplspvs and see detailed description at https://github.com/MarikaStrom/roplspvs.git
-##2. You are adviced to create a separate project folder for the analysis manually and change workingdirectory to this file. After editing parameters save this file in your project folder. Also roplspvs_Configure_Advanced.R may be edited and saved in project folder.
+# Configure Get Started file used in roplspvs Version 0.17.0
+# R orthogonal projections of latent structures with permutation over variable selection
 
-#Preparations of data
-##1. Prepare the datamatrix with subjectID in the first column as row names and variable names in the first row as column names. Be careful that all names are unique.
-##2. Prepare a sampleID file with sampleID in the first column and containing one column with the groups to be compared and one column with metadata (secondary ID for example gender) if stratification is desired.
-##3. Save datamatrix and sampleID files as tabdelimited .txt files in a manually created folder in the project folder with default name "data" or enter path in advanced settings.
+# Preparations
+## 1. Download roplspvs and see detailed description at https://github.com/MarikaStrom/roplspvs.git
+## 2. You are adviced to create a separate project folder for the analysis manually and change workingdirectory to this file. After editing parameters save this file in your project folder. Also roplspvs_Configure_Advanced.R may be edited and saved in project folder.
 
-#Run analysis
-##Run analysis by using the following code:
-##source("<path to roplspvs>/dependencies.R")
-##source("<path to roplspvs>/roplspvs_Run.R")
+# Preparations of data
+## 1. Prepare the datamatrix with subjectID in the first column as row names and variable names in the first row as column names. Be careful that all names are unique.
+## 2. Prepare a sampleID file with sampleID in the first column and containing one column with the groups to be compared and one column with metadata (secondary ID for example gender) if stratification is desired.
+## 3. Save datamatrix and sampleID files as tabdelimited .txt files in a manually created folder in the project folder with default name "data" or enter path in advanced settings.
+
+# Run analysis
+## Run analysis by using the following code:
+## source("<path to roplspvs>/dependencies.R")
+## source("<path to roplspvs>/roplspvs_Run.R")
 
 ## Project settings
 projectname <- "projectname" # "projectname" will appear in filenames and header of reports with underscores removed.

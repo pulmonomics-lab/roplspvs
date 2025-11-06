@@ -1,11 +1,14 @@
-#Preparations
-##1. Download roplspvs and see detailed description at https://github.com/MarikaStrom/roplspvs.git
-##2. You are adviced to create a separate project folder for the analysis manually and change workingdirectory to this file.
+# Get started example file used in roplspvs Version 0.17.0
+# R orthogonal projections of latent structures with permutation over variable selection
 
-#Run analysis
-##Run analysis by using the following code:
-##source("<path to roplspvs>/dependencies.R")
-##source("<path to roplspvs>/roplspvs_Run.R")
+# Preparations
+## 1. Download roplspvs and see detailed description at https://github.com/MarikaStrom/roplspvs.git
+## 2. You are adviced to create a separate project folder for the analysis manually and change workingdirectory to this file.
+
+# Run analysis
+## Run analysis by using the following code:
+## source("<path to roplspvs>/dependencies.R")
+## source("<path to roplspvs>/roplspvs_Run.R")
 
 ## Project settings
 projectname <- "testproj MTBLS136" # "projectname" will appear in filenames and header of reports with underscores removed.
