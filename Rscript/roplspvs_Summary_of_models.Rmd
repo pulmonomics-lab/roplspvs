@@ -31,7 +31,7 @@ params:
 ---
 title: "Summary ropls models `r gsub("_"," ",paste(params$projectname))`"
 author: |
-    | roplspvs: Version 0.16.0
+    | roplspvs: Version 0.17.0
     | R orthogonal projections of latent structures with permutation over variable selection
     | Marika Strom
 date: "`r Sys.Date()`"

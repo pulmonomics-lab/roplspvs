@@ -13,7 +13,7 @@ mathjax: null
 #    | Model strategy 1
     
 author: |
-    | roplspvs: Version 0.16.0
+    | roplspvs: Version 0.17.0
     | R orthogonal projections of latent structures with permutation over variable selection
     | Marika Strom
 ---
@@ -52,9 +52,9 @@ if (!is.null(testvariable)) {
 ### Model pre variable selection
 
 ```{R plot model pre vs model1}
-result_pre_vs <- result_Model1$beforevsdata.oplsda@summaryDF
-colnames(result_pre_vs)[6] <- "ortho pre v.s."
-kable(result_pre_vs, row.names = T) %>%
+result_pre_vs_Model1 <- result_Model1$beforevsdata.oplsda@summaryDF
+colnames(result_pre_vs_Model1)[6] <- "ortho pre v.s."
+kable(result_pre_vs_Model1, row.names = T) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 

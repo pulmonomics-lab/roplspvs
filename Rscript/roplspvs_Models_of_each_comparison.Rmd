@@ -72,6 +72,7 @@ library("ggpubr")
 library("matrixStats")
 library(stringr)
 library(tryCatchLog)
+library(devtools)
 library(DescTools)
 library(precrec)
 library(pROC)
@@ -402,5 +403,5 @@ session_info(
     "_",date_of_analysis,"_created_",Sys.Date(),".txt", sep="")
 )
 
-rm(list = setdiff(ls(envir = environment()), c("model_table_to_analyse", "filename_model_table_to_analyse", "directory_model_table_to_analyse", "projectname", "date_of_analysis", "directory_Rmarkdownfiles", "filename_Rmarkdownfile_each_model", "filename_Rmarkdownfile_summary", "directory_input_matrix_sampleID", "filename_matrix", "decimal_separator", "variable_names_length", "variable_names_position", "filename_sampleID", "colname_groupID", "colname_secID", "directory_output_reports", "directory_and_filename_function_file", "p_pearson_of_pcorr_cutoff", "no_permutations_sans_vs","no_permutations_post_vs", "no_permutations_post_vs_selected_models", "no_permutations_over_vs", "replace_0",  "filter_percent_in_each_group", "replace_NA","log_transform", "groupsnumeric", "max_no_of_ortho_pre_vs", "max_no_of_ortho_post_vs", "each_model_or_summary", "prefered_pR2_and_pQ2_permutated_post_vs", "cluster", "reordered_levels_of_groups", "pcorr_diff", "variable_selection_using_VIP", "model_strategies_to_run")))
+rm(list = setdiff(ls(envir = environment()), c("model_table_to_analyse", "filename_model_table_to_analyse", "directory_model_table_to_analyse", "projectname", "date_of_analysis", "directory_Rmarkdownfiles", "filename_Rmarkdownfile_each_model", "filename_Rmarkdownfile_summary", "directory_input_matrix_sampleID", "filename_matrix", "decimal_separator", "variable_names_length", "variable_names_position", "filename_sampleID", "colname_groupID", "colname_secID", "directory_output_reports", "directory_and_filename_function_file", "p_pearson_of_pcorr_cutoff", "no_permutations_sans_vs","no_permutations_post_vs", "no_permutations_post_vs_selected_models", "no_permutations_over_vs", "replace_0",  "filter_percent_in_each_group", "replace_NA","log_transform", "groupsnumeric", "max_no_of_ortho_pre_vs", "max_no_of_ortho_post_vs", "each_model_or_summary", "prefered_pR2_and_pQ2_permutated_post_vs", "cluster", "reordered_levels_of_groups", "pcorr_diff", "variable_selection_using_VIP", "model_strategies_to_run", "output_file")))
 ```

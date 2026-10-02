@@ -24,7 +24,8 @@ SUSplot(
   variable_names_position,
   variable_names_length,
   title_length,
-  change_name_list_df
+  change_name_list,
+  show_all_lables
 )
 }
 \arguments{
@@ -66,7 +67,9 @@ SUSplot(
 
 \item{title_length}{"long"  to write group comparison in title, "short" to write no comparison in title or FALSE to have no title}
 
-\item{change_name_list_df}{list for changing names of variables in susplot in format c(c(change from,change to)), "edit" to change " " and "_" to "." or FALSE to not change}
+\item{change_name_list}{list for changing names of variables in susplot in format c(c(change from,change to)), "edit" to change " " and "_" to "." or FALSE to not change}
+
+\item{show_all_lables}{TRUE show all labels and FALSE excludes text labels that overlap too much}
 }
 \value{
 Outputs a SUSplot figure
@@ -75,7 +78,7 @@ Outputs a SUSplot figure
 Compares two models from roplspvs package using p(corr) of the variables
 }
 \details{
-After the workflow using the function oplspvs has been run. THe resulting models may be compared using this function
+Compares selected models created by the function oplspvs.
 A new model is fitted using the variables from both models. P(corr) from the original model is used for variables that were alo in the original models
 and the refitted p(corr) is used for the variables that were uniquely in the other model. P(corr) is the correlation
 between the scores of the model and the raw data.
@@ -83,9 +86,5 @@ between the scores of the model and the raw data.
 \examples{
 
 ## To compare two models from oplspvs:
-SUSplot(directory_output_reports_modelX, projectname_modelX, projectname_in_plot_modelX,
-date_of_analysis_modelX, group1_modelX, group2_modelX, secID_modelX, result_modelX_name,
-directory_output_reports_modelY, projectname_modelY, projectname_in_plot_modelY,
-date_of_analysis_modelY, group1_modelY, group2_modelY, secID_modelY, result_modelY_name,
-variable_names_position, variable_names_length, title_length,change_name_list_df)
+SUSplot(directory_output_reports_modelX, projectname_modelX, projectname_in_plot_modelX, date_of_analysis_modelX, group1_modelX, group2_modelX, secID_modelX, result_modelX_name, directory_output_reports_modelY, projectname_modelY, projectname_in_plot_modelY, date_of_analysis_modelY, group1_modelY, group2_modelY, secID_modelY, result_modelY_name, variable_names_position, variable_names_length, title_length, change_name_list, show_all_lables)
 }

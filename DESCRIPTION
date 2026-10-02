@@ -1,18 +1,18 @@
 Package: roplspvs
 Type: Package
 Title: Opls modeling of group comparisons including permutations over variable selection
-Version: 0.16.0
+Version: 0.17.0
 Author: Marika Strom
 Maintainer: The package maintainer <marika.strom@ki.se>
 Description: Performs opls models comparing all groups to eachother, performs variable selection using 5 strategies and produces scores, loading plots, rock curves and signifcant test using permutations pre,post and over variable selection.
 License: CCO
 Encoding: UTF-8
 LazyData: false
-Depends: 
+Depends:
     R (>= 3.6.2)
-Suggests: 
+Suggests:
     rmarkdown,
     knitr
 VignetteBuilder: knitr
 Imports:
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
